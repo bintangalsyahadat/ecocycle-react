@@ -1,0 +1,14 @@
+services:
+  react-ecocycle:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    container_name: ecocycle-react
+    volumes:
+      - ../workdir/:/deploy:cached
+      - /deploy/node_modules
+    ports:
+      - "3000:5173"
+
+volumes:
+  node_modules:

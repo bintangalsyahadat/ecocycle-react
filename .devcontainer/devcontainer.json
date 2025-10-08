@@ -1,0 +1,8 @@
+{
+  "name": "EcoCycle",
+  "dockerComposeFile": "./docker-compose.yml",
+  "service": "react-ecocycle",
+  "workspaceFolder": "/deploy",
+  "shutdownAction": "stopCompose",
+  "overrideCommand": true
+}
