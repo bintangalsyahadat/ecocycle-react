@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import NavbarLandingPage from "../components/Navbar";
 import { Button, Container, Row, Col, Card } from "react-bootstrap";
-
-
+import MapView from '../components/MapView';
 
 export default function Home() {
     const navigate = useNavigate();
@@ -11,28 +10,38 @@ export default function Home() {
         <>
             <div className='ecocycle-container f-montserrat'>
                 <NavbarLandingPage />
-                <Container>
-                    <div className='position-relative' style={{ height: "100vh" }}>
-                        <div className="position-absolute top-50 start-50 translate-middle text-center">
+                <Container fluid className="p-0">
+                    <div
+                        className="hero-section d-flex flex-column justify-content-center align-items-center text-center text-white"
+                        style={{
+                            height: "100dvh",
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            paddingTop: "56px",
+                            boxSizing: "border-box",
+                        }}
+                    >
+                        <div>
                             <div className="display-4 mb-0 fw-bold text-nowrap">SAMPAH JADI NILAI</div>
                             <div className="display-6 mb-4 fw-bold">MULAI DARI HAL KECIL</div>
-                            <div className=" d-flex justify-content-center mb-3">
+                            <div className="d-flex justify-content-center mb-3">
                                 <p className="m-0 w-75" style={{ fontSize: "12px" }}>
-                                    BANGUN KEBIASAAN RAMAH LINGKUNGAN BELAJAR,BERTINDAK,DAN DAPATKAN MANFAAT NYATA BERSAMA ECO CYCLE
+                                    BANGUN KEBIASAAN RAMAH LINGKUNGAN BELAJAR, BERTINDAK, DAN DAPATKAN
+                                    MANFAAT NYATA BERSAMA ECO CYCLE
                                 </p>
                             </div>
 
                             <Button
                                 className="fw-bold rounded-pill px-5 py-2 text-black"
                                 style={{ backgroundColor: "#8dee2c", border: "none" }}
-                                onClick={() => navigate('/login')}
+                                onClick={() => navigate("/login")}
                             >
                                 MULAI
                             </Button>
                         </div>
                     </div>
-
                 </Container>
+
             </div>
             <div id="about" className="bg-light text-black">
                 <Container>
@@ -146,6 +155,24 @@ export default function Home() {
                     </Row>
                 </Container>
             </div>
+
+            <div className='bg-light py-5 text-center'>
+                <Container>
+                    <div className="mx-auto text-center">
+                        <h3 className="fw-bold text-success mb-4 fs-2">📍Peta Lokasi EcoCylce</h3>
+                        <p className="text-gray-600 max-w-3xl mx-auto mb-0 fw-bold">
+                            Ingin tahu di mana RosokIn sudah hadir?
+                        </p>
+                        <p className="text-gray-600 max-w-3xl mx-auto mb-4">
+                            Temukan lokasi terdekat untuk mulai berkontribusi menjaga lingkungan 🌱
+                        </p>
+                    </div>
+                    <Card>
+                        <MapView />
+                    </Card>
+                </Container>
+            </div>
+
             <div
                 style={{
                     backgroundColor: "#278575",
@@ -215,7 +242,7 @@ export default function Home() {
 
                         </Col>
                     </Row>
-                    <hr style={{ borderColor: "#fff",borderWidth: "2px" }} />
+                    <hr style={{ borderColor: "#fff", borderWidth: "2px" }} />
                     <div className="text-center">
                         <small>Copyright © {new Date().getFullYear()} EcoCycle</small>
                     </div>
