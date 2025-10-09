@@ -1,6 +1,6 @@
 FROM node:20-slim
 
-WORKDIR /deploy
+WORKDIR /deploy/workdir
 
 USER root
 

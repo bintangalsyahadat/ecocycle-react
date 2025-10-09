@@ -6,7 +6,7 @@ services:
     container_name: ecocycle-react
     volumes:
       - ../:/deploy:cached
-      - /deploy/node_modules
+      - /deploy/workdir/node_modules
     ports:
       - "3000:5173"
 

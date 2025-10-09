@@ -17,7 +17,7 @@ export default function Home() {
                             height: "100dvh",
                             backgroundSize: "cover",
                             backgroundPosition: "center",
-                            paddingTop: "56px", 
+                            paddingTop: "56px",
                             boxSizing: "border-box",
                         }}
                     >
@@ -156,8 +156,21 @@ export default function Home() {
                 </Container>
             </div>
 
-            <div>
-                <MapView />
+            <div className='bg-light py-5 text-center'>
+                <Container>
+                    <div className="mx-auto text-center">
+                        <h3 className="fw-bold text-success mb-4 fs-2">📍Peta Lokasi EcoCylce</h3>
+                        <p className="text-gray-600 max-w-3xl mx-auto mb-0 fw-bold">
+                            Ingin tahu di mana RosokIn sudah hadir?
+                        </p>
+                        <p className="text-gray-600 max-w-3xl mx-auto mb-4">
+                            Temukan lokasi terdekat untuk mulai berkontribusi menjaga lingkungan 🌱
+                        </p>
+                    </div>
+                    <Card>
+                        <MapView />
+                    </Card>
+                </Container>
             </div>
 
             <div
