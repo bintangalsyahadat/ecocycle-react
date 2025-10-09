@@ -10,6 +10,7 @@ export default function NavbarLandingPage() {
         <Navbar
             expand="lg"
             variant="dark"
+            fixed='top'
             className="navbar-eco static-top py-3" 
             style={{zIndex: 9999}}
         >
