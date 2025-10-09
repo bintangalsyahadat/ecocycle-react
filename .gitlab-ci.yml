@@ -45,6 +45,7 @@ deploy_staging:
     - ssh-add ~/.ssh/id_rsa
     - nohup cloudflared access tcp \
         --hostname ssh.munn.web.id \
+        --destination localhost:2222 \
         --url localhost:2222 \
         --service-token-id "$CF_ACCESS_CLIENT_ID" \
         --service-token-secret "$CF_ACCESS_CLIENT_SECRET" \
