@@ -55,6 +55,7 @@ deploy_staging:
   script:
     - echo "=== Deploying STAGING ==="
     - ssh -o StrictHostKeyChecking=no -p 8222 u0_a123@localhost "
+        export DOCKER_HOST=tcp://localhost:2375 &&
         docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
         docker pull registry.gitlab.com/munn-capstone-project/ecocycle:latest &&
         docker stop ecocycle-staging || true &&
