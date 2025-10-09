@@ -23,7 +23,7 @@ build:
     - docker push $IMAGE_NAME:$IMAGE_TAG
     - docker push $IMAGE_NAME:latest
   only:
-    - tes-deployment
+    - main
 
 staging:
   stage: deploy
