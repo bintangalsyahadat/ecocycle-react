@@ -34,7 +34,6 @@ deploy_staging:
   variables:
     DEPLOY_ENV: staging
   before_script:
-    - echo "TEST"
     - apt-get update -y && apt-get install -y curl openssh-client net-tools procps
     - curl -L -o /usr/local/bin/cloudflared "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64"
     - chmod +x /usr/local/bin/cloudflared
@@ -43,24 +42,24 @@ deploy_staging:
     - chmod 600 ~/.ssh/id_rsa
     - eval $(ssh-agent -s)
     - ssh-add ~/.ssh/id_rsa
-    - nohup cloudflared access tcp \
-        --hostname ssh.munn.web.id \
-        --destination localhost:2222 \
-        --url localhost:2222 \
-        --service-token-id "$CF_ACCESS_CLIENT_ID" \
-        --service-token-secret "$CF_ACCESS_CLIENT_SECRET" \
+    - nohup cloudflared access tcp
+        --hostname ssh.munn.web.id
+        --destination localhost:8222
+        --url localhost:8222
+        --service-token-id "$CF_ACCESS_CLIENT_ID"
+        --service-token-secret "$CF_ACCESS_CLIENT_SECRET"
         --log-level info >/tmp/cloudflared.log 2>&1 &
     - TIMEOUT=20
-    - until ( ss -ltnp 2>/dev/null | grep -q ':2222' ) || [ $TIMEOUT -le 0 ]; do echo "waiting cloudflared... ($TIMEOUT)"; sleep 1; TIMEOUT=$((TIMEOUT-1)); done
+    - until ( ss -ltnp 2>/dev/null | grep -q ':8222' ) || [ $TIMEOUT -le 0 ]; do echo "waiting cloudflared... ($TIMEOUT)"; sleep 1; TIMEOUT=$((TIMEOUT-1)); done
 
   script:
     - echo "=== Deploying STAGING ==="
-    - ssh -o StrictHostKeyChecking=no -p 2222 u0_a123@localhost "
+    - ssh -o StrictHostKeyChecking=no -p 8222 u0_a123@localhost "
         docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
         docker pull registry.gitlab.com/munn-capstone-project/ecocycle:latest &&
         docker stop ecocycle-staging || true &&
         docker rm ecocycle-staging || true &&
-        docker run -d --name ecocycle-staging -p 8080:8080 registry.gitlab.com/munn-capstone-project/ecocycle:latest
+        docker run -d --name ecocycle-staging -p 3001:80 registry.gitlab.com/munn-capstone-project/ecocycle:latest
       "
   only:
     - tes-deployment
