@@ -1,22 +1,16 @@
 stages:
-  - test
+  - debug
 
-test_ssh_key_b64:
-  stage: test
-  image: debian:stable
-  before_script:
-    - apt-get update -y && apt-get install -y openssh-client coreutils
-    - mkdir -p ~/.ssh
-
-    # decode dari base64 GitLab variable
-    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
-    - chmod 600 ~/.ssh/id_rsa
-
-    # debug isi key
-    - echo "==== DEBUG KEY START ===="
-    - head -n 10 ~/.ssh/id_rsa || true
-
+debug_variable:
+  stage: debug
+  image: alpine:latest
   script:
-    - eval $(ssh-agent -s)
-    - ssh-add ~/.ssh/id_rsa
-    - echo "✅ SSH key berhasil dimuat!"
+    - echo "=== CEK VARIABEL ==="
+    - if [ -z "$SSH_PRIVATE_KEY" ]; then
+        echo "❌ SSH_PRIVATE_KEY KOSONG";
+      else
+        echo "✅ SSH_PRIVATE_KEY ADA ISINYA";
+        echo "Panjang karakter:" $(echo -n "$SSH_PRIVATE_KEY" | wc -c);
+        echo "Baris pertama:";
+        echo "$SSH_PRIVATE_KEY" | head -n 2;
+      fi
