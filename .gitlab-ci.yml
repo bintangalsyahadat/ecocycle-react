@@ -23,7 +23,7 @@ build_image:
     - docker push $IMAGE_NAME:$IMAGE_TAG
     - docker push $IMAGE_NAME:latest
   only:
-    - main
+    - tes-deployment
 
 # =======================
 # 2️⃣ DEPLOY STAGING (otomatis)
@@ -62,7 +62,7 @@ deploy_staging:
         docker run -d --name ecocycle-staging -p 8080:8080 registry.gitlab.com/munn-capstone-project/ecocycle:latest
       "
   only:
-    - main
+    - tes-deployment
 
 # =======================
 # 3️⃣ DEPLOY PRODUCTION (manual)
@@ -101,4 +101,4 @@ deploy_production:
       "
   when: manual
   only:
-    - main
+    - tes-deployment
