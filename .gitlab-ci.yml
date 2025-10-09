@@ -9,14 +9,12 @@ test_ssh_key_b64:
     - mkdir -p ~/.ssh
 
     # decode dari base64 GitLab variable
-    - echo "$SSH_PRIVATE_KEY_B64" | base64 -d > ~/.ssh/id_rsa
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
 
     # debug isi key
     - echo "==== DEBUG KEY START ===="
     - head -n 10 ~/.ssh/id_rsa || true
-    - echo "==== DEBUG KEY END ===="
-    - echo "BYTES COUNT: $(wc -c < ~/.ssh/id_rsa)"
 
   script:
     - eval $(ssh-agent -s)
