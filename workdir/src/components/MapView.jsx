@@ -1,7 +1,17 @@
-import React from 'react';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
-const MapView = () => {
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
+export default function MapView() {
   const locations = [
     { id: 1, name: 'Jakarta', coords: [-6.200000, 106.816666] },
     { id: 2, name: 'Bandung', coords: [-6.914744, 107.609810] },
@@ -28,5 +38,3 @@ const MapView = () => {
     </MapContainer>
   );
 };
-
-export default MapView;

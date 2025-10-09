@@ -23,11 +23,11 @@ export default function NavbarLandingPage() {
 
                 <Navbar.Collapse id="navbar-nav">
                     <Nav className="mx-auto text-center">
-                        <Nav.Link href="/" className="nav-link-eco" active>Home</Nav.Link>
-                        <Nav.Link href="#about" className="nav-link-eco" >About</Nav.Link>
-                        <Nav.Link href="#features" className="nav-link-eco">Features</Nav.Link>
-                        <Nav.Link href="#process" className="nav-link-eco">Process</Nav.Link>
-                        <Nav.Link href="#contact" className="nav-link-eco">Contact</Nav.Link>
+                        <Nav.Link href="/" className="nav-link-eco mb-3" active>Home</Nav.Link>
+                        <Nav.Link href="#about" className="nav-link-eco mb-3" >About</Nav.Link>
+                        <Nav.Link href="#features" className="nav-link-eco mb-3">Features</Nav.Link>
+                        <Nav.Link href="#process" className="nav-link-eco mb-3">Process</Nav.Link>
+                        <Nav.Link href="#contact" className="nav-link-eco mb-3">Contact</Nav.Link>
                     </Nav>
 
                     <div className="d-flex justify-content-center justify-content-lg-end gap-3 mt-3 mt-lg-0">
