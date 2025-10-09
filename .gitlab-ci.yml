@@ -1,0 +1,102 @@
+stages:
+  - build
+  - deploy
+
+# =======================
+# 1️⃣ BUILD STAGE
+# =======================
+build:
+  stage: build
+  image: docker:24
+  services:
+    - docker:dind
+  variables:
+    IMAGE_TAG: $CI_COMMIT_SHORT_SHA
+    IMAGE_NAME: registry.gitlab.com/munn-capstone-project/ecocycle
+  script:
+    - echo "=== Building Docker image ==="
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG .
+    - docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
+    - echo "=== Logging in to GitLab Registry ==="
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" $CI_REGISTRY --password-stdin
+    - echo "=== Pushing to Registry ==="
+    - docker push $IMAGE_NAME:$IMAGE_TAG
+    - docker push $IMAGE_NAME:latest
+  only:
+    - tes-deployment
+
+staging:
+  stage: deploy
+  image: debian:stable
+  variables:
+    DEPLOY_ENV: staging
+  before_script:
+    - apt-get update -y && apt-get install -y curl openssh-client net-tools procps
+    - curl -L -o /usr/local/bin/cloudflared "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64"
+    - chmod +x /usr/local/bin/cloudflared
+    - mkdir -p ~/.ssh
+    - if [ -f "$SSH_PRIVATE_KEY" ]; then cp "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa; else echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa; fi
+    - chmod 600 ~/.ssh/id_rsa
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - nohup cloudflared access tcp
+        --hostname ssh.munn.web.id
+        --destination localhost:8222
+        --url localhost:8222
+        --service-token-id "$CF_ACCESS_CLIENT_ID"
+        --service-token-secret "$CF_ACCESS_CLIENT_SECRET"
+        --log-level info >/tmp/cloudflared.log 2>&1 &
+    - TIMEOUT=20
+    - until ( ss -ltnp 2>/dev/null | grep -q ':8222' ) || [ $TIMEOUT -le 0 ]; do echo "waiting cloudflared... ($TIMEOUT)"; sleep 1; TIMEOUT=$((TIMEOUT-1)); done
+
+  script:
+    - echo "=== Deploying STAGING ==="
+    - ssh -o StrictHostKeyChecking=no -p 8222 u0_a123@localhost "
+        export DOCKER_HOST=tcp://localhost:2375 &&
+        docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
+        docker pull registry.gitlab.com/munn-capstone-project/ecocycle:latest &&
+        docker stop ecocycle-staging || true &&
+        docker rm ecocycle-staging || true &&
+        docker run -d --name ecocycle-staging -p 3001:80 registry.gitlab.com/munn-capstone-project/ecocycle:latest
+      "
+  only:
+    - main
+
+
+production:
+  stage: deploy
+  image: debian:stable
+  variables:
+    DEPLOY_ENV: production
+  before_script:
+    - apt-get update -y && apt-get install -y curl openssh-client net-tools procps
+    - curl -L -o /usr/local/bin/cloudflared "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64"
+    - chmod +x /usr/local/bin/cloudflared
+    - mkdir -p ~/.ssh
+    - if [ -f "$SSH_PRIVATE_KEY" ]; then cp "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa; else echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa; fi
+    - chmod 600 ~/.ssh/id_rsa
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - nohup cloudflared access tcp 
+        --hostname ssh.munn.web.id
+        --destination localhost:8222 
+        --url localhost:8222 
+        --service-token-id "$CF_ACCESS_CLIENT_ID" 
+        --service-token-secret "$CF_ACCESS_CLIENT_SECRET" 
+        --log-level info >/tmp/cloudflared.log 2>&1 &
+    - TIMEOUT=20
+    - until ( ss -ltnp 2>/dev/null | grep -q ':8222' ) || [ $TIMEOUT -le 0 ]; do echo "waiting cloudflared... ($TIMEOUT)"; sleep 1; TIMEOUT=$((TIMEOUT-1)); done
+
+  script:
+    - echo "=== Deploying PRODUCTION ==="
+    - ssh -o StrictHostKeyChecking=no -p 8222 u0_a123@localhost "
+        export DOCKER_HOST=tcp://localhost:2375 &&
+        docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
+        docker pull registry.gitlab.com/munn-capstone-project/ecocycle:latest &&
+        docker stop ecocycle-prod || true &&
+        docker rm ecocycle-prod || true &&
+        docker run -d --name ecocycle-prod -p 80:8080 registry.gitlab.com/munn-capstone-project/ecocycle:latest
+      "
+  when: manual
+  only:
+    - main
