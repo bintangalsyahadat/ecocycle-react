@@ -12,9 +12,9 @@ export default function Login() {
       <NavbarLandingPage />
 
       <div className="position-absolute top-50 start-50 translate-middle text-center">
-        <Card className="shadow border-0 login-card">
+        <Card className="shadow border-0 login-card" style={{width: "350px"}}>
           <Card.Body>
-            <h5 className="mb-3 fw-bold text-success">Login</h5>
+            <h5 className="mb-3 fw-bold text-success">Sign In</h5>
 
             <InputGroup className="mb-3 input-rounded">
               <InputGroup.Text className="input-icon">
@@ -39,10 +39,10 @@ export default function Login() {
             </InputGroup>
 
             <Button variant="success" className="w-100 rounded-pill fw-bold">
-              Login
+              Sign In
             </Button>
 
-            <p className="mt-3 mb-2 text-muted small">or login with</p>
+            <p className="mt-3 mb-2 text-muted small">or sign in with</p>
 
             <div className="d-flex justify-content-center gap-3 mb-3">
               <Button variant="light" className="social-btn shadow-sm">

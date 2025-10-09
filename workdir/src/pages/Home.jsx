@@ -47,7 +47,7 @@ export default function Home() {
             <div id="features" style={{ backgroundColor: "#f0fdf4", padding: "5rem 0" }}>
                 <Container>
                     <h3 className="text-center fw-bold mb-5" style={{ color: "#15803d", fontSize: "2rem" }}>
-                        💡 Fitur Utama RosokIn
+                        💡 Fitur Utama
                     </h3>
 
                     <Row className="g-4">
@@ -165,7 +165,7 @@ export default function Home() {
                             <ul className="list-inline mb-4">
                                 <li className="list-inline-item fw-bold pe-4">
                                     <a href="#main" className="text-white text-decoration-none">
-                                        Main
+                                        Home
                                     </a>
                                 </li>
                                 <li className="list-inline-item fw-bold pe-4">

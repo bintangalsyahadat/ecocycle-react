@@ -14,7 +14,7 @@ export default function NavbarLandingPage() {
             style={{zIndex: 9999}}
         >
             <Container>
-                <Navbar.Brand href="#home" className="fw-bold text-white">
+                <Navbar.Brand href="/" className="fw-bold text-white">
                     EcoCycle
                 </Navbar.Brand>
 
@@ -22,7 +22,7 @@ export default function NavbarLandingPage() {
 
                 <Navbar.Collapse id="navbar-nav">
                     <Nav className="mx-auto text-center">
-                        <Nav.Link href="#main" className="nav-link-eco" active>Main</Nav.Link>
+                        <Nav.Link href="/" className="nav-link-eco" active>Home</Nav.Link>
                         <Nav.Link href="#about" className="nav-link-eco" >About</Nav.Link>
                         <Nav.Link href="#features" className="nav-link-eco">Features</Nav.Link>
                         <Nav.Link href="#process" className="nav-link-eco">Process</Nav.Link>
