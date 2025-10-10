@@ -32,8 +32,8 @@ export default function Home() {
                             </div>
 
                             <Button
-                                className="fw-bold rounded-pill px-5 py-2 text-black"
-                                style={{ backgroundColor: "#8dee2c", border: "none" }}
+                                className="fw-bold rounded-pill px-5 py-2 btn-success"
+                                style={{border: "none" }}
                                 onClick={() => navigate("/login")}
                             >
                                 MULAI
@@ -47,7 +47,7 @@ export default function Home() {
                 <Container>
                     <div className="mx-auto px-3 py-5 text-center">
                         <h3 className="text-3xl font-bold text-green-700 mb-4">🌱 Solusi Digital untuk Sampah Bernilai</h3>
-                        <p className="text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-gray-600 mx-auto w-50">
                             Platform ini membantu masyarakat menjual dan membeli sampah daur ulang. Kami percaya bahwa sampah bukan akhir, melainkan awal dari peluang baru untuk ekonomi sirkular yang berkelanjutan.
                         </p>
                     </div>
@@ -61,7 +61,7 @@ export default function Home() {
 
                     <Row className="g-4">
                         <Col md={6}>
-                            <Card className="shadow border-0 rounded-4 h-100">
+                            <Card className="shadow border-0 rounded-4 h-100 p-4">
                                 <Card.Body>
                                     <Card.Title className="fw-semibold fs-5 mb-2">🛒 Jual Sampah Daur Ulang</Card.Title>
                                     <Card.Text className="text-secondary">
@@ -73,7 +73,7 @@ export default function Home() {
                         </Col>
 
                         <Col md={6}>
-                            <Card className="shadow border-0 rounded-4 h-100">
+                            <Card className="shadow border-0 rounded-4 h-100 p-4">
                                 <Card.Body>
                                     <Card.Title className="fw-semibold fs-5 mb-2">💰 Beli Bahan Daur Ulang</Card.Title>
                                     <Card.Text className="text-secondary">
@@ -85,7 +85,7 @@ export default function Home() {
                         </Col>
 
                         <Col md={6}>
-                            <Card className="shadow border-0 rounded-4 h-100">
+                            <Card className="shadow border-0 rounded-4 h-100 p-4">
                                 <Card.Body>
                                     <Card.Title className="fw-semibold fs-5 mb-2">📊 Dashboard Transaksi</Card.Title>
                                     <Card.Text className="text-secondary">
@@ -96,7 +96,7 @@ export default function Home() {
                         </Col>
 
                         <Col md={6}>
-                            <Card className="shadow border-0 rounded-4 h-100">
+                            <Card className="shadow border-0 rounded-4 h-100 p-4">
                                 <Card.Body>
                                     <Card.Title className="fw-semibold fs-5 mb-2">🌿 Edukasi & Panduan</Card.Title>
                                     <Card.Text className="text-secondary">
@@ -161,7 +161,7 @@ export default function Home() {
                     <div className="mx-auto text-center">
                         <h3 className="fw-bold text-success mb-4 fs-2">📍Peta Lokasi EcoCylce</h3>
                         <p className="text-gray-600 max-w-3xl mx-auto mb-0 fw-bold">
-                            Ingin tahu di mana RosokIn sudah hadir?
+                            Ingin tahu di mana EcoCycle sudah hadir?
                         </p>
                         <p className="text-gray-600 max-w-3xl mx-auto mb-4">
                             Temukan lokasi terdekat untuk mulai berkontribusi menjaga lingkungan 🌱
@@ -174,8 +174,8 @@ export default function Home() {
             </div>
 
             <div
+                className='bg-success'
                 style={{
-                    backgroundColor: "#278575",
                     color: "#fff",
                     paddingTop: "3rem",
                     paddingBottom: "1rem",
