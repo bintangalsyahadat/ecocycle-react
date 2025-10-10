@@ -1,38 +1,61 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap');
 
+:root {
+  --main-bg-color: #01A3B0 !important;
+  --main-bg-color-light: #f3feff !important;
+}
+
 body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   background-color: black !important;
 }
 
 
-.ecocycle-container{
-  background-image: url('./assets/Images/background.png');
+.ecocycle-container {
+  background-image: url('./assets/images/background.png');
   height: 100vh;
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat; 
+  background-repeat: no-repeat;
   color: white;
 }
 
-.nav-link-eco {
-  margin: 0 8px;
-  font-size: 14px !important;
+.btn-primary {
+  background-color: var(--main-bg-color) !important;
+  border: var(--main-bg-color) !important;
 }
 
-@media (max-width: 992px) {
-  .navbar-eco:hover {
-    background: rgba(0, 0, 0, 0.35);
-  }
+.bg-primary {
+  background-color: var(--main-bg-color) !important;
+}
 
-  .nav-link-eco {
-    margin: 0.5rem 0;
-  }
+.text-primary {
+  color: var(--main-bg-color) !important;
 }
 
 .f-montserrat {
   font-family: 'Montserrat', sans-serif;
 }
+
+.torn-top {
+  position: absolute;
+  top: -150px;
+  left: 0;
+  width: 100%;
+  height: 250px;
+  background-color: white;
+  mask-image: url('https://i.imgur.com/io1BP7Y.png');
+  -webkit-mask-image: url('https://i.imgur.com/io1BP7Y.png');
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: cover;
+  -webkit-mask-size: cover;
+  mask-position: top center;
+  -webkit-mask-position: top center;
+  transform: translateY(-70px);
+  z-index: 21;
+}
+

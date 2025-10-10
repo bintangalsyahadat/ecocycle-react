@@ -1,57 +1,17 @@
-import { useNavigate } from 'react-router-dom';
-import NavbarLandingPage from "../components/Navbar";
+import { useLocation, useNavigate } from 'react-router-dom';
+import NavbarPortal from "../components/NavbarPortal";
 import { Button, Container, Row, Col, Card } from "react-bootstrap";
 import MapView from '../components/MapView';
-import carakerja1 from "../assets/Images/carakerja1.png";
-import carakerja2 from "../assets/Images/carakerja2.png";
-import carakerja3 from "../assets/Images/carakerja3.png";
-import carakerja4 from "../assets/Images/carakerja4.png";
+import FooterPortal from '../components/FooterPortal';
+import { useEffect, useRef } from 'react';
 
-
-export default function Home() {
-    const navigate = useNavigate();
-
+const AboutSection = () => {
     return (
-        <>
-            <div className='ecocycle-container f-montserrat'>
-                <NavbarLandingPage />
-                <Container fluid className="p-0">
-                    <div
-                        className="hero-section d-flex flex-column justify-content-center align-items-center text-center text-white"
-                        style={{
-                            height: "100dvh",
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                            paddingTop: "56px",
-                            boxSizing: "border-box",
-                        }}
-                    >
-                        <div>
-                            <div className="display-4 mb-0 fw-bold text-nowrap">SAMPAH JADI NILAI</div>
-                            <div className="display-6 mb-4 fw-bold">MULAI DARI HAL KECIL</div>
-                            <div className="d-flex justify-content-center mb-3">
-                                <p className="m-0 w-75" style={{ fontSize: "12px" }}>
-                                    BANGUN KEBIASAAN RAMAH LINGKUNGAN BELAJAR, BERTINDAK, DAN DAPATKAN
-                                    MANFAAT NYATA BERSAMA ECO CYCLE
-                                </p>
-                            </div>
-
-                            <Button
-                                className="fw-bold rounded-pill px-5 py-2 btn-success"
-                                style={{ border: "none" }}
-                                onClick={() => navigate("/login")}
-                            >
-                                MULAI
-                            </Button>
-                        </div>
-                    </div>
-                </Container>
-
-            </div>
-            <div id="about" className="bg-light text-black">
-                <Container>
-                    <div className="mx-auto px-3 py-5 text-center">
-                        <h3 className="text-3xl font-bold text-green-700 mb-4">🌱 Solusi Digital untuk Sampah Bernilai</h3>
+        <div className="bg-light text-black">
+            <Container>
+                <div className="mx-auto px-3 py-5 text-center">
+                    <div className="py-5">
+                        <h2 className="text-primary fw-bold mb-4">Solusi Digital untuk Sampah Bernilai</h2>
                         <p className="d-md-block d-none text-gray-600 mx-auto w-50">
                             Platform ini membantu masyarakat menjual dan membeli sampah daur ulang. Kami percaya bahwa sampah bukan akhir,
                             melainkan awal dari peluang baru untuk ekonomi sirkular yang berkelanjutan.
@@ -60,210 +20,219 @@ export default function Home() {
                             Platform ini membantu masyarakat menjual dan membeli sampah daur ulang. Kami percaya bahwa sampah bukan akhir,
                             melainkan awal dari peluang baru untuk ekonomi sirkular yang berkelanjutan.
                         </p>
+                        <div id="features"></div>
                     </div>
-                </Container>
-            </div>
-            <div id="features" style={{ backgroundColor: "#f0fdf4", padding: "5rem 0" }}>
-                <Container>
-                    <h3 className="text-center fw-bold mb-5" style={{ color: "#15803d", fontSize: "2rem" }}>
-                        💡 Fitur Utama
-                    </h3>
+                </div>
 
-                    <Row className="g-4">
-                        <Col md={6}>
-                            <Card className="shadow border-0 rounded-4 h-100 p-4">
-                                <Card.Body>
-                                    <Card.Title className="fw-semibold fs-5 mb-2">🛒 Jual Sampah Daur Ulang</Card.Title>
-                                    <Card.Text className="text-secondary">
-                                        Jual sampah plastik, logam, kertas, dan botol bekas ke mitra pengepul dengan harga
-                                        transparan dan proses mudah.
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </Col>
+            </Container>
+        </div>
+    );
+}
 
-                        <Col md={6}>
-                            <Card className="shadow border-0 rounded-4 h-100 p-4">
-                                <Card.Body>
-                                    <Card.Title className="fw-semibold fs-5 mb-2">💰 Beli Bahan Daur Ulang</Card.Title>
-                                    <Card.Text className="text-secondary">
-                                        Pengepul atau industri daur ulang dapat mencari dan membeli bahan sesuai kebutuhan
-                                        langsung dari sumbernya.
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </Col>
+const FeatureSection = () => {
+    return (
+        <div className='py-5' style={{ backgroundColor: "var(--main-bg-color-light)" }}>
+            <Container className='mb-5'>
+                <h2 className="text-center fw-bold mb-5 text-primary">
+                    Fitur Utama
+                </h2>
 
-                        <Col md={6}>
-                            <Card className="shadow border-0 rounded-4 h-100 p-4">
-                                <Card.Body>
-                                    <Card.Title className="fw-semibold fs-5 mb-2">📊 Dashboard Transaksi</Card.Title>
-                                    <Card.Text className="text-secondary">
-                                        Pantau semua transaksi, harga, dan riwayat jual-beli secara transparan dan real-time.
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-
-                        <Col md={6}>
-                            <Card className="shadow border-0 rounded-4 h-100 p-4">
-                                <Card.Body>
-                                    <Card.Title className="fw-semibold fs-5 mb-2">🌿 Edukasi & Panduan</Card.Title>
-                                    <Card.Text className="text-secondary">
-                                        Pelajari cara memilah dan mengelola sampah agar bernilai lebih tinggi dan ramah lingkungan.
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Row>
-                </Container>
-            </div>
-
-            <div id="process" className="py-5 bg-white text-center">
-                <Container>
-                    <h3 className="fw-bold text-success mb-5 fs-2">Aksi Kecil Selamatkan Bumi</h3>
-                    <Row className="gy-4 justify-content-center">
-                        {[
+                <Row className="g-4">
+                    {
+                        [
                             {
-                                img: carakerja1,
-                                title: "Pilah Sampah",
-                                desc: "Pisahkan sampah organik dan anorganik sesuai jenisnya."
+                                img: "https://i.imgur.com/s1b10Au.png",
+                                title: "Jual Sampah Daur Ulang",
+                                text: "Jual sampah plastik, logam, kertas, dan botol bekas ke mitra pengepul dengan harga transparan dan proses mudah."
                             },
                             {
-                                img: carakerja2,
-                                title: "Kumpulkan",
-                                desc: "Kumpulkan barang daur ulang seperti plastik, kaleng, dan kertas."
+                                img: "https://i.imgur.com/A7yVh28.png",
+                                title: "Beli Bahan Daur Ulang",
+                                text: "Pengepul atau industri daur ulang dapat mencari dan membeli bahan sesuai kebutuhan langsung dari sumbernya."
                             },
                             {
-                                img: carakerja3,
-                                title: "Bersihkan & Simpan",
-                                desc: "Pastikan semua bahan dalam kondisi bersih dan kering sebelum dijual."
+                                img: "https://i.imgur.com/1tngvzE.png",
+                                title: "Dashboard Transaksi",
+                                text: "Pantau semua transaksi, harga, dan riwayat jual-beli secara transparan dan real-time."
                             },
                             {
-                                img: carakerja4,
-                                title: "Jual & Dapatkan Keuntungan",
-                                desc: "Serahkan ke pengepul dan dapatkan keuntungan sambil bantu lingkungan."
-                            }
+                                img: "https://i.imgur.com/preKYFn.png",
+                                title: "Edukasi & Panduan",
+                                text: "Pelajari cara memilah dan mengelola sampah agar bernilai lebih tinggi dan ramah lingkungan."
+                            },
                         ].map((item, index) => (
-                            <Col key={index} md={3}>
-                                <Card
-                                    className="border-0 shadow-sm p-4 h-100 d-flex flex-column align-items-center text-center"
-                                    style={{ backgroundColor: "#fff" }}
-                                >
-                                    <div
-                                        className="d-flex align-items-center justify-content-center mb-3"
-                                        style={{ height: "200px" }} // ✅ semua gambar tinggi sama
-                                    >
-                                        <img
-                                            src={item.img}
-                                            alt={item.title}
-                                            className="img-fluid"
-                                            style={{ maxHeight: "180px", objectFit: "contain" }}
-                                        />
-                                    </div>
-                                    <h4 className="fw-semibold mb-2">{item.title}</h4>
-                                    <p className="text-secondary mb-0">{item.desc}</p>
+                            <Col key={index} md={6}>
+                                <Card className="shadow border-0 rounded-4 h-100 p-4">
+                                    <Card.Body className='d-lg-flex align-items-center text-lg-start text-center'>
+                                        <div className='me-3 mb-lg-0 mb-3'>
+                                            <img
+                                                src={item.img}
+                                                className="img-fluid"
+                                                style={{ maxWidth: "100px", objectFit: "contain" }}
+                                            />
+                                        </div>
+                                        <div>
+                                            <Card.Title className="fw-semibold fs-5 mb-2">{item.title}</Card.Title>
+                                            <Card.Text className="text-secondary">{item.text}</Card.Text>
+                                        </div>
+                                    </Card.Body>
                                 </Card>
                             </Col>
-                        ))}
-                    </Row>
+                        ))
+                    }
+                    <div id="process"></div>
+                </Row>
+            </Container>
+        </div>
+    )
+}
 
-                </Container>
-            </div>
+const ProcessSection = () => {
+    return (
+        <div className="py-5 bg-white text-center">
+            <Container>
+                <h2 className="fw-bold text-primary mb-5">Aksi Kecil Selamatkan Bumi</h2>
+                <Row className="gy-4 justify-content-center">
+                    {[
+                        {
+                            img: "https://i.imgur.com/aKvzCSS.png",
+                            title: "Pilah Sampah",
+                            desc: "Pisahkan sampah organik dan anorganik sesuai jenisnya."
+                        },
+                        {
+                            img: "https://i.imgur.com/RVE4uQs.png",
+                            title: "Kumpulkan",
+                            desc: "Kumpulkan barang daur ulang seperti plastik, kaleng, dan kertas."
+                        },
+                        {
+                            img: "https://i.imgur.com/iO37xT6.png",
+                            title: "Bersihkan & Simpan",
+                            desc: "Pastikan semua bahan dalam kondisi bersih dan kering sebelum dijual."
+                        },
+                        {
+                            img: "https://i.imgur.com/x84dW89.png",
+                            title: "Jual & Dapatkan Keuntungan",
+                            desc: "Serahkan ke pengepul dan dapatkan keuntungan sambil bantu lingkungan."
+                        }
+                    ].map((item, index) => (
+                        <Col key={index} md={3}>
+                            <Card
+                                className="border-0 shadow-sm p-4 h-100 d-flex flex-column align-items-center text-center"
+                                style={{ backgroundColor: "#fff" }}
+                            >
+                                <div
+                                    className="d-flex align-items-center justify-content-center mb-3"
+                                    style={{ height: "200px" }}
+                                >
+                                    <img
+                                        src={item.img}
+                                        alt={item.title}
+                                        className="img-fluid"
+                                        style={{ maxHeight: "180px", objectFit: "contain" }}
+                                    />
+                                </div>
+                                <h4 className="fw-semibold mb-2">{item.title}</h4>
+                                <p className="text-secondary mb-0">{item.desc}</p>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
+            <div id="contact"></div>
+        </div>
+    )
+}
 
+const MapSection = () => {
+    return (
+        <div className='bg-light py-5 text-center'>
+            <Container>
+                <div className="mx-auto text-center">
+                    <h2 className="fw-bold text-primary mb-4">Peta Lokasi EcoCylce</h2>
+                    <p className="text-gray-600 max-w-3xl mx-auto mb-0 fw-bold">
+                        Ingin tahu di mana EcoCycle sudah hadir?
+                    </p>
+                    <p className="text-gray-600 max-w-3xl mx-auto mb-4">
+                        Temukan lokasi terdekat untuk mulai berkontribusi menjaga lingkungan
+                    </p>
+                </div>
+                <Card>
+                    <MapView />
+                </Card>
+            </Container>
+        </div>
+    )
+}
 
-            <div className='bg-light py-5 text-center'>
-                <Container>
-                    <div className="mx-auto text-center">
-                        <h3 className="fw-bold text-success mb-4 fs-2">📍Peta Lokasi EcoCylce</h3>
-                        <p className="text-gray-600 max-w-3xl mx-auto mb-0 fw-bold">
-                            Ingin tahu di mana EcoCycle sudah hadir?
-                        </p>
-                        <p className="text-gray-600 max-w-3xl mx-auto mb-4">
-                            Temukan lokasi terdekat untuk mulai berkontribusi menjaga lingkungan 🌱
-                        </p>
-                    </div>
-                    <Card>
-                        <MapView />
-                    </Card>
-                </Container>
-            </div>
+export default function Home() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const contentSectionRef = useRef(null);
 
-            <div
-                className='bg-success'
-                style={{
-                    color: "#fff",
-                    paddingTop: "3rem",
-                    paddingBottom: "1rem",
-                }}
-            >
-                <Container className='px-md-5'>
-                    <Row className="align-items-center">
-                        <Col md={4} className="mb-5 mb-md-0">
-                            <div className="d-flex flex-column align-items-center">
-                                <h3 className="fw-bold m-0">EcoCycle</h3>
+    useEffect(() => {
+        if (location.state?.scrollTo) {
+            const section = document.querySelector(location.state.scrollTo);
+            if (section) {
+                setTimeout(() => {
+                    section.scrollIntoView({ behavior: "smooth" });
+                }, 300);
+            }
+        }
+    }, [location.state]);
+
+    return (
+        <div className='relative'>
+            <NavbarPortal contentSectionRef={contentSectionRef} />
+            <div className='position-fixed w-100' style={{ zIndex: "10" }}>
+                <div className='ecocycle-container position-relative w-100 f-montserrat'>
+                    <Container fluid className="position-fixed p-0">
+                        <div
+                            className="d-flex flex-column justify-content-center align-items-center text-center text-white"
+                            style={{
+                                height: "100dvh",
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                                paddingTop: "56px",
+                                boxSizing: "border-box",
+                            }}
+                        >
+                            <div>
+                                <div className="display-4 mb-0 fw-bold text-nowrap">SAMPAH JADI NILAI</div>
+                                <div className="display-6 mb-4 fw-bold">MULAI DARI HAL KECIL</div>
+                                <div className="d-flex justify-content-center mb-3">
+                                    <p className="m-0 w-75" style={{ fontSize: "12px" }}>
+                                        BANGUN KEBIASAAN RAMAH LINGKUNGAN BELAJAR, BERTINDAK, DAN DAPATKAN
+                                        MANFAAT NYATA BERSAMA ECO CYCLE
+                                    </p>
+                                </div>
+
+                                <Button
+                                    className="fw-bold rounded-pill px-5 py-2"
+                                    style={{ border: "none" }}
+                                    onClick={() => navigate("/login")}
+                                >
+                                    MULAI
+                                </Button>
                             </div>
-                        </Col>
-                        <Col md={6} className="">
-                            <ul className="list-inline mb-4">
-                                <li className="list-inline-item fw-bold pe-4">
-                                    <a href="#main" className="text-white text-decoration-none">
-                                        Home
-                                    </a>
-                                </li>
-                                <li className="list-inline-item fw-bold pe-4">
-                                    <a href="#about" className="text-white text-decoration-none">
-                                        About
-                                    </a>
-                                </li>
-                                <li className="list-inline-item fw-bold pe-4">
-                                    <a href="#features" className="text-white text-decoration-none">
-                                        Features
-                                    </a>
-                                </li>
-                                <li className="list-inline-item fw-bold pe-4">
-                                    <a
-                                        href="#process"
-                                        className="text-white text-decoration-none"
-                                    >
-                                        Process
-                                    </a>
-                                </li>
-                                <li className="list-inline-item fw-bold pe-4">
-                                    <a href="#contact" className="text-white text-decoration-none">
-                                        Contact
-                                    </a>
-                                </li>
-                            </ul>
-                            <Row>
-                                <Col md={6} className='text-start mb-3'>
-                                    <p className='m-0 small'>Phone:</p>
-                                    <a
-                                        href="tel:+623216821990"
-                                        className="text-white text-decoration-none"
-                                    >
-                                        +62 (321) 682 1990
-                                    </a>
-                                </Col>
-                                <Col md={6} className='text-start mb-3'>
-                                    <p className='m-0 small'>Email:</p>
-                                    <a
-                                        href="mailto:info@ecocycle.co.id"
-                                        className="text-white text-decoration-none"
-                                    >
-                                        info@ecocycle.co.id
-                                    </a>
-                                </Col>
-                            </Row>
 
-                        </Col>
-                    </Row>
-                    <hr style={{ borderColor: "#fff", borderWidth: "2px" }} />
-                    <div className="text-center">
-                        <small>Copyright © {new Date().getFullYear()} EcoCycle</small>
-                    </div>
-                </Container>
+                        </div>
+                    </Container>
+                </div>
             </div>
-        </>
+            <div style={{ height: "100vh" }}></div>
+            <div ></div>
+
+            <div ref={contentSectionRef} style={{ position: "relative", zIndex: 20, background: "white" }} className='white-section'>
+                <div className="torn-top bg-light"></div>
+
+                <div id="about" style={{ marginTop: "90px" }}>
+                    <AboutSection />
+                    <FeatureSection />
+                    <ProcessSection />
+                    <MapSection />
+                    <FooterPortal />
+                </div>
+            </div>
+        </div>
     );
 }

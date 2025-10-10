@@ -1,5 +1,5 @@
 import { Button, Card, Form, InputGroup } from 'react-bootstrap';
-import NavbarLandingPage from '../../components/Navbar';
+import NavbarPortal from '../../components/NavbarPortal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaEnvelope, FaLock, FaFacebookF } from 'react-icons/fa';
 import { SiGmail } from 'react-icons/si';
@@ -9,12 +9,12 @@ import { Link } from 'react-router-dom';
 export default function Login() {
   return (
     <div className="ecocycle-container f-montserrat min-vh-100">
-      <NavbarLandingPage />
+      <NavbarPortal />
 
       <div className="position-absolute top-50 start-50 translate-middle text-center">
-        <Card className="shadow border-0 login-card" style={{width: "350px"}}>
+        <Card className="shadow border-0 login-card" style={{ width: "350px" }}>
           <Card.Body>
-            <h5 className="mb-3 fw-bold text-success">Sign In</h5>
+            <h5 className="mb-3 fw-bold text-primary">Sign In</h5>
 
             <InputGroup className="mb-3 input-rounded">
               <InputGroup.Text className="input-icon">
@@ -38,7 +38,7 @@ export default function Login() {
               />
             </InputGroup>
 
-            <Button variant="success" className="w-100 rounded-pill fw-bold">
+            <Button variant="primary" className="w-100 rounded-pill fw-bold">
               Sign In
             </Button>
 
@@ -55,7 +55,7 @@ export default function Login() {
 
             <p className="small mb-0">
               Don’t have an account?{' '}
-              <Link to="/register" className="text-success fw-bold text-decoration-none">
+              <Link to="/register" className="text-primary fw-bold text-decoration-none">
                 Sign Up
               </Link>
             </p>
