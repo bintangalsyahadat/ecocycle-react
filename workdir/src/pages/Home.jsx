@@ -47,8 +47,13 @@ export default function Home() {
                 <Container>
                     <div className="mx-auto px-3 py-5 text-center">
                         <h3 className="text-3xl font-bold text-green-700 mb-4">🌱 Solusi Digital untuk Sampah Bernilai</h3>
-                        <p className="text-gray-600 mx-auto w-50">
-                            Platform ini membantu masyarakat menjual dan membeli sampah daur ulang. Kami percaya bahwa sampah bukan akhir, melainkan awal dari peluang baru untuk ekonomi sirkular yang berkelanjutan.
+                        <p className="d-md-block d-none text-gray-600 mx-auto w-50">
+                            Platform ini membantu masyarakat menjual dan membeli sampah daur ulang. Kami percaya bahwa sampah bukan akhir,
+                            melainkan awal dari peluang baru untuk ekonomi sirkular yang berkelanjutan.
+                        </p>
+                        <p className="d-md-none text-gray-600 mx-auto">
+                            Platform ini membantu masyarakat menjual dan membeli sampah daur ulang. Kami percaya bahwa sampah bukan akhir,
+                            melainkan awal dari peluang baru untuk ekonomi sirkular yang berkelanjutan.
                         </p>
                     </div>
                 </Container>
