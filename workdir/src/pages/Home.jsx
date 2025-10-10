@@ -2,6 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import NavbarLandingPage from "../components/Navbar";
 import { Button, Container, Row, Col, Card } from "react-bootstrap";
 import MapView from '../components/MapView';
+import carakerja1 from "../assets/Images/carakerja1.png";
+import carakerja2 from "../assets/Images/carakerja2.png";
+import carakerja3 from "../assets/Images/carakerja3.png";
+import carakerja4 from "../assets/Images/carakerja4.png";
+
 
 export default function Home() {
     const navigate = useNavigate();
@@ -33,7 +38,7 @@ export default function Home() {
 
                             <Button
                                 className="fw-bold rounded-pill px-5 py-2 btn-success"
-                                style={{border: "none" }}
+                                style={{ border: "none" }}
                                 onClick={() => navigate("/login")}
                             >
                                 MULAI
@@ -113,53 +118,59 @@ export default function Home() {
                     </Row>
                 </Container>
             </div>
+
             <div id="process" className="py-5 bg-white text-center">
                 <Container>
-                    <h3 className="fw-bold text-success mb-5 fs-2">🔄 Cara Kerja</h3>
-
-                    <Row className="gy-4">
-                        <Col md={3}>
-                            <Card className="border-0 shadow-sm p-4 h-100">
-                                <div className="fs-2 mb-2">1️⃣</div>
-                                <h4 className="fw-semibold mb-2">Daftar Akun</h4>
-                                <p className="text-secondary">
-                                    Buat akun sebagai penjual atau pembeli sampah daur ulang.
-                                </p>
-                            </Card>
-                        </Col>
-
-                        <Col md={3}>
-                            <Card className="border-0 shadow-sm p-4 h-100">
-                                <div className="fs-2 mb-2">2️⃣</div>
-                                <h4 className="fw-semibold mb-2">Upload / Cari Sampah</h4>
-                                <p className="text-secondary">
-                                    Penjual unggah data sampah, pembeli mencari bahan yang dibutuhkan.
-                                </p>
-                            </Card>
-                        </Col>
-
-                        <Col md={3}>
-                            <Card className="border-0 shadow-sm p-4 h-100">
-                                <div className="fs-2 mb-2">3️⃣</div>
-                                <h4 className="fw-semibold mb-2">Transaksi & Penjemputan</h4>
-                                <p className="text-secondary">
-                                    Setelah kesepakatan, pengepul menjemput atau mengirim bahan.
-                                </p>
-                            </Card>
-                        </Col>
-
-                        <Col md={3}>
-                            <Card className="border-0 shadow-sm p-4 h-100">
-                                <div className="fs-2 mb-2">4️⃣</div>
-                                <h4 className="fw-semibold mb-2">Dapatkan Keuntungan</h4>
-                                <p className="text-secondary">
-                                    Hasil transaksi masuk ke akunmu, sambil bantu bumi jadi lebih bersih.
-                                </p>
-                            </Card>
-                        </Col>
+                    <h3 className="fw-bold text-success mb-5 fs-2">Aksi Kecil Selamatkan Bumi</h3>
+                    <Row className="gy-4 justify-content-center">
+                        {[
+                            {
+                                img: carakerja1,
+                                title: "Pilah Sampah",
+                                desc: "Pisahkan sampah organik dan anorganik sesuai jenisnya."
+                            },
+                            {
+                                img: carakerja2,
+                                title: "Kumpulkan",
+                                desc: "Kumpulkan barang daur ulang seperti plastik, kaleng, dan kertas."
+                            },
+                            {
+                                img: carakerja3,
+                                title: "Bersihkan & Simpan",
+                                desc: "Pastikan semua bahan dalam kondisi bersih dan kering sebelum dijual."
+                            },
+                            {
+                                img: carakerja4,
+                                title: "Jual & Dapatkan Keuntungan",
+                                desc: "Serahkan ke pengepul dan dapatkan keuntungan sambil bantu lingkungan."
+                            }
+                        ].map((item, index) => (
+                            <Col key={index} md={3}>
+                                <Card
+                                    className="border-0 shadow-sm p-4 h-100 d-flex flex-column align-items-center text-center"
+                                    style={{ backgroundColor: "#fff" }}
+                                >
+                                    <div
+                                        className="d-flex align-items-center justify-content-center mb-3"
+                                        style={{ height: "200px" }} // ✅ semua gambar tinggi sama
+                                    >
+                                        <img
+                                            src={item.img}
+                                            alt={item.title}
+                                            className="img-fluid"
+                                            style={{ maxHeight: "180px", objectFit: "contain" }}
+                                        />
+                                    </div>
+                                    <h4 className="fw-semibold mb-2">{item.title}</h4>
+                                    <p className="text-secondary mb-0">{item.desc}</p>
+                                </Card>
+                            </Col>
+                        ))}
                     </Row>
+
                 </Container>
             </div>
+
 
             <div className='bg-light py-5 text-center'>
                 <Container>
