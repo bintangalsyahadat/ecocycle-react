@@ -41,22 +41,22 @@ const FeatureSection = () => {
                     {
                         [
                             {
-                                img: `${import.meta.env.VITE_BASE_URL}/images/features/feature-1.png`,
+                                img: `images/features/feature-1.png`,
                                 title: "Jual Sampah Daur Ulang",
                                 text: "Jual sampah plastik, logam, kertas, dan botol bekas ke mitra pengepul dengan harga transparan dan proses mudah."
                             },
                             {
-                                img: `${import.meta.env.VITE_BASE_URL}/images/features/feature-2.png`,
+                                img: `images/features/feature-2.png`,
                                 title: "Beli Bahan Daur Ulang",
                                 text: "Pengepul atau industri daur ulang dapat mencari dan membeli bahan sesuai kebutuhan langsung dari sumbernya."
                             },
                             {
-                                img: `${import.meta.env.VITE_BASE_URL}/images/features/feature-3.png`,
+                                img: `images/features/feature-3.png`,
                                 title: "Dashboard Transaksi",
                                 text: "Pantau semua transaksi, harga, dan riwayat jual-beli secara transparan dan real-time."
                             },
                             {
-                                img: `${import.meta.env.VITE_BASE_URL}/images/features/feature-4.png`,
+                                img: `images/features/feature-4.png`,
                                 title: "Edukasi & Panduan",
                                 text: "Pelajari cara memilah dan mengelola sampah agar bernilai lebih tinggi dan ramah lingkungan."
                             },
@@ -95,22 +95,22 @@ const ProcessSection = () => {
                 <Row className="gy-4 justify-content-center">
                     {[
                         {
-                            img: `${import.meta.env.VITE_BASE_URL}/images/actions/action-1.png`,
+                            img: `images/actions/action-1.png`,
                             title: "Pilah Sampah",
                             desc: "Pisahkan sampah organik dan anorganik sesuai jenisnya."
                         },
                         {
-                            img: `${import.meta.env.VITE_BASE_URL}/images/actions/action-2.png`,
+                            img: `images/actions/action-2.png`,
                             title: "Kumpulkan",
                             desc: "Kumpulkan barang daur ulang seperti plastik, kaleng, dan kertas."
                         },
                         {
-                            img: `${import.meta.env.VITE_BASE_URL}/images/actions/action-3.png`,
+                            img: `images/actions/action-3.png`,
                             title: "Bersihkan & Simpan",
                             desc: "Pastikan semua bahan dalam kondisi bersih dan kering sebelum dijual."
                         },
                         {
-                            img: `${import.meta.env.VITE_BASE_URL}/images/actions/action-4.png`,
+                            img: `images/actions/action-4.png`,
                             title: "Jual & Dapatkan Keuntungan",
                             desc: "Serahkan ke pengepul dan dapatkan keuntungan sambil bantu lingkungan."
                         }
