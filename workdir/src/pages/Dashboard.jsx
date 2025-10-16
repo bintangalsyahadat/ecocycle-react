@@ -32,8 +32,8 @@ export default function Dashboard() {
         <div className="mt-5">
           <div className="d-flex justify-content-between align-items-center">
             <h4 className="fw-bold text-primary ">EcoCylce Location</h4>
-            <div className="w-20 bg-light">
-              <SearchInput classNameGroup="input-group-sm" classNameInput="bg-light form-control-sm" placeHolder="Search Location" />
+            <div className="w-20">
+              <SearchInput classNameGroup="input-group-sm" classNameInput="form-control-sm" placeHolder="Search Location" />
             </div>
           </div>
           <Card>
