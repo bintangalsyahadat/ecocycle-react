@@ -181,7 +181,7 @@ export default function Home() {
     }, [location.state]);
 
     return (
-        <div className='relative'>
+        <div className='relative bg-black'>
             <NavbarPortal contentSectionRef={contentSectionRef} />
             <div className='position-fixed w-100' style={{ zIndex: "10" }}>
                 <div className='ecocycle-container position-relative w-100 f-montserrat'>

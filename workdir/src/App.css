@@ -10,7 +10,6 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: black !important;
 }
 
 
@@ -36,6 +35,10 @@ body {
   color: var(--main-bg-color) !important;
 }
 
+.border-primary {
+  border-color: var(--main-bg-color) !important;
+}
+
 .f-montserrat {
   font-family: 'Montserrat', sans-serif;
 }
@@ -58,4 +61,33 @@ body {
   transform: translateY(-70px);
   z-index: 21;
 }
+
+.category-carousel {
+  position: relative;
+}
+
+.carousel-track {
+  padding: 0 1rem;
+  width: max-content;
+  animation: scroll-horizontal 25s linear infinite;
+}
+
+.carousel-track-item {
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+
+.carousel-track-item:hover {
+  transform: scale(1);
+}
+
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 

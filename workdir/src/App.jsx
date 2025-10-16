@@ -4,7 +4,7 @@ import "./App.css";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import 'leaflet/dist/leaflet.css';
-
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -13,6 +13,7 @@ function App() {
         <Route path="/" element={<Home />} />
          <Route path="/login" element={<Login />} />
          <Route path="/register" element={<Register />} />
+         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
      
     </div>
