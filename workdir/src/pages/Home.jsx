@@ -5,6 +5,8 @@ import MapView from '../components/MapView';
 import FooterPortal from '../components/FooterPortal';
 import { useEffect, useRef } from 'react';
 
+import { useAuth } from '../contexts/authContext';
+
 const AboutSection = () => {
     return (
         <div className="bg-light text-black">
@@ -165,6 +167,8 @@ const MapSection = () => {
 }
 
 export default function Home() {
+    const { userLoggedIn } = useAuth();
+
     const navigate = useNavigate();
     const location = useLocation();
     const contentSectionRef = useRef(null);
@@ -209,7 +213,7 @@ export default function Home() {
                                 <Button
                                     className="fw-bold rounded-pill px-5 py-2"
                                     style={{ border: "none" }}
-                                    onClick={() => navigate("/login")}
+                                    onClick={() => window.location.replace("/dashboard")}
                                 >
                                     MULAI
                                 </Button>

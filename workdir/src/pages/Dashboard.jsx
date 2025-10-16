@@ -9,50 +9,61 @@ import FooterPortal from "../components/FooterPortal";
 import MapView from "../components/MapView";
 import ActivityList from "../components/ActivityList";
 
+import { useAuth } from '../contexts/authContext';
+import { Navigate } from "react-router-dom";
+
 
 export default function Dashboard() {
+  const { userLoggedIn } = useAuth();
+
   return (
-    <div className="f-montserrat">
-      <NavbarLandingPage />
+    <>
+      {!userLoggedIn ? <Navigate to="/login" replace={true} /> :
+        <div className="f-montserrat">
 
-      <Container>
-        <div className="mt-4">
-          <SearchInput />
-          <MenuList className="py-3 mb-4" />
-        </div>
-      </Container>
 
-      <div className="py-5" style={{backgroundColor: "#F6F6F6"}}>
-        <Container>
-          <SectionCategoryList />
-        </Container>
-      </div>
+          <NavbarLandingPage />
 
-      <Container>
-        <div className="mt-5">
-          <div className="d-flex justify-content-between align-items-center">
-            <h4 className="fw-bold text-primary ">EcoCylce Location</h4>
-            <div className="w-20">
-              <SearchInput classNameGroup="input-group-sm" classNameInput="form-control-sm" placeHolder="Search Location" />
+          <Container>
+            <div className="mt-4">
+              <SearchInput />
+              <MenuList className="py-3 mb-4" />
             </div>
+          </Container>
+
+          <div className="py-5" style={{ backgroundColor: "#F6F6F6" }}>
+            <Container>
+              <SectionCategoryList />
+            </Container>
           </div>
-          <Card>
-            <MapView />
-          </Card>
-        </div>
 
-        <div className="mt-5">
-          <div className="d-flex justify-content-between align-items-center">
-            <h4 className="fw-bold text-primary mb-3">Our Activity</h4>
-          </div>
-          
-          <ActivityList />
-        </div>
+          <Container>
+            <div className="mt-5">
+              <div className="d-flex justify-content-between align-items-center">
+                <h4 className="fw-bold text-primary ">EcoCylce Location</h4>
+                <div className="w-20">
+                  <SearchInput classNameGroup="input-group-sm" classNameInput="form-control-sm" placeHolder="Search Location" />
+                </div>
+              </div>
+              <Card>
+                <MapView />
+              </Card>
+            </div>
 
-      </Container>
+            <div className="mt-5">
+              <div className="d-flex justify-content-between align-items-center">
+                <h4 className="fw-bold text-primary mb-3">Our Activity</h4>
+              </div>
 
-      <div className="py-5"></div>
-      <FooterPortal />
-    </div>
+              <ActivityList />
+            </div>
+
+          </Container>
+
+          <div className="py-5"></div>
+          <FooterPortal />
+        </div>}
+    </>
+
   );
 }

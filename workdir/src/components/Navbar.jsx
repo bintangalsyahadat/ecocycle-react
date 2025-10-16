@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Container, Nav, NavItem, NavDropdown, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faCartShopping,faBell,faUser,} from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faBell, faUser, } from "@fortawesome/free-solid-svg-icons";
+
+import { doSIgnOut } from "../firebase/auth";
 
 export default function NavbarPortal() {
     const [expanded, setExpanded] = useState(false);
@@ -20,24 +22,32 @@ export default function NavbarPortal() {
         >
             <Container>
                 <Navbar.Brand
-                    href="/dashboard"
+                    href="/"
                     className="fw-bold text-white d-flex align-items-center"
                 >
                     EcoCycle
                 </Navbar.Brand>
 
-                <Nav className="d-flex flex-row align-items-center gap-4 mt-3 mt-lg-0">
-                    <div className="d-flex flex-column align-items-center text-white">
-                        <FontAwesomeIcon icon={faCartShopping} size="lg" />
-                    </div>
+                <Nav className="d-flex flex-row align-items-center gap-4">
+                    <NavItem className="text-white" style={{ cursor: "pointer" }}>
+                        <FontAwesomeIcon icon={faCartShopping} />
+                    </NavItem>
 
-                    <div className="d-flex flex-column align-items-center text-white">
-                        <FontAwesomeIcon icon={faBell} size="lg" />
-                        
-                    </div>
-                    <div className="d-flex flex-column align-items-center text-white">
-                        <FontAwesomeIcon icon={faUser} size="lg" />
-                    </div>
+                    <NavItem className="text-white" style={{ cursor: "pointer" }}>
+                        <FontAwesomeIcon icon={faBell} />
+                    </NavItem>
+
+                    <Dropdown className="m-0">
+                        <Dropdown.Toggle className="text-white">
+                            <FontAwesomeIcon icon={faUser} />
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={() => { doSIgnOut().then(() => { window.location.href = "/login"; }) }}>
+                                Log Out
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </Nav>
             </Container>
         </Navbar>

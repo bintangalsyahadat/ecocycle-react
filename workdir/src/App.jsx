@@ -1,4 +1,5 @@
 import { Routes, Route, Link } from "react-router-dom";
+import { AuthProvider } from './contexts/authContext';
 import Home from "./pages/Home";
 import "./App.css";
 import Login from "./pages/Auth/Login";
@@ -9,13 +10,15 @@ import Dashboard from "./pages/Dashboard";
 function App() {
   return (
     <div className="App">
-      <Routes>
-        <Route path="/" element={<Home />} />
-         <Route path="/login" element={<Login />} />
-         <Route path="/register" element={<Register />} />
-         <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
-     
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </AuthProvider>
+
     </div>
   );
 }
