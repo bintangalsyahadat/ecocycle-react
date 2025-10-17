@@ -14,6 +14,8 @@ build:
     IMAGE_TAG: $CI_COMMIT_SHORT_SHA
     IMAGE_NAME: registry.gitlab.com/munn-capstone-project/ecocycle
   script:
+    - echo "=== Copy Env File ==="
+    - cp $ENV_FILE ./workdir/.env
     - echo "=== Building Docker image ==="
     - docker build -t $IMAGE_NAME:$IMAGE_TAG .
     - docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
