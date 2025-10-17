@@ -15,7 +15,7 @@ build_image:
     IMAGE_NAME: registry.gitlab.com/munn-capstone-project/ecocycle
   script:
     - |
-    - export $(grep -v '^#'' $ENV_FILE | xargs)
+    - export $(grep -v '^#' $ENV_FILE | xargs)
     - echo "VITE_BASE_URL = $VITE_BASE_URL"
     - echo "VITE_FIREBASE_API_KEY = $VITE_FIREBASE_API_KEY"
     - echo "VITE_FIREBASE_AUTH_DOMAIN = $VITE_FIREBASE_AUTH_DOMAIN"
