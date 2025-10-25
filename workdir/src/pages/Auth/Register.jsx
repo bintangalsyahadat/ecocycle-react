@@ -1,123 +1,233 @@
-import { Button, Card, Form, InputGroup } from 'react-bootstrap';
-import NavbarPortal from '../../components/NavbarPortal';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { FaEnvelope, FaLock, FaFacebookF, FaPhone } from 'react-icons/fa';
-import { SiGmail } from 'react-icons/si';
-import { Link, Navigate } from 'react-router-dom';
+import React, { useState } from "react";
+import AuthWithGoogle from "./AuthWithGoogle";
+import { Link, Navigate } from "react-router-dom";
+import { useAuth } from "../../contexts/authContext";
+import { doCreateUserWithEmailAndPassword } from "../../firebase/auth";
 
-import { useAuth } from '../../contexts/authContext';
-import { doCreateUserWithEmailAndPassword, doSignINWithGoogle } from '../../firebase/auth';
-import { useState } from 'react';
+export default function SignUp() {
+    const { userLoggedIn } = useAuth();
+    const [form, setForm] = useState({
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+    });
 
-export default function Register() {
-  const { userLoggedIn } = useAuth();
+    const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState("");
+    const [isRegistering, setIsRegistering] = useState(false);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [isRegistering, setIsRegistering] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+    const validate = () => {
+        const newErrors = {};
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (!isRegistering) {
-      setIsRegistering(true);
-      await doCreateUserWithEmailAndPassword(email, password);
-    }
-  };
+        if (!form.username.trim()) {
+            newErrors.username = "Username is required.";
+        } else if (form.username.length < 3) {
+            newErrors.username = "Username must be at least 3 characters.";
+        }
 
-  const onGoogleSignIn = async (e) => {
-      e.preventDefault();
-      if (!isRegistering) {
-        setIsRegistering(true);
-        doSignINWithGoogle().catch((err) => {
-          setIsRegistering(false);
-        });
-      }
+        if (!form.email) {
+            newErrors.email = "Email is required.";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+            newErrors.email = "Invalid email format.";
+        }
+
+        if (!form.password) {
+            newErrors.password = "Password is required.";
+        } else if (form.password.length < 6) {
+            newErrors.password = "Password must be at least 6 characters.";
+        }
+
+        if (!form.confirmPassword) {
+            newErrors.confirmPassword = "Please confirm your password.";
+        } else if (form.password !== form.confirmPassword) {
+            newErrors.confirmPassword = "Passwords do not match.";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
-  return (
-    <>
-      {userLoggedIn ? <Navigate to="/login" replace={true} /> : <div className="ecocycle-container f-montserrat min-vh-100  bg-black">
-        <NavbarPortal />
+    // --- Handle Input ---
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.id]: e.target.value,
+        });
+    };
 
-        <div className="position-absolute top-50 start-50 translate-middle text-center">
-          <Card className="shadow border-0 login-card py-3" style={{ width: "350px" }}>
-            <Card.Body>
-              <h5 className="mb-3 fw-bold text-primary">Sign Up</h5>
+    // --- Submit Handler ---
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setMessage("");
 
-              <InputGroup className="mb-2 input-rounded">
-                <InputGroup.Text className="input-icon fw-bold">
-                  @
-                </InputGroup.Text>
-                <Form.Control
-                  type="text"
-                  placeholder="Username"
-                  className="input-field"
-                />
-              </InputGroup>
+        if (!validate()) return;
 
-              <InputGroup className="mb-2 input-rounded">
-                <InputGroup.Text className="input-icon">
-                  <FaEnvelope />
-                </InputGroup.Text>
-                <Form.Control
-                  type="email"
-                  placeholder="Email"
-                  className="input-field"
-                  onKeyUp={(e) => setEmail(e.target.value)}
-                />
-              </InputGroup>
+        setLoading(true);
 
-              <InputGroup className="mb-2 input-rounded">
-                <InputGroup.Text className="input-icon">
-                  <FaLock />
-                </InputGroup.Text>
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  className="input-field"
-                  onKeyUp={(e) => setPassword(e.target.value)}
-                />
-              </InputGroup>
+        // Register Simulation
+        setTimeout(() => {
+            setIsRegistering(true);
+            setLoading(false);
+            setMessage("✅ Account created successfully!");
+            setErrors({});
+            setForm({
+                username: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+            });
+        }, 1500);
+    };
 
-              <InputGroup className="mb-4 input-rounded">
-                <InputGroup.Text className="input-icon">
-                  <FaLock />
-                </InputGroup.Text>
-                <Form.Control
-                  type="password"
-                  placeholder="Confirm Password"
-                  className="input-field"
-                  onKeyUp={(e) => setConfirmPassword(e.target.value)}
-                />
-              </InputGroup>
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        if (!isRegistering) {
+            setIsRegistering(true);
+            await doCreateUserWithEmailAndPassword(email, password);
+        }
+    };
 
-              <Button variant="primary" className="w-100 rounded-pill fw-bold" onClick={onSubmit}>
-                Sign Up
-              </Button>
+    return (
+        <>
+            {userLoggedIn ? <Navigate to="/login" replace={true} /> : <div className="bg-black">
+                <div className="bg-[url(images/background.png)] min-h-screen flex items-center justify-center">
+                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md mx-4 p-8">
+                        <form
+                            onSubmit={handleSubmit}
+                            className="flex flex-col w-full h-full pb-6 text-center"
+                        >
+                            <h3 className="mb-3 text-4xl font-extrabold text-gray-900">
+                                Sign Up
+                            </h3>
+                            <p className="mb-6 text-gray-500">
+                                Create your account to get started
+                            </p>
 
-              <p className="mt-3 mb-2 text-muted small">or sign up with</p>
+                            {/* Google Button */}
+                            <AuthWithGoogle label='Sign Up' isSigningIn={isRegistering} setIsSigningIn={setIsRegistering} />
 
-              <div className="d-flex justify-content-center gap-3 mb-3">
-                <Button variant="light" className="social-btn shadow-sm">
-                  <FaFacebookF className="text-primary" size={20} />
-                </Button>
-                <Button variant="light" className="social-btn shadow-sm" onClick={onGoogleSignIn} >
-                  <SiGmail className="text-danger" size={22} />
-                </Button>
-              </div>
+                            <div className="flex items-center mb-3">
+                                <hr className="h-0 border-b border-solid border-gray-200 grow" />
+                                <p className="mx-4 text-gray-500">or</p>
+                                <hr className="h-0 border-b border-solid border-gray-200 grow" />
+                            </div>
 
-              <p className="small mb-0">
-                Already have an account?{' '}
-                <Link to="/login" className="text-primary fw-bold text-decoration-none">
-                  Sign In
-                </Link>
-              </p>
-            </Card.Body>
-          </Card>
-        </div>
-      </div>}
-    </>
-  );
+                            <label
+                                htmlFor="username"
+                                className="mb-2 text-sm text-start font-bold text-gray-700"
+                            >
+                                Username
+                            </label>
+                            <input
+                                id="username"
+                                type="text"
+                                value={form.username}
+                                onChange={handleChange}
+                                placeholder="Enter your username"
+                                className={`w-full px-5 py-4 mb-2 text-sm font-medium rounded-2xl outline-none bg-gray-100 focus:bg-gray-200 placeholder:text-gray-500 ${errors.username ? "border border-red-500" : ""
+                                    }`}
+                            />
+                            {errors.username && (
+                                <p className="text-red-500 text-sm mb-3 text-left">
+                                    {errors.username}
+                                </p>
+                            )}
+
+                            <label
+                                htmlFor="email"
+                                className="mb-2 text-sm text-start font-bold text-gray-700"
+                            >
+                                Email
+                            </label>
+                            <input
+                                id="email"
+                                type="email"
+                                value={form.email}
+                                onChange={handleChange}
+                                placeholder="mail@gmail.com"
+                                className={`w-full px-5 py-4 mb-2 text-sm font-medium rounded-2xl outline-none bg-gray-100 focus:bg-gray-200 placeholder:text-gray-500 ${errors.email ? "border border-red-500" : ""
+                                    }`}
+                            />
+                            {errors.email && (
+                                <p className="text-red-500 text-sm mb-3 text-left">
+                                    {errors.email}
+                                </p>
+                            )}
+
+                            <label
+                                htmlFor="password"
+                                className="mb-2 text-sm text-start font-bold text-gray-700"
+                            >
+                                Password
+                            </label>
+                            <input
+                                id="password"
+                                type="password"
+                                value={form.password}
+                                onChange={handleChange}
+                                placeholder="Enter password"
+                                className={`w-full px-5 py-4 mb-2 text-sm font-medium rounded-2xl outline-none bg-gray-100 focus:bg-gray-200 placeholder:text-gray-500 ${errors.password ? "border border-red-500" : ""
+                                    }`}
+                            />
+                            {errors.password && (
+                                <p className="text-red-500 text-sm mb-3 text-left">
+                                    {errors.password}
+                                </p>
+                            )}
+
+                            <label
+                                htmlFor="confirmPassword"
+                                className="mb-2 text-sm text-start font-bold text-gray-700"
+                            >
+                                Confirm Password
+                            </label>
+                            <input
+                                id="confirmPassword"
+                                type="password"
+                                value={form.confirmPassword}
+                                onChange={handleChange}
+                                placeholder="Re-enter password"
+                                className={`w-full px-5 py-4 mb-2 text-sm font-medium rounded-2xl outline-none bg-gray-100 focus:bg-gray-200 placeholder:text-gray-500 ${errors.confirmPassword ? "border border-red-500" : ""
+                                    }`}
+                            />
+                            {errors.confirmPassword && (
+                                <p className="text-red-500 text-sm mb-3 text-left">
+                                    {errors.confirmPassword}
+                                </p>
+                            )}
+
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className={`w-full px-6 py-5 mt-2 mb-5 text-sm font-bold leading-none text-white transition duration-300 rounded-2xl cursor-pointer ${loading
+                                    ? "bg-gray-400 cursor-not-allowed"
+                                    : "bg-[#01A3B0] hover:bg-[#018d98]"
+                                    }`}
+                            >
+                                {loading ? "Creating Account..." : "Sign Up"}
+                            </button>
+
+                            {message && (
+                                <p
+                                    className={`mt-2 text-sm font-medium ${message.includes("✅") ? "text-green-600" : "text-red-500"
+                                        }`}
+                                >
+                                    {message}
+                                </p>
+                            )}
+
+                            <p className="text-sm leading-relaxed text-gray-900 mt-6">
+                                Already have an account?{" "}
+                                <Link to="/login" className="font-bold text-(--main-color)">
+                                    Sign In
+                                </Link>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>}
+        </>
+    );
 }

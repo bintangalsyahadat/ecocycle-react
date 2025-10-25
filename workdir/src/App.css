@@ -1,9 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-montserrat: "Montserrat", sans-serif; 
+}
 
 :root {
-  --main-bg-color: #01A3B0 !important;
-  --main-bg-color-light: #f3feff !important;
+  --main-color: #01A3B0 !important;
+  --main-color-hover: #018a95 !important;
+  --main-color-disable: #7AC8CF !important;
+  --main-color-light: #f3feff !important;
 }
 
 body {
@@ -12,44 +19,13 @@ body {
   box-sizing: border-box;
 }
 
-
-.ecocycle-container {
-  background-image: url('./assets/images/background.png');
-  height: 100vh;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: white;
-}
-
-.btn-primary {
-  background-color: var(--main-bg-color) !important;
-  border: var(--main-bg-color) !important;
-}
-
-.bg-primary {
-  background-color: var(--main-bg-color) !important;
-}
-
-.text-primary {
-  color: var(--main-bg-color) !important;
-}
-
-.border-primary {
-  border-color: var(--main-bg-color) !important;
-}
-
-.f-montserrat {
-  font-family: 'Montserrat', sans-serif;
-}
-
 .torn-top {
   position: absolute;
   top: -150px;
   left: 0;
   width: 100%;
   height: 250px;
-  background-color: white;
+  background-color: #F8F9FA;
   mask-image: url('./assets/images/paper-torn.png');
   -webkit-mask-image: url('./assets/images/paper-torn.png');
   mask-repeat: no-repeat;
@@ -62,32 +38,46 @@ body {
   z-index: 21;
 }
 
-.category-carousel {
-  position: relative;
-}
-
-.carousel-track {
-  padding: 0 1rem;
-  width: max-content;
-  animation: scroll-horizontal 25s linear infinite;
-}
-
-.carousel-track-item {
-  transform: scale(0.8);
-  transition: transform 0.3s ease;
-}
-
-.carousel-track-item:hover {
-  transform: scale(1);
-}
-
-@keyframes scroll-horizontal {
+@keyframes expand {
   0% {
-    transform: translateX(0);
+    transform: scale(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(50);
+    opacity: 0.5;
   }
   100% {
-    transform: translateX(-50%);
+    transform: scale(100);
+    opacity: 0;
   }
+}
+
+.expand-circle {
+  position: absolute;
+  border-radius: 9999px;
+  animation: expand 4s ease-out forwards;
+}
+
+.circle-1 {
+  width: 6rem;
+  height: 6rem;
+  background-color: #018a95;
+  animation-delay: 0s;
+}
+
+.circle-2 {
+  width: 6rem;
+  height: 6rem;
+  background-color: #21aab5;
+  animation-delay: 0.5s;
+}
+
+.circle-3 {
+  width: 6rem;
+  height: 6rem;
+  background-color: #6dd6dc;
+  animation-delay: 1s;
 }
 
 
