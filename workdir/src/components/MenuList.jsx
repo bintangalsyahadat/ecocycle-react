@@ -1,27 +1,26 @@
-import { Col, Row } from "react-bootstrap";
-import MenuBox from "./MenuBox";
+export default function MenuList() {
+  const menus = [
+    { name: "Sell", icon: "🏷️" },
+    { name: "Buy", icon: "🛒" },
+    { name: "EcoDucation", icon: "🎓" },
+    { name: "EcoMunity", icon: "👥" },
+    { name: "Eco Planner", icon: "📅" },
+    { name: "Eco Point", icon: "💰" },
+  ];
 
-
-
-export default function MenuList({ className = "" }) {
-
-    const features = [
-        { id: 1, img: "images/fitur/fitur-4.png", label: "Sell" },
-        { id: 2, img: "images/fitur/fitur-5.png", label: "Buy" },
-        { id: 3, img: "images/fitur/fitur-6.png", label: "EcoPlanner" },
-        { id: 4, img: "images/fitur/fitur-3.png", label: "EcoDucation" },
-        { id: 5, img: "images/fitur/fitur-2.png", label: "EcoMunnity" },
-        { id: 6, img: "images/fitur/fitur-1.png", label: "EcoPoint" },
-    ];
-
-    return (
-        <Row
-            className={className}>
-            {features.map((item, index) => (
-                <Col key={index} md={2} xs={4}>
-                    <MenuBox menu={item} />
-                </Col>
-            ))}
-        </Row>
-    )
+  return (
+    <div className="flex flex-col items-center justify-center w-full">
+      <div className="grid grid-cols-3 gap-4">
+        {menus.map((menu, index) => (
+          <div
+            key={index}
+            className="flex flex-col items-center justify-center p-4 bg-white rounded-2xl shadow-sm border hover:bg-teal-50 transition duration-200 cursor-pointer"
+          >
+            <div className="text-teal-600 text-4xl mb-2">{menu.icon}</div>
+            <div className="text-sm font-medium text-gray-700">{menu.name}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
