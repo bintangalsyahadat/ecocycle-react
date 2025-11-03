@@ -19,7 +19,7 @@ export default function Navbar() {
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div className="relative flex h-16 items-center justify-between">
                     <div className="flex flex-1 items-center justify-start sm:items-stretch">
-                        <a href='/' className="flex shrink-0 items-center text-white font-bold text-xl">
+                        <a href='/dashboard' className="flex shrink-0 items-center text-white font-bold text-xl">
                             EcoCycle
                         </a>
                     </div>

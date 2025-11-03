@@ -6,6 +6,7 @@ import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import 'leaflet/dist/leaflet.css';
 import Dashboard from "./pages/Dashboard";
+import Sell from "./pages/Transaction/Sell";
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          
+          <Route path="/transaction/sell" element={<Sell />} />
         </Routes>
       </AuthProvider>
 
