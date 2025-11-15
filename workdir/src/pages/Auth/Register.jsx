@@ -65,33 +65,37 @@ export default function SignUp() {
         if (!validate()) return;
 
         setLoading(true);
+        setErrors({});
 
-        // Register Simulation
-        setTimeout(() => {
-            setIsRegistering(true);
-            setLoading(false);
+        try {
+            await doCreateUserWithEmailAndPassword(form.username, form.email, form.password);
+
             setMessage("✅ Account created successfully!");
-            setErrors({});
+
+            // reset
             setForm({
                 username: "",
                 email: "",
                 password: "",
                 confirmPassword: "",
             });
-        }, 1500);
-    };
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        if (!isRegistering) {
-            setIsRegistering(true);
-            await doCreateUserWithEmailAndPassword(email, password);
+            // redirect otomatis
+            setTimeout(() => {
+                setLoading(false);
+                setIsRegistering(false);
+                window.location.href = "/login";
+            }, 1000);
+
+        } catch (err) {
+            setLoading(false);
+            setMessage(err.message);
         }
     };
 
     return (
         <>
-            {userLoggedIn ? <Navigate to="/login" replace={true} /> : <div className="bg-black">
+            {userLoggedIn ? <Navigate to="/" replace={true} /> : <div className="bg-black">
                 <div className="bg-[url(images/background.png)] min-h-screen flex items-center justify-center">
                     <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md mx-4 p-8">
                         <form

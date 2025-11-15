@@ -44,24 +44,36 @@ export default function SignIn() {
         if (!validate()) return;
 
         setLoading(true);
+        setErrors({});
 
-        setTimeout(() => {
-            setLoading(false);
-            if (email === dummyAccount.email && password === dummyAccount.password) {
-                setIsSigningIn(true);
-                setMessage("✅ Login successful!");
-                setErrors({});
-            } else {
-                setMessage("❌ Incorrect email or password.");
-            }
-        }, 1500);
-    };
-
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        if (!isSigningIn) {
-            setIsSigningIn(true);
+        try {
+            // Firebase login
             await doSignINWithEmailAndPassword(email, password);
+
+            setMessage("✅ Login successful!");
+
+            // Redirect setelah 1 detik
+            setTimeout(() => {
+                setLoading(false);
+                setIsSigningIn(false);
+                window.location.href = "/dashboard";
+            }, 1000);
+
+        } catch (err) {
+            setLoading(false);
+            console.error(err);
+
+            let msg = "❌ Login failed.";
+
+            if (err.code === "auth/user-not-found") {
+                msg = "❌ Email not registered.";
+            } else if (err.code === "auth/wrong-password") {
+                msg = "❌ Incorrect password.";
+            } else if (err.code === "auth/invalid-email") {
+                msg = "❌ Invalid email format.";
+            }
+
+            setMessage(msg);
         }
     };
 

@@ -4,19 +4,32 @@ export default function AuthWithGoogle({ label, isSigningIn, setIsSigningIn }) {
 
     const onGoogleSignIn = async (e) => {
         e.preventDefault();
-        if (!isSigningIn) {
-            setIsSigningIn(true);
-            doSignInWithGoogle().catch((err) => {
-                setIsSigningIn(false);
-            });
+
+        if (isSigningIn) return;
+
+        setIsSigningIn(true);
+
+        try {
+            await doSignInWithGoogle();
+        } catch (err) {
+            console.error(err);
+            setIsSigningIn(false);
+            return;
         }
+
+        setIsSigningIn(false);
     };
+
 
 
     return (
         <button
+            disabled={isSigningIn}
             onClick={onGoogleSignIn}
-            className="flex items-center cursor-pointer justify-center w-full py-4 mb-6 text-sm font-medium transition duration-300 rounded-2xl text-gray-900 bg-gray-100 hover:bg-gray-200"
+            className={`flex items-center justify-center w-full py-4 mb-6 text-sm font-medium 
+                rounded-2xl transition duration-300 cursor-pointer text-gray-900 
+                ${isSigningIn ? "bg-gray-300 cursor-not-allowed" : "bg-gray-100 hover:bg-gray-200"}
+            `}
         >
             <img
                 className="h-5 mr-2"
