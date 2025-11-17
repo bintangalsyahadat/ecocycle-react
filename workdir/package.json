@@ -16,7 +16,7 @@
     "@fortawesome/react-fontawesome": "^3.1.0",
     "@headlessui/react": "^2.2.9",
     "@heroicons/react": "^2.2.0",
-    "@tailwindcss/vite": "^4.1.15",
+    "@tailwindcss/vite": "^4.1.17",
     "firebase": "^12.4.0",
     "install": "^0.13.0",
     "leaflet": "^1.9.4",
@@ -37,7 +37,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.4.0",
-    "tailwindcss": "^4.1.15",
+    "tailwindcss": "^4.1.17",
     "vite": "^7.1.7"
   }
 }

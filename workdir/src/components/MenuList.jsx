@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function MenuList() {
   const menus = [
     { name: "Sell", icon: "🏷️", url:"/transaction/sell" },
-    { name: "Buy", icon: "🛒", url:"#" },
+    { name: "Buy", icon: "🛒", url:"/transaction/buy" },
     { name: "EcoDucation", icon: "🎓", url:"#" },
     { name: "EcoMunity", icon: "👥", url:"#" },
     { name: "Eco Planner", icon: "📅", url:"#" },

@@ -7,6 +7,7 @@ import Register from "./pages/Auth/Register";
 import 'leaflet/dist/leaflet.css';
 import Dashboard from "./pages/Dashboard";
 import Sell from "./pages/Transaction/Sell";
+import Buy from "./pages/Transaction/Buy";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           
           <Route path="/transaction/sell" element={<Sell />} />
+          <Route path="/transaction/buy" element={<Buy />} />
         </Routes>
       </AuthProvider>
 
