@@ -7,6 +7,7 @@ import Register from "./pages/Auth/Register";
 import 'leaflet/dist/leaflet.css';
 import Dashboard from "./pages/Dashboard";
 import Sell from "./pages/Transaction/Sell";
+import UserProfile from "./pages/UserProfile";
 import Buy from "./pages/Transaction/Buy";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<UserProfile />} />
           
           <Route path="/transaction/sell" element={<Sell />} />
           <Route path="/transaction/buy" element={<Buy />} />
