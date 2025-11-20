@@ -7,7 +7,7 @@ stages:
 # =======================
 build:
   stage: build
-  image: docker:24
+  image: docker:26
   services:
     - docker:dind
   variables:
