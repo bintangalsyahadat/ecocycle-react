@@ -1,5 +1,13 @@
+import { useEffect, useState } from "react";
+
 export default function CategoryCard({ name, desc, count, setCount, price, readonly }) {
-    const total = count * price;
+    const [total, setTotal] = useState(0);
+    
+    useEffect(() => {
+        if (count < 0) setCount(0);
+        setTotal(count * price);
+
+    }, [count, price]);
 
     return (
         <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition">
@@ -15,7 +23,7 @@ export default function CategoryCard({ name, desc, count, setCount, price, reado
                                 {name}
                             </h3>
                             <p className="ml-4 text-sm">
-                                Rp {price.toLocaleString("id-ID")} /kg
+                                Rp {price?.toLocaleString("id-ID")} /kg
                             </p>
                         </div>
                         <p className="mt-1 text-xs text-gray-500">{desc}</p>

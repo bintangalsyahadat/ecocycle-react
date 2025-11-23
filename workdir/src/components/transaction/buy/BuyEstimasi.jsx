@@ -7,9 +7,9 @@ export default function BuyEstimasi({ items, selectedPayment, onPaymentChange, r
     setPaymentMethod(selectedPayment || "");
   }, [selectedPayment]);
 
-  const totalBerat = items.reduce((sum, i) => sum + (i.berat || 0), 0);
+  const totalBerat = items.reduce((sum, i) => sum + (i.qty || 0), 0);
   const totalEstimasi = items.reduce(
-    (sum, i) => sum + (i.berat || 0) * (i.price || 0),
+    (sum, i) => sum + (i.qty || 0) * (i.price || 0),
     0
   );
 
@@ -51,11 +51,10 @@ export default function BuyEstimasi({ items, selectedPayment, onPaymentChange, r
               {methods.map((method) => (
                 <label
                   key={method}
-                  className={`flex items-center justify-between border rounded-lg p-2 cursor-pointer hover:bg-gray-50 ${
-                    paymentMethod === method
+                  className={`flex items-center justify-between border rounded-lg p-2 cursor-pointer hover:bg-gray-50 ${paymentMethod === method
                       ? "border-[var(--main-color)]"
                       : "border-gray-200"
-                  }`}
+                    }`}
                 >
                   <span>{method}</span>
                   <input

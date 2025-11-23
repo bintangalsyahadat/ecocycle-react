@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Sell from "./pages/Transaction/Sell";
 import UserProfile from "./pages/UserProfile";
 import Buy from "./pages/Transaction/Buy";
+import SellDetail from "./pages/Transaction/SellDetail";
 import EcoPoint from "./pages/EcoPoint";
 import RiwayatAktivitas from "./components/ecopoint/RiwayatAktivitas";
 import EcoPlanner from "./pages/EcoPlanner";
@@ -31,7 +32,10 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           
           <Route path="/transaction/sell" element={<Sell />} />
-          <Route path="/transaction/buy" element={<Buy />} /> 
+          <Route path="/transaction/sell/:noTransaction" element={<SellDetail />} />
+          
+          <Route path="/transaction/buy" element={<Buy />} />
+           
           <Route path="/EcoPoint" element={<EcoPoint />} />
           <Route path="/ecopoint/RiwayatAktivitas" element={<RiwayatAktivitas />} />
           <Route path="/ecoplanner" element={<EcoPlanner />} />

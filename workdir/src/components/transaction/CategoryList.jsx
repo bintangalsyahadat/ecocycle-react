@@ -14,9 +14,9 @@ export default function CategoryList({ items, onUpdateCount, readonly }) {
                     <CategoryCard
                         key={item.name}
                         name={item.name}
-                        desc={item.desc}
+                        desc={item.description}
                         price={item.price}
-                        count={item.berat}
+                        count={item.qty}
                         setCount={(val) => onUpdateCount(item.name, val)}
                         readonly={readonly}
                     />

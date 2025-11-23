@@ -20,7 +20,7 @@ export default function BuyConfirmation({
   const [showWarning, setShowWarning] = useState(false);
 
   const totalEstimasi = items.reduce(
-    (sum, i) => sum + (i.berat || 0) * (i.price || 0),
+    (sum, i) => sum + (i.qty || 0) * (i.price || 0),
     0
   );
 

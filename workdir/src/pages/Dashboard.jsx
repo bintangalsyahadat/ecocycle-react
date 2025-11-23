@@ -8,10 +8,11 @@ import Navbar from "../components/navbar/Navbar";
 import RecyclableCategories from "../components/RecyclableCategories";
 import SearchInput from "../components/SearchInput";
 import { useAuth } from "../contexts/authContext";
+import { useEffect } from "react";
 
 
 export default function Dashboard() {
-  const { userLoggedIn } = useAuth();
+  const { currentUser, userLoggedIn, loading } = useAuth();
 
   return (
     <>

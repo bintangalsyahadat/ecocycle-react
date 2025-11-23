@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-const PickupOption = ({ onChange }) => {
-  const [option, setOption] = useState("kurir"); // "kurir" | "cabang"
+const PickupOption = ({ onChange, deliveryMethods = [] }) => {
+  const [option, setOption] = useState(deliveryMethods[0] || {});
   const [showModal, setShowModal] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState("Jl. Merdeka No. 10, Jakarta");
   const [selectedBranch, setSelectedBranch] = useState("Cabang EcoCycle - Jakarta Timur");
@@ -9,11 +9,7 @@ const PickupOption = ({ onChange }) => {
   // 🔹 kirim setiap kali data berubah ke parent
   useEffect(() => {
     if (onChange) {
-      onChange({
-        method: option,
-        address: selectedAddress,
-        branch: selectedBranch,
-      });
+      onChange(option);
     }
   }, [option, selectedAddress, selectedBranch]);
 
@@ -22,40 +18,29 @@ const PickupOption = ({ onChange }) => {
       <h3 className="font-semibold text-gray-800 mb-3">Metode Penyerahan</h3>
 
       <div className="space-y-3">
-        <label className="flex items-start space-x-3 cursor-pointer">
-          <input
-            type="radio"
-            name="pickup"
-            value="kurir"
-            checked={option === "kurir"}
-            onChange={() => setOption("kurir")}
-            className="mt-1 w-5 h-5 text-teal-600 border-gray-300 focus:ring-teal-500"
-          />
-          <div>
-            <span className="font-semibold text-gray-900">Dijemput Kurir EcoCycle</span>
-            <p className="text-sm text-gray-500">Kurir EcoCycle akan datang ke alamat penjemputan</p>
-          </div>
-        </label>
-
-        <label className="flex items-start space-x-3 cursor-pointer">
-          <input
-            type="radio"
-            name="pickup"
-            value="cabang"
-            checked={option === "cabang"}
-            onChange={() => setOption("cabang")}
-            className="mt-1 w-5 h-5 text-teal-600 border-gray-300 focus:ring-teal-500"
-          />
-          <div>
-            <span className="font-semibold text-gray-900">Diantar Langsung ke Cabang Terdekat</span>
-            <p className="text-sm text-gray-500">Kamu akan mendapat panduan arah otomatis</p>
-          </div>
-        </label>
+        {deliveryMethods && deliveryMethods.map((method) => {
+          return (
+            <label key={method.id} className="flex items-start space-x-3 cursor-pointer">
+              <input
+                type="radio"
+                name="pickup"
+                value={method.id}
+                checked={option.id === method.id}
+                onChange={() => setOption(method)}
+                className="mt-1 w-5 h-5 text-teal-600 border-gray-300 focus:ring-teal-500"
+              />
+              <div>
+                <span className="font-semibold text-gray-900">{method.name}</span>
+                <p className="text-sm text-gray-500">{method.description}</p>
+              </div>
+            </label>
+          );
+        })}
       </div>
 
       {/* Detail alamat */}
       <div className="mt-4">
-        {option === "kurir" && (
+        {!option?.is_self_service && (
           <div
             onClick={() => setShowModal(true)}
             className="cursor-pointer bg-teal-50 border border-teal-200 rounded-xl p-3 hover:bg-teal-100 transition"
@@ -65,7 +50,7 @@ const PickupOption = ({ onChange }) => {
           </div>
         )}
 
-        {option === "cabang" && (
+        {option?.is_self_service && (
           <div
             onClick={() => setShowModal(true)}
             className="cursor-pointer bg-teal-50 border border-teal-200 rounded-xl p-3 hover:bg-teal-100 transition"

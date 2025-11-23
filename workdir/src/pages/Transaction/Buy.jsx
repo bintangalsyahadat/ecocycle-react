@@ -37,7 +37,7 @@ const BuyPage = () => {
         .filter(cat => items[cat.name] > 0)
         .map(cat => ({
             ...cat,
-            berat: items[cat.name],
+            qty: items[cat.name],
             total: items[cat.name] * cat.price,
         }));
 
