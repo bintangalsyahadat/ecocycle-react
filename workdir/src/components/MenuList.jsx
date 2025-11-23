@@ -7,7 +7,7 @@ export default function MenuList() {
     { name: "EcoDucation", icon: "🎓", url:"#" },
     { name: "EcoMunity", icon: "👥", url:"#" },
     { name: "Eco Planner", icon: "📅", url:"#" },
-    { name: "Eco Point", icon: "💰", url:"#" },
+    { name: "Eco Point", icon: "💰", url:"/Eco/EcoPoint" },
   ];
 
   return (

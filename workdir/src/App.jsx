@@ -8,6 +8,8 @@ import 'leaflet/dist/leaflet.css';
 import Dashboard from "./pages/Dashboard";
 import Sell from "./pages/Transaction/Sell";
 import Buy from "./pages/Transaction/Buy";
+import EcoPoint from "./pages/Eco/EcoPoint";
+import RiwayatAktivitas from "./components/ecopoint/RiwayatAktivitas";
 
 function App() {
   return (
@@ -20,7 +22,9 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           
           <Route path="/transaction/sell" element={<Sell />} />
-          <Route path="/transaction/buy" element={<Buy />} />
+          <Route path="/transaction/buy" element={<Buy />} /> 
+          <Route path="/Eco/EcoPoint" element={<EcoPoint />} />
+          <Route path="/ecopoint/RiwayatAktivitas" element={<RiwayatAktivitas />} />
         </Routes>
       </AuthProvider>
 
