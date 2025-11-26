@@ -9,6 +9,8 @@ import Dashboard from "./pages/Dashboard";
 import Sell from "./pages/Transaction/Sell";
 import UserProfile from "./pages/UserProfile";
 import Buy from "./pages/Transaction/Buy";
+import EcoPoint from "./pages/Eco/EcoPoint";
+import RiwayatAktivitas from "./components/ecopoint/RiwayatAktivitas";
 
 function App() {
   return (
@@ -22,7 +24,9 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           
           <Route path="/transaction/sell" element={<Sell />} />
-          <Route path="/transaction/buy" element={<Buy />} />
+          <Route path="/transaction/buy" element={<Buy />} /> 
+          <Route path="/Eco/EcoPoint" element={<EcoPoint />} />
+          <Route path="/ecopoint/RiwayatAktivitas" element={<RiwayatAktivitas />} />
         </Routes>
       </AuthProvider>
 

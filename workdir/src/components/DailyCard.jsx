@@ -30,8 +30,9 @@ export default function DailyCard() {
                             +{r.amount}
                         </div>
 
-                        <div className="my-1 w-8 h-8 flex items-center justify-center bg-yellow-300 rounded-full">
-                            🪙
+                        <div className="my-1 w-8 h-8 flex items-center justify-center">
+                            <img src="/src/assets/images/ecopoint/coin.png"
+                                alt="coin" />
                         </div>
 
                         <div
