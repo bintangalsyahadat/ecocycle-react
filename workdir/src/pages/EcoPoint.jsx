@@ -22,22 +22,22 @@ export default function EcoPoint() {
 
     const rewards = [
         {
-            img: "/public/images/ecopoint/alfamart.png",
+            img: "/images/ecopoint/alfamart.png",
             title: "Voucher Belanja 50k Alfamart",
             point: 500,
         },
         {
-            img: "/public/images/ecopoint/pupuk.png",
+            img: "/images/ecopoint/pupuk.png",
             title: "Pupuk Organik 5Kg",
             point: 300,
         },
         {
-            img: "/public/images/ecopoint/xl.png",
+            img: "/images/ecopoint/xl.png",
             title: "Voucher Pulsa 50k XL",
             point: 800,
         },
         {
-            img: "/public/images/ecopoint/pln.png",
+            img: "/images/ecopoint/pln.png",
             title: "Voucher PLN 100k",
             point: 1000,
         },
@@ -59,7 +59,7 @@ export default function EcoPoint() {
                             <span className="flex items-center gap-1 text-xl">
                                 77
                                 <img
-                                    src="/public/images/ecopoint/coin.png"
+                                    src="/images/ecopoint/coin.png"
                                     alt="coin"
                                     className="w-6 h-6"
                                 />
@@ -94,7 +94,7 @@ export default function EcoPoint() {
                                 >
 
                                     <p className="font-bold text-sm">+{s.point}</p>
-                                    <img src="/public/images/ecopoint/point.png" className="w-7 h-7 my-1" />
+                                    <img src="/images/ecopoint/point.png" className="w-7 h-7 my-1" />
                                     <p className="text-[11px] whitespace-nowrap">{s.day}</p>
                                 </div>
                             ))}
@@ -122,7 +122,7 @@ export default function EcoPoint() {
 
                                     <p className="font-bold text-[#00A8A8] flex items-center gap-1">
                                         {r.point}
-                                        <img src="/public/images/ecopoint/coin.png" className="w-5 h-5" />
+                                        <img src="/images/ecopoint/coin.png" className="w-5 h-5" />
                                     </p>
                                 </div>
                             </div>

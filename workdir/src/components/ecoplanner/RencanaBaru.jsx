@@ -3,11 +3,11 @@ import Navbar from "../../components/navbar/Navbar";
 import { useState } from "react";
 import { FaRegFileImage, } from "react-icons/fa";
 import MapView from "../../components/MapView";
-import Bottle from "/public/images/ecoplanner/bottle.png";
-import Kaca from "/public/images/ecoplanner/kaca.png";
-import Logam from "/public/images/ecoplanner/logam.png";
-import Kertas from "/public/images/ecoplanner/kertas.png";
-import Lainnya from "/public/images/ecoplanner/lainnya.png";
+import Bottle from "/images/ecoplanner/bottle.png";
+import Kaca from "/images/ecoplanner/kaca.png";
+import Logam from "/images/ecoplanner/logam.png";
+import Kertas from "/images/ecoplanner/kertas.png";
+import Lainnya from "/images/ecoplanner/lainnya.png";
 
 
 

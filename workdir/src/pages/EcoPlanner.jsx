@@ -55,11 +55,11 @@ export default function EcoPlanner() {
                         <div key={i} className="grid grid-cols-4 p-3 text-sm border-b items-center">
                             <p>{item.date}</p>
                             <p className="flex items-center gap-2">
-                                <img src="/public/images/ecoplanner/cup.png" className="w-10" />
+                                <img src="/images/ecoplanner/cup.png" className="w-10" />
                                 {item.item}
                             </p>
                             <p className="flex items-center gap-1 text-[#00A8A8] font-semibold">
-                                <img src="/public/images/ecoplanner/point.png" className="w-10" /> {item.point}
+                                <img src="/images/ecoplanner/point.png" className="w-10" /> {item.point}
                             </p>
                             <p className="text-gray-500">{item.location}</p>
                         </div>
@@ -88,7 +88,7 @@ export default function EcoPlanner() {
                         <div className="flex justify-between">
                             <p>Point didapat</p>
                             <p className="text-[#00A8A8] font-bold flex items-center gap-1">
-                                <img src="/public/images/ecoplanner/point.png" className="w-7" /> 750
+                                <img src="/images/ecoplanner/point.png" className="w-7" /> 750
                             </p>
                         </div>
 
@@ -96,7 +96,7 @@ export default function EcoPlanner() {
                             <p className="text-center font-semibold text-gray-700">Total Point</p>
 
                             <p className="text-[#00A8A8] text-3xl font-bold flex justify-center items-center gap-2 mt-1">
-                                <img src="/public/images/ecoplanner/point.png" className="w-10" />
+                                <img src="/images/ecoplanner/point.png" className="w-10" />
                                 7777
                             </p>
                         </div>

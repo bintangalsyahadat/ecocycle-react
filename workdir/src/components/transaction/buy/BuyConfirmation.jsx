@@ -7,20 +7,29 @@ import BuyEstimasi from "./BuyEstimasi";
 
 export default function BuyConfirmation({
   items = [],
+  deliveryMethods = [],
+  paymentMethods = [],
   onBack,
   updateItem,
+
+  /** buyInfo computed dari parent */
   buyInfo,
-  setBuyInfo,
+
+  /** handler dari parent */
+  onChangeNote,
+  onChangePhoto,
+  onChangeMetode,
+  onChangePayment,
+
   onNext,
+
+  branches = [],
+  currentUser = {}
 }) {
-  const [note, setNote] = useState(buyInfo.note || "");
-  const [photos, setPhotos] = useState(buyInfo.photos || []);
-  const [metode, setMetode] = useState(buyInfo.metode || "");
-  const [paymentMethod, setPaymentMethod] = useState(buyInfo.metodePembayaran || "");
   const [showWarning, setShowWarning] = useState(false);
 
   const totalEstimasi = items.reduce(
-    (sum, i) => sum + (i.berat || 0) * (i.price || 0),
+    (sum, i) => sum + (i.qty || 0) * (i.price || 0),
     0
   );
 
@@ -31,22 +40,18 @@ export default function BuyConfirmation({
   }, [totalEstimasi]);
 
   const handleNext = () => {
-    if (!paymentMethod) {
+    if (!buyInfo.paymentMethod?.id) {
       setShowWarning(true);
       return;
     }
-    setBuyInfo({
-      ...buyInfo,
-      metode,
-      note,
-      metodePembayaran: paymentMethod,
-      photos: photos.map((f) => f.url),
-    });
-    onNext();
+
+    onNext(); // parent sudah punya semua datanya
   };
 
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 mt-5 relative">
+      
+      {/* Header */}
       <div className="flex items-end justify-between md:mt-10 mb-3">
         <div className="flex items-center">
           <button
@@ -61,43 +66,60 @@ export default function BuyConfirmation({
         </div>
       </div>
 
-
       <div className="flex flex-col lg:flex-row gap-6">
+        
+        {/* Category List */}
         <CategoryList items={items} onUpdateCount={updateCount} />
 
         <div className="w-full lg:w-1/2 h-fit">
-          <PickupOption value={metode} onChange={(val) => setMetode(val)} />
+          
+          {/* Delivery Method */}
+          <PickupOption
+            value={buyInfo.metode}
+            onChange={(val) => {
+              onChangeMetode(val);
+            }}
+            deliveryMethods={deliveryMethods}
+            branches={branches}
+            currentUser={currentUser}
+            type="sell"
+          />
 
+          {/* Payment Method */}
           <BuyEstimasi
             items={items}
-            selectedPayment={paymentMethod}
+            selectedPayment={buyInfo.paymentMethod}
+            paymentMethods={paymentMethods}
             onPaymentChange={(method) => {
-              setPaymentMethod(method);
+              onChangePayment(method);
               setShowWarning(false);
             }}
             readonly={false}
           />
 
+          {/* Note */}
           <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-4 mb-4">
             <BuyNote
               buyInfo={buyInfo}
-              onChangePhoto={setPhotos}
-              onChangeNote={setNote}
+              onChangePhoto={(v) => onChangePhoto(v)}
+              onChangeNote={(v) => onChangeNote(v)}
             />
 
+            {/* Button */}
             <div className="space-y-2">
               <button
                 onClick={handleNext}
-                disabled={!paymentMethod}
-                className={`w-full font-semibold px-6 py-3 rounded-full transition ${paymentMethod
-                  ? "bg-[var(--main-color)] hover:bg-[var(--main-color-hover)] text-white cursor-pointer"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  }`}
+                disabled={!buyInfo.paymentMethod?.id}
+                className={`w-full font-semibold px-6 py-3 rounded-full transition ${
+                  buyInfo.paymentMethod?.id
+                    ? "bg-[var(--main-color)] hover:bg-[var(--main-color-hover)] text-white cursor-pointer"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
               >
                 Konfirmasi Pembelian
               </button>
 
-              {showWarning && !paymentMethod && (
+              {showWarning && !buyInfo.paymentMethod?.id && (
                 <p className="text-red-500 text-sm text-center font-medium mt-1">
                   ⚠️ Silakan pilih metode pembayaran terlebih dahulu.
                 </p>

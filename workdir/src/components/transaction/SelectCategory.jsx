@@ -6,7 +6,7 @@ export default function SelectCategory({ categories, items, setItems, onNext }) 
   };
 
   const totalHarga = categories.reduce(
-    (acc, cat) => acc + items[cat.name] * cat.price,
+    (acc, cat) => acc + items[cat.name] * cat.purchase_price,
     0
   );
 
@@ -21,7 +21,7 @@ export default function SelectCategory({ categories, items, setItems, onNext }) 
           <div>
             <p className="text-lg md:text-2xl text-(--main-color) font-semibold">Pilih Kategori Sampah</p>
             <p className="text-sm text-gray-500">
-              Pilih kategori sampah dan jumlah berat (kg) sesuai bahan yang kamu mau jual.
+              Pilih kategori sampah dan jumlah qty (kg) sesuai bahan yang kamu mau jual.
               Harga tiap kategori berbeda!
             </p>
           </div>
@@ -32,8 +32,9 @@ export default function SelectCategory({ categories, items, setItems, onNext }) 
             <CategoryCard
               key={cat.name}
               name={cat.name}
-              desc={cat.desc}
-              price={cat.price}
+              desc={cat.description}
+              image={cat.image}
+              price={cat.purchase_price}
               count={items[cat.name]}
               setCount={val => updateCount(cat.name, val)}
             />

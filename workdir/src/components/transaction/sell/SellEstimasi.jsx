@@ -3,7 +3,7 @@
 export default function SellEstimasi({ items }) {
 
     const totalEstimasi = items.reduce(
-        (sum, i) => sum + (i.berat || 0) * (i.price || 0), 0
+        (sum, i) => sum + (i.qty || 0) * (i.price || 0), 0
     );
 
     return (
@@ -15,7 +15,7 @@ export default function SellEstimasi({ items }) {
                 <div className="flex items-center justify-between mt-3">
                     <p>Total Berat</p>
                     <p className="font-semibold text-(--main-color)">
-                        {items.reduce((sum, i) => sum + i.berat, 0)} kg
+                        {items.reduce((sum, i) => sum + i.qty, 0)} kg
                     </p>
                 </div>
                 <div className="flex items-center justify-between mt-3">

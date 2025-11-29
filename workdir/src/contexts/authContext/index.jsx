@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { auth } from "../../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { generateApiJwt } from "../../utils/jwt";
-import { API_BASE_URL } from "../../utils/api";
+import { API_BASE_URL, createUser, fetchUser, } from "../../utils/api";
 
 const AuthContext = React.createContext();
 
@@ -28,34 +28,18 @@ export function AuthProvider({ children }) {
 
             const flag = `user_synced_${user.uid}`;
             if (!localStorage.getItem(flag)) {
-                await sendUserToBackend(user);
+                await createUser(user);
                 localStorage.setItem(flag, "true");
             }
+
+            const userFromBE = await fetchUser(user);
+            setCurrentUser(userFromBE);
         } else {
             setCurrentUser(null);
             setUserLoggedIn(false);
         }
 
         setLoading(false);
-    }
-
-    async function sendUserToBackend(user) {
-        const token = generateApiJwt();
-
-        await axios.post(
-            `${API_BASE_URL}/res/user/create`,
-            {
-                firebase_uuid: user.uid,
-                name: user.displayName,
-                email: user.email,
-            },
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
     }
 
     const value = {
