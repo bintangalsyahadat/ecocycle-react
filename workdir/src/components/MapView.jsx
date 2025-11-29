@@ -1,80 +1,175 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { fetchOperatingUnits } from "../utils/api";
 
+// Fix Leaflet icons
 delete L.Icon.Default.prototype._getIconUrl;
-
 L.Icon.Default.mergeOptions({
   iconUrl: markerIcon,
   shadowUrl: markerShadow,
 });
 
+// Delay (Nominatim required)
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
+// Base geocode
+async function geocodeAddress(fullAddress) {
+  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+    fullAddress
+  )}`;
+
+  try {
+    const res = await fetch(url, {
+      headers: { "User-Agent": "ReactLeafletApp/1.0" },
+    });
+
+    const data = await res.json();
+    if (!data || data.length === 0) return null;
+
+    return {
+      lat: parseFloat(data[0].lat),
+      lon: parseFloat(data[0].lon),
+    };
+  } catch (err) {
+    console.error("Geocode error:", err);
+    return null;
+  }
+}
+
+// Cached geocode
+async function geocodeAddressWithCache(fullAddress) {
+  const cached = localStorage.getItem(fullAddress);
+  if (cached) return JSON.parse(cached);
+
+  // delay 1 detik → mengikuti aturan Nominatim, mencegah error incognito
+  await delay(1000);
+
+  const coords = await geocodeAddress(fullAddress);
+  if (coords) localStorage.setItem(fullAddress, JSON.stringify(coords));
+
+  return coords;
+}
+
+// Build full address
+function buildFullAddress(address) {
+  return [
+    address.street,
+    address.city,
+    address?.state_id?.name,
+    address.zip,
+    address?.country_id?.name,
+  ]
+    .filter(Boolean)
+    .join(", ");
+}
+
+// Auto zoom to bounds
+function AutoZoom({ locations }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!locations || locations.length === 0) return;
+
+    const bounds = locations.map((loc) => loc.coords);
+    map.fitBounds(bounds, {
+      padding: [50, 50],
+      maxZoom: 15,
+    });
+  }, [locations]);
+
+  return null;
+}
+
 export default function MapView() {
-  const [search, setSearch] = useState("");
-  const [center, setCenter] = useState([-6.2, 106.81]);
+  const [locations, setLocations] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const locations = [
-    { id: 1, name: "EcoCycle Kediri", coords: [-7.8255, 112.0114] },
-    { id: 2, name: "EcoCycle Jakarta", coords: [-6.2, 106.816666] },
-    { id: 3, name: "EcoCycle Surabaya", coords: [-7.250445, 112.768845] },
-  ];
+  useEffect(() => {
+    async function loadLocations() {
+      setLoading(true);
 
-  const handleSearch = () => {
-    const found = locations.find((loc) =>
-      loc.name.toLowerCase().includes(search.toLowerCase())
-    );
-    if (found) setCenter(found.coords);
-  };
+      const branches = await fetchOperatingUnits();
+      const results = [];
+
+      for (const branch of branches) {
+        if (!branch.address?.id) continue;
+
+        const fullAddress = buildFullAddress(branch.address);
+        const coords = await geocodeAddressWithCache(fullAddress);
+
+        if (coords) {
+          results.push({
+            id: branch.address.id,
+            name: fullAddress,
+            coords: [coords.lat, coords.lon],
+          });
+        }
+      }
+
+      setLocations(results);
+      setLoading(false);
+    }
+
+    loadLocations();
+  }, []);
 
   return (
-    <div className="relative w-full">
+    <div style={{ position: "relative" }}>
       
-      {/* --- Inject CSS local langsung di component --- */}
-      <style>
-        {`
-          .leaflet-control-zoom {
-            margin-top: 65px !important;
-            margin-left: 12px !important;
-          }
+      {loading && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "rgba(255,255,255,0.8)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 9999,
+            flexDirection: "column",
+          }}
+        >
+          {/* Spinner */}
+          <div
+            style={{
+              width: "50px",
+              height: "50px",
+              border: "6px solid #ccc",
+              borderTop: "6px solid #007bff",
+              borderRadius: "50%",
+              animation: "spin 1s linear infinite",
+            }}
+          ></div>
 
-          .leaflet-control-zoom a {
-            border-radius: 6px !important;
-          }
-        `}
-      </style>
+          <p style={{ marginTop: "15px", fontSize: "16px", fontWeight: "bold" }}>
+            Loading map...
+          </p>
 
-      {/* SEARCH BAR */}
-      <div className="absolute z-[999] top-3 left-1/2 -translate-x-1/2 w-[90%]">
-        <div className="bg-white shadow-md rounded-full flex items-center px-4 py-2 gap-2">
-          <input
-            placeholder="Temukan lokasi ECO Cycle terdekat"
-            className="flex-1 outline-none text-sm"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <button onClick={handleSearch} className="text-[#00A8A8] font-semibold">
-            🔍
-          </button>
+          {/* Spinner Animation Keyframes */}
+          <style>
+            {`
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+            `}
+          </style>
         </div>
-      </div>
+      )}
 
-      {/* MAP */}
+      {/* 🗺️ Leaflet Map */}
       <MapContainer
-        center={center}
-        zoom={12}
-        scrollWheelZoom={false}
-        style={{
-          height: "270px",
-          width: "100%",
-          borderRadius: "15px",
-          overflow: "hidden",
-          marginTop: "15px",
-        }}
+        center={[-2.5, 117.5]}
+        zoom={5}
+        style={{ height: "400px", width: "100%" }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+        <AutoZoom locations={locations} />
 
         {locations.map((loc) => (
           <Marker key={loc.id} position={loc.coords}>
