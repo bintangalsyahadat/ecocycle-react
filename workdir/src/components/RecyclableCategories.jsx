@@ -1,17 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { fetchCategories } from "../utils/api";
 
 export default function RecyclableCategories() {
-  const [categories, setCategories] = useState([
-    { id: 1, name: "Plastic" },
-    { id: 2, name: "Glass" },
-    { id: 3, name: "Paper" },
-    { id: 4, name: "Metal" },
-    { id: 5, name: "Electronics" },
-    { id: 6, name: "Textiles" },
-    { id: 7, name: "Organic" },
-  ]);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  const getCategories = async () => {
+    const categoriesResult = await fetchCategories();
+    setCategories(categoriesResult);
+  };
 
   const moveLeft = () => {
     setCategories((prev) => {
@@ -45,17 +47,23 @@ export default function RecyclableCategories() {
         {categories.map((item) => (
           <div
             key={item.id}
-            className="
+            className={`
               flex-shrink-0
               w-1/3 sm:w-1/4 md:w-1/5 lg:w-36
               aspect-square
               bg-white rounded-2xl shadow-lg
-              flex items-center justify-center
+              text-center p-3
               text-gray-600 font-semibold
               transition-all duration-300
-            "
+            `}
           >
-            {item.name}
+            <div className="flex justify-center w-full">
+              <img
+              src={`data:image/jpeg;base64,${item.image}`}
+              className=" object-cover"
+            />
+            </div>
+            <p className="text-sm">{item.name}</p>
           </div>
         ))}
       </div>
