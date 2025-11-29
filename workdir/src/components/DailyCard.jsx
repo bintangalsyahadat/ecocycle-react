@@ -31,7 +31,7 @@ export default function DailyCard() {
                         </div>
 
                         <div className="my-1 w-8 h-8 flex items-center justify-center">
-                            <img src="/public/images/ecopoint/coin.png"
+                            <img src="/images/ecopoint/point.png"
                                 alt="coin" />
                         </div>
 

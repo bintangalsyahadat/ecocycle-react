@@ -34,19 +34,19 @@ export default function Edukasi() {
             <div className="grid grid-cols-3 gap-4 text-center">
 
               <div className="rounded-xl bg-green-200 py-4 px-2">
-                <img src="/public/images/ecoducation/organik.png" className="mx-auto w-12 h-12" />
+                <img src="/images/ecoducation/organik.png" className="mx-auto w-12 h-12" />
                 <p className="font-bold mt-2">Organik</p>
                 <p className="text-xs text-gray-700">Daun, buah</p>
               </div>
 
               <div className="rounded-xl bg-yellow-200 py-4 px-2">
-                <img src="/public/images/ecoducation/anorganik.png" className="mx-auto w-12 h-12" />
+                <img src="/images/ecoducation/anorganik.png" className="mx-auto w-12 h-12" />
                 <p className="font-bold mt-2">Anorganik</p>
                 <p className="text-xs text-gray-700">Plastik, logam</p>
               </div>
 
               <div className="rounded-xl bg-orange-200 py-4 px-2">
-                <img src="/public/images/ecoducation/battery.png" className="mx-auto w-12 h-12" />
+                <img src="/images/ecoducation/battery.png" className="mx-auto w-12 h-12" />
                 <p className="font-bold mt-2">B3</p>
                 <p className="text-xs text-gray-700">Baterai, cairan</p>
               </div>
@@ -59,7 +59,7 @@ export default function Edukasi() {
 
             <div className="flex items-center gap-4 justify-center md:justify-start">
               <img
-                src="/public/images/ecoducation/memilah.png"
+                src="/images/ecoducation/memilah.png"
                 className="w-28 h-28 object-contain"
               />
 

@@ -9,10 +9,10 @@ export default function RencanaSelesai() {
 
       <Navbar />
 
-      <div className="p-6 pt-5"> 
+      <div className="p-6 pt-5">
         <h1 className="text-center mb-2 flex flex-wrap items-center justify-center gap-2 font-bold text-2xl sm:text-3xl">
           Perencanaan Berhasil Ditambahkan
-          <img src="/public/images/ecoplanner/done.png" alt="icon" className="w-10 h-10" />
+          <img src="/images/ecoplanner/done.png" alt="icon" className="w-10 h-10" />
         </h1>
 
         <p className="text-center text-gray-500 mb-10">
@@ -42,7 +42,7 @@ export default function RencanaSelesai() {
             <div className="flex flex-col items-center text-center">
               <div className="rounded-full p-2 w-55 h-48 overflow-hidden flex items-center justify-center">
                 <img
-                  src="/public/images/ecoplanner/point.png"
+                  src="/images/ecoplanner/point.png"
                   alt="Foto"
                   className="w-full h-full object-cover"
                 />
