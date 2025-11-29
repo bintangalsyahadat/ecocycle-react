@@ -113,7 +113,7 @@ export default function RiwayatAktivitas() {
                         </div>
 
                         <button
-                            onClick={() => navigate("/Eco/EcoPoint")}
+                            onClick={() => navigate("/EcoPoint")}
                             className="mt-4 w-full py-2 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition"
                         >
                             Kembali ke Dashboard

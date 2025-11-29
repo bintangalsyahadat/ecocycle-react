@@ -9,8 +9,15 @@ import Dashboard from "./pages/Dashboard";
 import Sell from "./pages/Transaction/Sell";
 import UserProfile from "./pages/UserProfile";
 import Buy from "./pages/Transaction/Buy";
-import EcoPoint from "./pages/Eco/EcoPoint";
+import EcoPoint from "./pages/EcoPoint";
 import RiwayatAktivitas from "./components/ecopoint/RiwayatAktivitas";
+import EcoPlanner from "./pages/EcoPlanner";
+import RencanaBaru from "./components/ecoplanner/RencanaBaru";   
+import PlannerDetail from "./components/ecoplanner/PlannerDetail"; 
+import EcoDucation from "./pages/EcoDucation";  
+import Edukasi from "./components/ecoducation/Edukasi";
+import Quiz from "./components/ecoducation/Quiz";
+
 
 function App() {
   return (
@@ -25,8 +32,14 @@ function App() {
           
           <Route path="/transaction/sell" element={<Sell />} />
           <Route path="/transaction/buy" element={<Buy />} /> 
-          <Route path="/Eco/EcoPoint" element={<EcoPoint />} />
+          <Route path="/EcoPoint" element={<EcoPoint />} />
           <Route path="/ecopoint/RiwayatAktivitas" element={<RiwayatAktivitas />} />
+          <Route path="/ecoplanner" element={<EcoPlanner />} />
+          <Route path="/ecoplanner/RencanaBaru" element={<RencanaBaru />} />
+          <Route path="/ecoplanner/PlannerDetail" element={<PlannerDetail />} />
+          <Route path="/ecoducation" element={<EcoDucation />} />
+          <Route path="/ecoducation/Edukasi" element={<Edukasi />} />
+          <Route path="/ecoducation/Quiz" element={<Quiz />} />
         </Routes>
       </AuthProvider>
 

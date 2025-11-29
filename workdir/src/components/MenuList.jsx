@@ -4,10 +4,10 @@ export default function MenuList() {
   const menus = [
     { name: "Sell", icon: "🏷️", url:"/transaction/sell" },
     { name: "Buy", icon: "🛒", url:"/transaction/buy" },
-    { name: "EcoDucation", icon: "🎓", url:"#" },
+    { name: "EcoDucation", icon: "🎓", url:"/EcoDucation" },
     { name: "EcoMunity", icon: "👥", url:"#" },
-    { name: "Eco Planner", icon: "📅", url:"#" },
-    { name: "Eco Point", icon: "💰", url:"/Eco/EcoPoint" },
+    { name: "Eco Planner", icon: "📅", url:"/EcoPlanner" },
+    { name: "Eco Point", icon: "💰", url:"/EcoPoint" },
   ];
 
   return (
