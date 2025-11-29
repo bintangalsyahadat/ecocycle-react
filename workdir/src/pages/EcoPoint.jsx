@@ -1,9 +1,9 @@
-import Navbar from "../../components/navbar/Navbar";
+import Navbar from "../components/navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 import { FaUserPlus, FaFileLines, FaClockRotateLeft } from "react-icons/fa6";
 import { useState } from "react";
-import SyaratKetentuan from "../../components/ecopoint/SyaratKetentuan";
-import AjakTeman from "../../components/ecopoint/AjakTeman";
+import SyaratKetentuan from "../components/ecopoint/SyaratKetentuan";
+import AjakTeman from "../components/ecopoint/AjakTeman";
 
 export default function EcoPoint() {
     const navigate = useNavigate();
@@ -22,22 +22,22 @@ export default function EcoPoint() {
 
     const rewards = [
         {
-            img: "/src/assets/images/ecopoint/alfamart.png",
+            img: "/public/images/ecopoint/alfamart.png",
             title: "Voucher Belanja 50k Alfamart",
             point: 500,
         },
         {
-            img: "/src/assets/images/ecopoint/pupuk.png",
+            img: "/public/images/ecopoint/pupuk.png",
             title: "Pupuk Organik 5Kg",
             point: 300,
         },
         {
-            img: "/src/assets/images/ecopoint/xl.png",
+            img: "/public/images/ecopoint/xl.png",
             title: "Voucher Pulsa 50k XL",
             point: 800,
         },
         {
-            img: "/src/assets/images/ecopoint/pln.png",
+            img: "/public/images/ecopoint/pln.png",
             title: "Voucher PLN 100k",
             point: 1000,
         },
@@ -59,7 +59,7 @@ export default function EcoPoint() {
                             <span className="flex items-center gap-1 text-xl">
                                 77
                                 <img
-                                    src="/src/assets/images/ecopoint/coin.png"
+                                    src="/public/images/ecopoint/coin.png"
                                     alt="coin"
                                     className="w-6 h-6"
                                 />
@@ -94,7 +94,7 @@ export default function EcoPoint() {
                                 >
 
                                     <p className="font-bold text-sm">+{s.point}</p>
-                                    <img src="/src/assets/images/ecopoint/point.png" className="w-7 h-7 my-1" />
+                                    <img src="/public/images/ecopoint/point.png" className="w-7 h-7 my-1" />
                                     <p className="text-[11px] whitespace-nowrap">{s.day}</p>
                                 </div>
                             ))}
@@ -122,7 +122,7 @@ export default function EcoPoint() {
 
                                     <p className="font-bold text-[#00A8A8] flex items-center gap-1">
                                         {r.point}
-                                        <img src="/src/assets/images/ecopoint/coin.png" className="w-5 h-5" />
+                                        <img src="/public/images/ecopoint/coin.png" className="w-5 h-5" />
                                     </p>
                                 </div>
                             </div>

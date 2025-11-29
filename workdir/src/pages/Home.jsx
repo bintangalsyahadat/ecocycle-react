@@ -169,7 +169,7 @@ export default function Home() {
                 <NavbarPortal contentSectionRef={contentSectionRef} />
 
                 <div className="fixed w-full bg-black font-montserrat">
-                    <div className="bg-[url(images/background.png)] relative w-full h-screen bg-cover bg-center bg-no-repeat text-white">
+                    <div className="bg-[url(/images/background.png)] relative w-full h-screen bg-cover bg-center bg-no-repeat text-white">
                         <div className="absolute inset-0 flex justify-center items-center">
                             <div className="text-center">
                                 <p className="text-3xl md:text-6xl m-0 font-bold">
