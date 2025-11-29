@@ -10,6 +10,7 @@ import Sell from "./pages/Transaction/Sell";
 import UserProfile from "./pages/UserProfile";
 import Buy from "./pages/Transaction/Buy";
 import SellDetail from "./pages/Transaction/SellDetail";
+import BuyDetail from "./pages/Transaction/BuyDetail";
 import EcoPoint from "./pages/EcoPoint";
 import RiwayatAktivitas from "./components/ecopoint/RiwayatAktivitas";
 import EcoPlanner from "./pages/EcoPlanner";
@@ -35,6 +36,7 @@ function App() {
           <Route path="/transaction/sell/:noTransaction" element={<SellDetail />} />
           
           <Route path="/transaction/buy" element={<Buy />} />
+          <Route path="/transaction/buy/:noTransaction" element={<BuyDetail />} />
            
           <Route path="/EcoPoint" element={<EcoPoint />} />
           <Route path="/ecopoint/RiwayatAktivitas" element={<RiwayatAktivitas />} />

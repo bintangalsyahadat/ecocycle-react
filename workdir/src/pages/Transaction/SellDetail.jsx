@@ -181,27 +181,7 @@ function SellDetailPage({ currentUser }) {
                             </div>
                         </div>
 
-                        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-4 mb-4">
-                            <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                                Total EcoCoin
-                            </h2>
-                            <div className="text-sm">
-                                <div className="flex items-center justify-between mt-3">
-                                    <p>Total Berat Diterima</p>
-                                    <p className="font-semibold text-(--main-color)">
-                                        {transaction?.line_ids?.reduce((sum, i) => sum + i.valid_qty, 0)} kg
-                                    </p>
-                                </div>
-                                <div className="flex items-center justify-between mt-3">
-                                    <p>Total EcoCoin Didapatkan</p>
-                                    <p className="font-semibold text-(--main-color)">
-                                        Rp {transaction?.total_amount?.toLocaleString("id-ID")}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {transaction?.state == 'purchase' && <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-4 mb-4">
+                        {transaction?.state == 'purchased' && <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-4 mb-4">
                             <h2 className="text-lg font-semibold text-gray-800 mb-4">
                                 Total EcoCoin
                             </h2>

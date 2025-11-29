@@ -208,7 +208,7 @@ export const createBuyTransaction = async (data) => {
         });
 }
 
-export const fetchBuyTransacton = async (id, userId) => {
+export const fetchBuyTransaction = async (id, userId) => {
     const config = {
         method: 'get',
         url: `${API_BASE_URL}/sale/${userId}/${id}`,

@@ -6,7 +6,7 @@ import BuyEstimasi from "./BuyEstimasi";
 export default function BuyDetail({ items = [], buyInfo = {}, onBack }) {
   const [validated, setValidated] = useState(false);
 
-  const { metode = {}, catatan = "", metodePembayaran = "" } = buyInfo;
+  const { metode = {}, catatan = "", paymentMethod = "" } = buyInfo;
 
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 mt-5 relative">
@@ -89,7 +89,7 @@ export default function BuyDetail({ items = [], buyInfo = {}, onBack }) {
             )}
           </div>
 
-         <BuyEstimasi items={items} selectedPayment={metodePembayaran} readonly={true} />
+          <BuyEstimasi items={items} selectedPayment={paymentMethod} readonly={true} />
 
           <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-5">
             <h3 className="font-semibold text-gray-700 mb-2">Catatan</h3>

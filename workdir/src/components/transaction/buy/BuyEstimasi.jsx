@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function BuyEstimasi({ items, selectedPayment, onPaymentChange, readonly = false }) {
+export default function BuyEstimasi({ items, paymentMethods, selectedPayment, onPaymentChange, readonly = false }) {
   const [paymentMethod, setPaymentMethod] = useState(selectedPayment || "");
 
   useEffect(() => {
@@ -47,26 +47,42 @@ export default function BuyEstimasi({ items, selectedPayment, onPaymentChange, r
               {selectedPayment || "Belum dipilih"}
             </div>
           ) : (
-            <div className="space-y-2">
-              {methods.map((method) => (
-                <label
-                  key={method}
-                  className={`flex items-center justify-between border rounded-lg p-2 cursor-pointer hover:bg-gray-50 ${paymentMethod === method
-                      ? "border-[var(--main-color)]"
-                      : "border-gray-200"
-                    }`}
-                >
-                  <span>{method}</span>
-                  <input
-                    type="radio"
-                    name="payment"
-                    value={method}
-                    checked={paymentMethod === method}
-                    onChange={() => handleSelect(method)}
-                    className="text-[var(--main-color)]"
-                  />
-                </label>
-              ))}
+            <div className="space-y-3">
+              {paymentMethods.map((method) => {
+                const isActive = paymentMethod?.id === method.id;
+
+                return (
+                  <label
+                    key={method.id}
+                    className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all duration-200
+                      ${isActive
+                        ? "border-[var(--main-color)] bg-[var(--main-color)]/10 shadow-sm"
+                        : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                      }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-3 h-3 rounded-full border transition-all duration-200
+                          ${isActive
+                            ? "bg-[var(--main-color)] border-[var(--main-color)]"
+                            : "border-gray-300"
+                          }`}
+                      ></div>
+                      <span className={`font-medium ${isActive ? "text-[var(--main-color)]" : "text-gray-700"}`}>
+                        {method.name}
+                      </span>
+                    </div>
+
+                    <input
+                      type="radio"
+                      name="payment"
+                      checked={isActive}
+                      onChange={() => handleSelect(method)}
+                      className="hidden"
+                    />
+                  </label>
+                );
+              })}
             </div>
           )}
         </div>
