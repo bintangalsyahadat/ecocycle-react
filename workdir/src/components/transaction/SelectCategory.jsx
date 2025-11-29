@@ -33,6 +33,7 @@ export default function SelectCategory({ categories, items, setItems, onNext }) 
               key={cat.name}
               name={cat.name}
               desc={cat.description}
+              image={cat.image}
               price={cat.purchase_price}
               count={items[cat.name]}
               setCount={val => updateCount(cat.name, val)}

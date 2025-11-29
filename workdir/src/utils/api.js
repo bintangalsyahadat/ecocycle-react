@@ -25,7 +25,7 @@ export const fetchUser = async (user) => {
         });
 }
 
-export const createUser =async (user) => {
+export const createUser = async (user) => {
     const config = {
         method: 'post',
         url: `${API_BASE_URL}/res/user/create`,
@@ -39,7 +39,7 @@ export const createUser =async (user) => {
             email: user.email,
         },
     }
-    
+
     return axios.request(config)
         .then((response) => {
             return response.data.result;
@@ -128,8 +128,27 @@ export const fetchDeliveryMethod = async (id = null, type = null) => {
         });
 }
 
+export const fetchPaymentMethod = async (id = null) => {
+    const config = {
+        method: 'get',
+        url: `${API_BASE_URL}/res/payment-method`,
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    }
 
-export const createPurchaseTransaction = async (data) => {
+    return axios.request(config)
+        .then((response) => {
+            return response.data.result.filter(item => (id ? item.id == id : true));
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+
+export const createSellTransaction = async (data) => {
     const config = {
         method: 'post',
         url: `${API_BASE_URL}/purchase/create`,
@@ -149,10 +168,50 @@ export const createPurchaseTransaction = async (data) => {
         });
 }
 
-export const fetchPurchaseTransacton = async (id, userId) => {
+export const fetchSellTransaction = async (id, userId) => {
     const config = {
         method: 'get',
         url: `${API_BASE_URL}/purchase/${userId}/${id}`,
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    return axios.request(config)
+        .then((response) => {
+            return response.data.result;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+
+export const createBuyTransaction = async (data) => {
+    const config = {
+        method: 'post',
+        url: `${API_BASE_URL}/sale/create`,
+        data: data,
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    return axios.request(config)
+        .then((response) => {
+            return response.data.result;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+export const fetchBuyTransacton = async (id, userId) => {
+    const config = {
+        method: 'get',
+        url: `${API_BASE_URL}/sale/${userId}/${id}`,
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

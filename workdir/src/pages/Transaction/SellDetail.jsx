@@ -1,7 +1,7 @@
 import { Navigate, useParams } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext";
 import Navbar from "../../components/navbar/Navbar";
-import { fetchDeliveryMethod, fetchPurchaseTransacton } from "../../utils/api";
+import { fetchDeliveryMethod, fetchSellTransaction } from "../../utils/api";
 import { useEffect, useState } from "react";
 import CategoryCard from "../../components/transaction/CategoryCard";
 import { formatDate } from "../../utils/formatted";
@@ -16,7 +16,7 @@ function SellDetailPage({ currentUser }) {
     }, [noTransaction]);
 
     const getTransactionDetail = async () => {
-        const resTransaction = await fetchPurchaseTransacton(noTransaction, currentUser.id);
+        const resTransaction = await fetchSellTransaction(noTransaction, currentUser.id);
 
         if (resTransaction?.delivery_method_id?.id) {
             const resDeliveryMethod = await fetchDeliveryMethod(resTransaction?.delivery_method_id?.id);
@@ -55,6 +55,7 @@ function SellDetailPage({ currentUser }) {
                                     key={item.id}
                                     name={item.waste_category_id.name}
                                     desc={item.waste_category_id?.description}
+                                    image={item.waste_category_id?.image}
                                     price={item.unit_price}
                                     count={item.qty}
                                     readonly={true}
@@ -78,7 +79,7 @@ function SellDetailPage({ currentUser }) {
                                         Cabang Tujuan: {transaction?.delivery_address_id?.name}
                                     </p>
 
-                                    {transaction?.state == 'waiting_process' && (
+                                    {transaction?.state == 'waiting_process' ? (
                                         <a
                                             href={`https://www.google.com/maps?q=${encodeURIComponent(
                                                 transaction?.operating_unit_id?.name
@@ -90,6 +91,11 @@ function SellDetailPage({ currentUser }) {
                                             <MapPinIcon className="size-5" />
                                             Buka di Google Maps
                                         </a>
+                                    ) : transaction?.state == 'purchased' && (
+                                        <div className="bg-green-50 border border-green-200 text-green-700 p-3 rounded-xl">
+                                            <p className="font-semibold">Selesai</p>
+                                            <p className="text-sm mt-1">Penyerahan mandiri Anda telah berhasil diproses.</p>
+                                        </div>
                                     )}
                                 </div>
                             ) : (
@@ -101,7 +107,7 @@ function SellDetailPage({ currentUser }) {
                                         Alamat Penjemputan: {transaction?.delivery_address_id?.name}
                                     </p>
 
-                                    {transaction?.state != 'waiting_approve' ? (
+                                    {transaction?.state == 'waiting_approval' ? (
                                         <div className="bg-yellow-50 border border-yellow-200 text-yellow-700 p-3 rounded-xl">
                                             <div className="flex items-center gap-1 font-semibold">
                                                 <ClockIcon className="size-5" />
@@ -109,13 +115,18 @@ function SellDetailPage({ currentUser }) {
                                             </div>
                                             <p className="text-sm mt-1">Menunggu konfirmasi untuk jadwal penjemputan.</p>
                                         </div>
-                                    ) : (
+                                    ) : transaction?.state == 'waiting_process' ? (
                                         <div className="bg-teal-50 border border-teal-200 text-teal-700 p-3 rounded-xl">
                                             <p className="font-semibold">Penjemputan Dijadwalkan</p>
                                             <p className="text-sm mt-1">
                                                 Kurir akan datang pada{" "}
                                                 <strong>{transaction?.scheduled_date ? formatDate(transaction?.scheduled_date) : "-"}</strong>.
                                             </p>
+                                        </div>
+                                    ) : transaction?.state == 'purchased' && (
+                                        <div className="bg-green-50 border border-green-200 text-green-700 p-3 rounded-xl">
+                                            <p className="font-semibold">Selesai</p>
+                                            <p className="text-sm mt-1">Penjemputan telah berhasil diselesaikan.</p>
                                         </div>
                                     )}
                                 </div>
@@ -165,6 +176,26 @@ function SellDetailPage({ currentUser }) {
                                     <p>Total Estimasi EcoCoin</p>
                                     <p className="font-semibold text-(--main-color)">
                                         Rp {transaction?.estimate_total_amount?.toLocaleString("id-ID")}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-4 mb-4">
+                            <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                                Total EcoCoin
+                            </h2>
+                            <div className="text-sm">
+                                <div className="flex items-center justify-between mt-3">
+                                    <p>Total Berat Diterima</p>
+                                    <p className="font-semibold text-(--main-color)">
+                                        {transaction?.line_ids?.reduce((sum, i) => sum + i.valid_qty, 0)} kg
+                                    </p>
+                                </div>
+                                <div className="flex items-center justify-between mt-3">
+                                    <p>Total EcoCoin Didapatkan</p>
+                                    <p className="font-semibold text-(--main-color)">
+                                        Rp {transaction?.total_amount?.toLocaleString("id-ID")}
                                     </p>
                                 </div>
                             </div>

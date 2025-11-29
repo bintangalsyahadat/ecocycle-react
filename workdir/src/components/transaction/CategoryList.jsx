@@ -15,6 +15,7 @@ export default function CategoryList({ items, onUpdateCount, readonly }) {
                         key={item.name}
                         name={item.name}
                         desc={item.description}
+                        image={item.image}
                         price={item.price}
                         count={item.qty}
                         setCount={(val) => onUpdateCount(item.name, val)}
