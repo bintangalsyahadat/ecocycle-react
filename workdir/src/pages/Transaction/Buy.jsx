@@ -156,6 +156,7 @@ const BuyPage = ({ currentUser }) => {
                     items={items}
                     setItems={setItems}
                     onNext={() => setStep(2)}
+                    type={"buy"}
                 />
             )}
 

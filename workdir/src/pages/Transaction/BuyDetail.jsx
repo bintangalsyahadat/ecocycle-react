@@ -17,7 +17,7 @@ function BuyDetailPage({ currentUser }) {
     }, [noTransaction]);
 
     const getTransactionDetail = async () => {
-        const resTransaction = await fetchBuyTransaction(noTransaction, currentUser.id);
+        const resTransaction = await fetchBuyTransaction(noTransaction, currentUser?.id);
 
         if (resTransaction?.delivery_method_id?.id) {
             const resDeliveryMethod = await fetchDeliveryMethod(resTransaction?.delivery_method_id?.id);
@@ -60,6 +60,7 @@ function BuyDetailPage({ currentUser }) {
                                     price={item.unit_price}
                                     count={item.qty}
                                     readonly={true}
+                                    type={"buy"}
                                 />
                             ))}
                         </div>

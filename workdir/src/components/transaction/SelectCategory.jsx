@@ -1,6 +1,6 @@
 import CategoryCard from "./CategoryCard";
 
-export default function SelectCategory({ categories, items, setItems, onNext }) {
+export default function SelectCategory({ categories, items, setItems, onNext, type }) {
   const updateCount = (key, value) => {
     setItems({ ...items, [key]: value });
   };
@@ -37,6 +37,7 @@ export default function SelectCategory({ categories, items, setItems, onNext }) 
               price={cat.purchase_price}
               count={items[cat.name]}
               setCount={val => updateCount(cat.name, val)}
+              type={type}
             />
           ))}
         </div>
@@ -45,9 +46,16 @@ export default function SelectCategory({ categories, items, setItems, onNext }) 
           <div className="bg-white border-t border-gray-200 shadow-lg rounded-full py-4 px-6 flex items-center justify-between">
             <div>
               <p className="text-gray-500 text-sm">Estimasi Total</p>
-              <p className="text-xl font-bold text-(--main-color)">
+              {type == "buy" ? <p className="text-xl font-bold text-(--main-color)">
                 Rp {totalHarga.toLocaleString("id-ID")}
-              </p>
+              </p> : <div className="flex items-center font-semibold text-[color:var(--main-color)]">
+                <img
+                  src="/images/ecopoint/coin.png"
+                  alt="coin"
+                  className="w-5 h-5 me-1"
+                /> <p>{totalHarga.toLocaleString("id-ID")}</p>
+              </div>}
+
             </div>
             <button
               onClick={handleNext}

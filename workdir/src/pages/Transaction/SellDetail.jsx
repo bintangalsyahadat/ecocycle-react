@@ -174,9 +174,13 @@ function SellDetailPage({ currentUser }) {
                                 </div>
                                 <div className="flex items-center justify-between mt-3">
                                     <p>Total Estimasi EcoCoin</p>
-                                    <p className="font-semibold text-(--main-color)">
-                                        Rp {transaction?.estimate_total_amount?.toLocaleString("id-ID")}
-                                    </p>
+                                    <div className="flex items-center font-semibold text-[color:var(--main-color)]">
+                                        <img
+                                            src="/images/ecopoint/coin.png"
+                                            alt="coin"
+                                            className="w-5 h-5 me-1"
+                                        /> <p>{transaction?.estimate_total_amount?.toLocaleString("id-ID")}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -194,9 +198,13 @@ function SellDetailPage({ currentUser }) {
                                 </div>
                                 <div className="flex items-center justify-between mt-3 font-bold">
                                     <p>Total EcoCoin Didapatkan</p>
-                                    <p className="font-semibold text-(--main-color) text-lg">
-                                        Rp {transaction?.total_amount?.toLocaleString("id-ID")}
-                                    </p>
+                                    <div className="flex text-lg items-center font-semibold text-[color:var(--main-color)]">
+                                        <img
+                                            src="/images/ecopoint/coin.png"
+                                            alt="coin"
+                                            className="w-5 h-5 me-1"
+                                        /> <p>{transaction?.total_amount?.toLocaleString("id-ID")}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>}
