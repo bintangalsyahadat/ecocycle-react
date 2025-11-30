@@ -38,8 +38,8 @@ function App() {
           <Route path="/transaction/buy" element={<Buy />} />
           <Route path="/transaction/buy/:noTransaction" element={<BuyDetail />} />
            
-          <Route path="/EcoPoint" element={<EcoPoint />} />
-          <Route path="/ecopoint/RiwayatAktivitas" element={<RiwayatAktivitas />} />
+          <Route path="/ecopoint" element={<EcoPoint />} />
+          <Route path="/ecopoint/history" element={<RiwayatAktivitas />} />
           <Route path="/ecoplanner" element={<EcoPlanner />} />
           <Route path="/ecoplanner/RencanaBaru" element={<RencanaBaru />} />
           <Route path="/ecoplanner/PlannerDetail" element={<PlannerDetail />} />

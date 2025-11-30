@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function CategoryCard({ name, desc, image, count, setCount, price, readonly }) {
+export default function CategoryCard({ name, desc, image, count, setCount, price, readonly, type }) {
     const [total, setTotal] = useState(0);
 
     useEffect(() => {
@@ -31,9 +31,15 @@ export default function CategoryCard({ name, desc, image, count, setCount, price
                             <h3>
                                 {name}
                             </h3>
-                            <p className="ml-4 text-sm">
+                            {type == "buy" ? <p className="ml-4 text-sm">
                                 Rp {price?.toLocaleString("id-ID")} /kg
-                            </p>
+                            </p> : <div className="flex items-center ml-4 text-sm">
+                                <img
+                                    src="/images/ecopoint/coin.png"
+                                    alt="coin"
+                                    className="w-5 h-5"
+                                /> <p>{price?.toLocaleString("id-ID")} /kg</p>
+                            </div>}
                         </div>
                         <p className="mt-1 text-xs text-gray-500">{desc}</p>
                     </div>
@@ -61,11 +67,17 @@ export default function CategoryCard({ name, desc, image, count, setCount, price
                             </div>
                         )}
 
-                        <div className="mt-3 text-right text-sm text-gray-600">
-                            Total:{" "}
-                            <span className="font-semibold text-base text-(--main-color)">
+                        <div className="flex items-center mt-3 text-right text-sm text-gray-600">
+                            <p className="me-1">Total:</p>
+                            {type == "buy" ? <p className="font-semibold text-base text-(--main-color)">
                                 Rp {total.toLocaleString("id-ID")}
-                            </span>
+                            </p> : <div className="flex items-center font-semibold text-base text-(--main-color)">
+                                <img
+                                    src="/images/ecopoint/coin.png"
+                                    alt="coin"
+                                    className="w-5 h-5"
+                                /> <p>{total.toLocaleString("id-ID")}</p>
+                            </div>}
                         </div>
                     </div>
                 </div>
