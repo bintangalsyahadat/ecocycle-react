@@ -139,7 +139,7 @@ export default function MapView() {
               width: "50px",
               height: "50px",
               border: "6px solid #ccc",
-              borderTop: "6px solid #007bff",
+              borderTop: "6px solid #01A3B0",
               borderRadius: "50%",
               animation: "spin 1s linear infinite",
             }}

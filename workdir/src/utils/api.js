@@ -109,6 +109,45 @@ export const fetchCategories = async () => {
         });
 }
 
+export const fetchDailyPointReward = async () => {
+    const config = {
+        method: 'get',
+        url: `${API_BASE_URL}/res/daily-point-reward`,
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    return axios.request(config)
+        .then((response) => {
+            return response.data.result;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+export const userDailyCheck = async (id) => {
+    const config = {
+        method: 'post',
+        url: `${API_BASE_URL}/res/user/${id}/check`,
+        data: data,
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    return axios.request(config)
+        .then((response) => {
+            return response.data.result;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
 export const fetchDeliveryMethod = async (id = null, type = null) => {
     const config = {
         method: 'get',
