@@ -58,7 +58,7 @@ export default function RencanaBaru() {
                                 type="number"
                                 value={weight}
                                 onChange={(e) => setWeight(e.target.value)}
-                                className="w-full border rounded-lg p-2 mb-4 focus:ring focus:ring-[#00A8A8]"
+                                className="w-full border rounded-lg p-2 mb-4 focus:ring focus:ring-[#00A8A8]"       
                                 placeholder="Berat (kg)"
                             />
 
@@ -93,7 +93,7 @@ export default function RencanaBaru() {
                     <div className="text-center mt-6">
                         <p className="font-semibold text-lg text-[#008C8C]">Estimasi Poin</p>
                         <div className="text-5xl flex justify-center text-[#00A8A8] mt-2">
-                            <img src="/src/assets/images/ecoplanner/point.png" className="w-20" />
+                            <img src="/public/images/ecoplanner/point.png" className="w-20" />
                         </div>
                         <p className="text-3xl font-bold text-[#00A8A8] mt-1">+{weight * 5}</p>
                         <p className="text-sm text-gray-500">(Poin dasar + bonus keaktifan)</p>

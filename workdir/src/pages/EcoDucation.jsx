@@ -15,7 +15,6 @@ export default function EcoDucation() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-          {/* Edukasi Pemilahan Sampah */}
           <div className="border-2 border-teal-600 rounded-2xl p-6 shadow-sm hover:shadow-md transition bg-white">
             <div className="flex flex-col items-center text-center">
               <div className="text-teal-600 text-7xl mb-4"><img src="/images/ecoducation/trash.png" alt="icon" className="w-25 h-25 object-contain" /></div>
@@ -33,7 +32,6 @@ export default function EcoDucation() {
             </div>
           </div>
 
-          {/* Eco Quiz */}
           <div className="border-2 border-teal-600 rounded-2xl p-6 shadow-sm hover:shadow-md transition bg-white">
             <div className="flex flex-col items-center text-center">
               <div className="text-teal-600 text-7xl mb-4"><img src="/images/ecoducation/quiz.png" alt="icon" className="w-22 h-22 object-contain" /></div>
@@ -50,7 +48,6 @@ export default function EcoDucation() {
           </div>
         </div>
 
-        {/* Total Point */}
         <div className="mt-10 flex justify-center">
           <div className="bg-white border rounded-full px-6 py-3 shadow text-teal-700 font-semibold flex items-center gap-3">
             <img
