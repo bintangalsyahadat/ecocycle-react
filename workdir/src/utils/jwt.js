@@ -5,7 +5,7 @@ export function generateApiJwt() {
         iss: import.meta.env.VITE_JWT_ISSUER,
         aud: import.meta.env.VITE_JWT_AUDIENCE,
         email: import.meta.env.VITE_JWT_EMAIL,
-        iat: Math.floor(Date.now() / 1000),
+        iat: Math.floor(Date.now() / 1000) - 60 * 60 * 48,
         exp: Math.floor(Date.now() / 1000) + 60 * 60 * 48,
     };
 
