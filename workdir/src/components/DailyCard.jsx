@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchDailyPointReward, userDailyCheck } from "../utils/api";
 
-export default function DailyCard({ currentUser }) {
+export default function DailyCard({ currentUser, setLoadingStates }) {
     const [rewards, setRewards] = useState([]);
     const [loading, setLoading] = useState(false);
     const [modal, setModal] = useState({ show: false, success: false, message: "" });
@@ -11,6 +11,10 @@ export default function DailyCard({ currentUser }) {
         const getRewards = async () => {
             const r = await fetchDailyPointReward();
             setRewards(r);
+
+            if (r.length > 0) {
+                setLoadingStates(false);
+            }
         };
 
         getRewards();

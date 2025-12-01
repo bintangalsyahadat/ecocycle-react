@@ -10,14 +10,50 @@ import SearchInput from "../components/SearchInput";
 import { useAuth } from "../contexts/authContext";
 import { FaClockRotateLeft } from "react-icons/fa6";
 import UserGretting from "../components/UserGreeting";
-
+import Spinner from "../components/Spinner";
+import { useEffect, useState } from "react";
 
 export default function Dashboard() {
+  const [loadingStates, setLoadingStates] = useState({
+    daily: true,
+    categories: true,
+  });
   const { currentUser, userLoggedIn, loading } = useAuth();
+  const allLoading = Object.values(loadingStates).some(l => l);
+
+  useEffect(() => {
+    if (!allLoading && !loading) return;
+
+    const timer = setTimeout(() => {
+      if (allLoading || loading) {
+        window.location.reload();
+      }
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  }, [allLoading, loading]);
+
+  if (!userLoggedIn) return <Navigate to="/login" replace />;
 
   return (
-    <>
-      {!userLoggedIn ? <Navigate to="/login" replace={true} /> : <div className="bg-[#F8F9FA]">
+    <div className="relative">
+      {(loading || allLoading || !currentUser) && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(255, 255, 255, 0.8)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 999999,
+          }}
+        >
+          <Spinner label="Please Wait..." />
+        </div>
+      )}
+
+      <div className={`bg-[#F8F9FA] ${loading || allLoading || !currentUser ? "hidden" : ""}`}>
         <Navbar />
 
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 mt-5">
@@ -34,7 +70,11 @@ export default function Dashboard() {
                     src="/images/ecopoint/coin.png"
                     alt="coin"
                     className="w-6 h-6 me-1"
-                  /> <p>{currentUser.total_coin}</p>
+                  />
+                  <p>{currentUser.total_coin}</p>
+                  <button className="text-gray-400 hover:text-[color:var(--main-color)] text-sm ms-2 cursor-pointer" title="History">
+                    <FaClockRotateLeft />
+                  </button>
                 </div>
               </div>
               <div>
@@ -53,7 +93,7 @@ export default function Dashboard() {
             </div>
 
             <div className="hidden md:block col-span-20 row-span-4">
-              <DailyCard currentUser={currentUser} />
+              <DailyCard currentUser={currentUser} setLoadingStates={(v) => setLoadingStates(prev => ({ ...prev, daily: v }))} />
             </div>
 
             <div className="md:row-span-5 col-span-full md:col-auto">
@@ -66,7 +106,7 @@ export default function Dashboard() {
           <div className="bg-white w-full rounded-2xl shadow-lg p-3 h-full relative mb-5">
             <p className="font-bold text-[color:var(--main-color)]">Recyclable Categories</p>
           </div>
-          <RecyclableCategories />
+          <RecyclableCategories setLoadingStates={(v) => setLoadingStates(prev => ({ ...prev, categories: v }))} />
 
           <div className="bg-white w-full rounded-2xl shadow-lg p-3 h-full relative mt-5 mb-5">
             <p className="font-bold text-[color:var(--main-color)]">EcoCycle Location</p>
@@ -84,8 +124,7 @@ export default function Dashboard() {
         </div>
 
         <FooterPortal />
-      </div>}
-    </>
-
+      </div>
+    </div>
   );
 }

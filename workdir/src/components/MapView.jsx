@@ -5,6 +5,7 @@ import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { fetchOperatingUnits } from "../utils/api";
+import Spinner from "./Spinner";
 
 // Fix Leaflet icons
 delete L.Icon.Default.prototype._getIconUrl;
@@ -13,20 +14,17 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-// Delay (Nominatim required)
+// Delay helper
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 // Base geocode
 async function geocodeAddress(fullAddress) {
   const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
     fullAddress
-  )}`;
+  )}&email=your-email@example.com`; // Nominatim email parameter
 
   try {
-    const res = await fetch(url, {
-      headers: { "User-Agent": "ReactLeafletApp/1.0" },
-    });
-
+    const res = await fetch(url);
     const data = await res.json();
     if (!data || data.length === 0) return null;
 
@@ -45,7 +43,7 @@ async function geocodeAddressWithCache(fullAddress) {
   const cached = localStorage.getItem(fullAddress);
   if (cached) return JSON.parse(cached);
 
-  // delay 1 detik → mengikuti aturan Nominatim, mencegah error incognito
+  // Delay untuk Nominatim rate limit
   await delay(1000);
 
   const coords = await geocodeAddress(fullAddress);
@@ -54,14 +52,14 @@ async function geocodeAddressWithCache(fullAddress) {
   return coords;
 }
 
-// Build full address
+// Build full address safely
 function buildFullAddress(address) {
   return [
-    address.street,
-    address.city,
-    address?.state_id?.name,
-    address.zip,
-    address?.country_id?.name,
+    address.street ?? "",
+    address.city ?? "",
+    address?.state_id?.name ?? "",
+    address.zip ?? "",
+    address?.country_id?.name ?? "",
   ]
     .filter(Boolean)
     .join(", ");
@@ -79,7 +77,7 @@ function AutoZoom({ locations }) {
       padding: [50, 50],
       maxZoom: 15,
     });
-  }, [locations]);
+  }, [locations, map]);
 
   return null;
 }
@@ -92,26 +90,35 @@ export default function MapView() {
     async function loadLocations() {
       setLoading(true);
 
-      const branches = await fetchOperatingUnits();
-      const results = [];
+      try {
+        const branches = await fetchOperatingUnits();
 
-      for (const branch of branches) {
-        if (!branch.address?.id) continue;
+        const results = await Promise.all(
+          branches.map(async (branch) => {
+            if (!branch.address?.id) return null;
 
-        const fullAddress = buildFullAddress(branch.address);
-        const coords = await geocodeAddressWithCache(fullAddress);
+            const fullAddress = buildFullAddress(branch.address);
+            const coords = await geocodeAddressWithCache(fullAddress);
 
-        if (coords) {
-          results.push({
-            id: branch.address.id,
-            name: fullAddress,
-            coords: [coords.lat, coords.lon],
-          });
-        }
+            if (!coords) {
+              console.warn("Cannot geocode:", fullAddress);
+              return null;
+            }
+
+            return {
+              id: branch.address.id,
+              name: fullAddress,
+              coords: [coords.lat, coords.lon],
+            };
+          })
+        );
+
+        setLocations(results.filter(Boolean));
+      } catch (err) {
+        console.error("Error loading branches:", err);
+      } finally {
+        setLoading(false);
       }
-
-      setLocations(results);
-      setLoading(false);
     }
 
     loadLocations();
@@ -119,49 +126,10 @@ export default function MapView() {
 
   return (
     <div style={{ position: "relative" }}>
-      
       {loading && (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "rgba(255,255,255,0.8)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 9999,
-            flexDirection: "column",
-          }}
-        >
-          {/* Spinner */}
-          <div
-            style={{
-              width: "50px",
-              height: "50px",
-              border: "6px solid #ccc",
-              borderTop: "6px solid #01A3B0",
-              borderRadius: "50%",
-              animation: "spin 1s linear infinite",
-            }}
-          ></div>
-
-          <p style={{ marginTop: "15px", fontSize: "16px", fontWeight: "bold" }}>
-            Loading map...
-          </p>
-
-          {/* Spinner Animation Keyframes */}
-          <style>
-            {`
-              @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-              }
-            `}
-          </style>
-        </div>
+        <Spinner />
       )}
 
-      {/* 🗺️ Leaflet Map */}
       <MapContainer
         center={[-2.5, 117.5]}
         zoom={5}
@@ -169,7 +137,7 @@ export default function MapView() {
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-        <AutoZoom locations={locations} />
+        {locations.length > 0 && <AutoZoom locations={locations} />}
 
         {locations.map((loc) => (
           <Marker key={loc.id} position={loc.coords}>

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { fetchCategories } from "../utils/api";
 
-export default function RecyclableCategories() {
+export default function RecyclableCategories({ setLoadingStates }) {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -13,6 +13,10 @@ export default function RecyclableCategories() {
   const getCategories = async () => {
     const categoriesResult = await fetchCategories();
     setCategories(categoriesResult);
+
+    if (categoriesResult.length > 0) {
+      setLoadingStates(false);
+    }
   };
 
   const moveLeft = () => {
@@ -59,9 +63,9 @@ export default function RecyclableCategories() {
           >
             <div className="flex justify-center w-full">
               <img
-              src={`data:image/jpeg;base64,${item.image}`}
-              className=" object-cover"
-            />
+                src={`data:image/jpeg;base64,${item.image}`}
+                className=" object-cover"
+              />
             </div>
             <p className="text-sm">{item.name}</p>
           </div>
