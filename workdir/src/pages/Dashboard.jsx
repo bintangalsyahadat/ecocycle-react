@@ -21,17 +21,17 @@ export default function Dashboard() {
   const { currentUser, userLoggedIn, loading } = useAuth();
   const allLoading = Object.values(loadingStates).some(l => l);
 
-  useEffect(() => {
-    if (!allLoading && !loading) return;
+  // useEffect(() => {
+  //   if (!allLoading && !loading) return;
 
-    const timer = setTimeout(() => {
-      if (allLoading || loading) {
-        window.location.reload();
-      }
-    }, 10000);
+  //   const timer = setTimeout(() => {
+  //     if (allLoading || loading) {
+  //       window.location.reload();
+  //     }
+  //   }, 10000);
 
-    return () => clearTimeout(timer);
-  }, [allLoading, loading]);
+  //   return () => clearTimeout(timer);
+  // }, [allLoading, loading]);
 
   if (!userLoggedIn) return <Navigate to="/login" replace />;
 
