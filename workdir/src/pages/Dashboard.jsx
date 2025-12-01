@@ -71,7 +71,7 @@ export default function Dashboard() {
                     alt="coin"
                     className="w-6 h-6 me-1"
                   />
-                  <p>{currentUser.total_coin}</p>
+                  <p>{currentUser?.total_coin}</p>
                   <button className="text-gray-400 hover:text-[color:var(--main-color)] text-sm ms-2 cursor-pointer" title="History">
                     <FaClockRotateLeft />
                   </button>

@@ -12,7 +12,7 @@ export default function DailyCard({ currentUser, setLoadingStates }) {
             const r = await fetchDailyPointReward();
             setRewards(r);
 
-            if (r.length > 0) {
+            if (r?.length > 0) {
                 setLoadingStates(false);
             }
         };
@@ -86,7 +86,7 @@ export default function DailyCard({ currentUser, setLoadingStates }) {
             )}
 
             <div className="flex gap-2 rounded-lg items-stretch justify-between w-full mx-auto mb-3">
-                {rewards.map((r) => {
+                {rewards?.map((r) => {
                     const todaySequence = currentUser?.last_daily_check_on + 1;
 
                     const isToday = r.sequence === todaySequence; // hari sekarang

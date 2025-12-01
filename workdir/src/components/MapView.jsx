@@ -72,7 +72,7 @@ function AutoZoom({ locations }) {
   useEffect(() => {
     if (!locations || locations.length === 0) return;
 
-    const bounds = locations.map((loc) => loc.coords);
+    const bounds = locations?.map((loc) => loc.coords);
     map.fitBounds(bounds, {
       padding: [50, 50],
       maxZoom: 15,
@@ -94,7 +94,7 @@ export default function MapView() {
         const branches = await fetchOperatingUnits();
 
         const results = await Promise.all(
-          branches.map(async (branch) => {
+          branches?.map(async (branch) => {
             if (!branch.address?.id) return null;
 
             const fullAddress = buildFullAddress(branch.address);
@@ -139,7 +139,7 @@ export default function MapView() {
 
         {locations.length > 0 && <AutoZoom locations={locations} />}
 
-        {locations.map((loc) => (
+        {locations?.map((loc) => (
           <Marker key={loc.id} position={loc.coords}>
             <Popup>{loc.name}</Popup>
           </Marker>

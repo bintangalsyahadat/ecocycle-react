@@ -2,8 +2,11 @@ import axios from "axios";
 import { generateApiJwt } from "./jwt";
 import { data } from "react-router-dom";
 
-const token = generateApiJwt();
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+const getAuthHeader = () => ({
+  Authorization: `Bearer ${generateApiJwt()}`,
+});
 
 
 export const fetchUser = async (user) => {
@@ -12,7 +15,7 @@ export const fetchUser = async (user) => {
         url: `${API_BASE_URL}/res/user/${user.uid}`,
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
         },
     }
 
@@ -31,7 +34,7 @@ export const createUser = async (user) => {
         url: `${API_BASE_URL}/res/user/create`,
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
         },
         data: {
             firebase_uuid: user.uid,
@@ -55,7 +58,7 @@ export const fetchOperatingUnits = async () => {
         url: `${API_BASE_URL}/res/operating-units`,
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
         },
     }
 
@@ -77,7 +80,7 @@ export const updateUserOperatingUnit = async (user, operating_unit) => {
         },
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
         },
     }
 
@@ -96,7 +99,7 @@ export const fetchCategories = async () => {
         url: `${API_BASE_URL}/res/categories`,
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
         },
     }
 
@@ -115,7 +118,7 @@ export const fetchDailyPointReward = async () => {
         url: `${API_BASE_URL}/res/daily-point-reward`,
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
         },
     }
 
@@ -135,7 +138,7 @@ export const userDailyCheck = async (id) => {
         data: data,
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
         },
     }
 
@@ -154,7 +157,7 @@ export const fetchDeliveryMethod = async (id = null, type = null) => {
         url: `${API_BASE_URL}/res/delivery-method`,
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
         },
     }
 
@@ -173,7 +176,7 @@ export const fetchPaymentMethod = async (id = null) => {
         url: `${API_BASE_URL}/res/payment-method`,
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
         },
     }
 
@@ -194,7 +197,7 @@ export const createSellTransaction = async (data) => {
         data: data,
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
         },
     }
 
@@ -213,7 +216,7 @@ export const fetchSellTransaction = async (id, userId) => {
         url: `${API_BASE_URL}/purchase/${userId}/${id}`,
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
         },
     }
 
@@ -234,7 +237,7 @@ export const createBuyTransaction = async (data) => {
         data: data,
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
         },
     }
 
@@ -253,7 +256,7 @@ export const fetchBuyTransaction = async (id, userId) => {
         url: `${API_BASE_URL}/sale/${userId}/${id}`,
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
         },
     }
 

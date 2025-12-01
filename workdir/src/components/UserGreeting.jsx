@@ -11,7 +11,7 @@ export default function UserGretting({ currentUser }) {
     return (
         <div className="bg-white w-full rounded-2xl shadow-lg p-3 h-full relative mb-3">
             <p className="font-bold text-[color:var(--main-color)]">
-                {getGreeting()}, {currentUser.name} 👋
+                {getGreeting()}, {currentUser?.name} 👋
             </p>
         </div>
     );

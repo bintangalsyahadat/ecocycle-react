@@ -14,7 +14,7 @@ export default function RecyclableCategories({ setLoadingStates }) {
     const categoriesResult = await fetchCategories();
     setCategories(categoriesResult);
 
-    if (categoriesResult.length > 0) {
+    if (categoriesResult?.length > 0) {
       setLoadingStates(false);
     }
   };
@@ -48,7 +48,7 @@ export default function RecyclableCategories({ setLoadingStates }) {
           sm:px-8 md:px-16 pb-5
         "
       >
-        {categories.map((item) => (
+        {categories?.map((item) => (
           <div
             key={item.id}
             className={`
