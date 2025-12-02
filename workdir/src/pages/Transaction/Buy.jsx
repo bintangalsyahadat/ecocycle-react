@@ -138,7 +138,13 @@ const BuyPage = ({ currentUser }) => {
             };
 
             const transaction = await createBuyTransaction(data);
-            window.location.replace(`/transaction/buy/${transaction.name}`);
+            const checkout_url = transaction?.payment_ids?.[0]?.xendit_checkout_url;
+
+            if (checkout_url) {
+                window.location.replace(checkout_url);
+            } else {
+                window.location.replace(`/transaction/buy/${transaction?.name}`);
+            }
         } catch (err) {
             console.error(err);
             alert("Gagal membuat transaksi, coba lagi");

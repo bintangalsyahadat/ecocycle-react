@@ -97,7 +97,12 @@ function BuyDetailPage({ currentUser }) {
                             )}
                         </>
 
-                        <PaymentInfo payment={transaction?.payment_method_id} />
+                        {transaction?.state === "waiting_payment" && transaction?.payment_ids?.[0]?.xendit_checkout_url && <button
+                            onClick={() => window.location.replace(transaction.payment_ids[0].xendit_checkout_url)}
+                            className={`w-full font-semibold px-6 py-3 rounded-full transition bg-[var(--main-color)] hover:bg-[var(--main-color-hover)] text-white cursor-pointer`}
+                        >
+                            Bayar Sekarang
+                        </button>}
 
                         <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-5 space-y-3">
 
@@ -153,6 +158,12 @@ function BuyDetailPage({ currentUser }) {
                                 Total Pembayaran
                             </h2>
                             <div className="text-sm">
+                                <div className="flex items-center justify-between mt-3">
+                                    <p>Metode Pembayaran</p>
+                                    <p className="">
+                                        {transaction?.payment_method_id?.name}
+                                    </p>
+                                </div>
                                 <div className="flex items-center justify-between mt-3">
                                     <p>Total Berat</p>
                                     <p className="font-semibold text-(--main-color)">
