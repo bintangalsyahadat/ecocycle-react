@@ -12,12 +12,12 @@ import Buy from "./pages/Transaction/Buy";
 import SellDetail from "./pages/Transaction/SellDetail";
 import BuyDetail from "./pages/Transaction/BuyDetail";
 import EcoPoint from "./pages/EcoPoint";
-import RiwayatAktivitas from "./components/ecopoint/RiwayatAktivitas";
+import History from "./components/ecopoint/History";
 import EcoPlanner from "./pages/EcoPlanner";
-import RencanaBaru from "./components/ecoplanner/RencanaBaru";
+import NewPlanner from "./components/ecoplanner/NewPlanner";
 import PlannerDetail from "./components/ecoplanner/PlannerDetail";
 import EcoDucation from "./pages/EcoDucation";
-import Edukasi from "./components/ecoducation/Edukasi";
+import Education from "./components/ecoducation/Education";
 import Quiz from "./components/ecoducation/Quiz";
 import Profile from "./components/Profile";
 import AddressList from "./components/AddAddress";
@@ -49,12 +49,12 @@ function App() {
           <Route path="/transaction/buy/:noTransaction" element={<BuyDetail />} />
 
           <Route path="/ecopoint" element={<EcoPoint />} />
-          <Route path="/ecopoint/history" element={<RiwayatAktivitas />} />
+          <Route path="/ecopoint/history" element={<History />} />
           <Route path="/ecoplanner" element={<EcoPlanner />} />
-          <Route path="/ecoplanner/RencanaBaru" element={<RencanaBaru />} />
+          <Route path="/ecoplanner/newplanner" element={<NewPlanner />} />
           <Route path="/ecoplanner/PlannerDetail" element={<PlannerDetail />} />
           <Route path="/ecoducation" element={<EcoDucation />} />
-          <Route path="/ecoducation/edukasi" element={<Edukasi />} />
+          <Route path="/ecoducation/education" element={<Education />} />
           <Route path="/ecoducation/quiz" element={<Quiz />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/address" element={<AddressList />} />

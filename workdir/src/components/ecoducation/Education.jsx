@@ -1,8 +1,8 @@
-import Navbar from "../../components/navbar/Navbar";
+import Navbar from "../navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
-export default function Edukasi() {
+export default function Education() {
   const navigate = useNavigate();
 
   return (

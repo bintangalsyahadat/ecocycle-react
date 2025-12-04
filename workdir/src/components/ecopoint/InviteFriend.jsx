@@ -27,7 +27,7 @@ export default function AjakTeman({ open, onClose }) {
                         {/* HEADER */}
                         <div className="flex justify-center items-center gap-2 mt-2">
                             <FaUserPlus className="text-[color:var(--main-color)]" size={22} />
-                            <h1 className="text-2xl font-semibold text-gray-700">Ajak Teman</h1>
+                            <h1 className="text-2xl font-semibold text-gray-700">Invite Friends</h1>
                         </div>
 
                         {/* KODE REFERRAL */}
@@ -42,14 +42,14 @@ export default function AjakTeman({ open, onClose }) {
                                 onClick={() => copyText(kodeReferral)}
                                 className="bg-[color:var(--main-color)] hover:bg-teal-700 text-white px-5 py-2 rounded-lg"
                             >
-                                Salin
+                                Copy
                             </button>
                         </div>
 
                         {/* CARA BERGABUNG */}
                         <div className="mt-6 bg-[#F7F7EE] p-4 rounded-xl">
                             <h2 className="font-semibold text-gray-700 text-lg text-center">
-                                Cara Bergabung
+                                How To Get Reward
                             </h2>
 
                             <div className="flex justify-between items-center mt-4 text-gray-700 text-sm">
@@ -77,7 +77,7 @@ export default function AjakTeman({ open, onClose }) {
                                 onClick={() => copyText(linkBagikan)}
                                 className="w-full bg-[color:var(--main-color)] hover:bg-teal-700 text-white py-3 rounded-lg mt-5"
                             >
-                                Salin Link Untuk Bagikan
+                                Copy the link to share
                             </button>
                         </div>
 
@@ -88,13 +88,13 @@ export default function AjakTeman({ open, onClose }) {
                                 className="bg-[color:var(--main-color)] hover:bg-teal-700 text-white flex flex-col items-center rounded-lg py-3"
                             >
                                 <FaWhatsapp size={28} />
-                                <p className="text-sm mt-2">Bagikan di whatsapp</p>
+                                <p className="text-sm mt-2">Share to WhatsApp</p>
                             </button>
 
                             <button className="bg-[color:var(--main-color)] hover:bg-teal-700 text-white flex flex-col items-center rounded-lg py-3"
                             >
                                 <FaShareAlt size={28} />
-                                <p className="text-sm mt-2">Bagikan</p>
+                                <p className="text-sm mt-2">Share</p>
                             </button>
 
                             <button
@@ -102,7 +102,7 @@ export default function AjakTeman({ open, onClose }) {
                                 className="bg-[color:var(--main-color)] hover:bg-teal-700 text-white flex flex-col items-center rounded-lg py-3"
                             >
                                 <FaLink size={28} />
-                                <p className="text-sm mt-2">Salin Tautan</p>
+                                <p className="text-sm mt-2">Share Link</p>
                             </button>
                         </div>
                     </div>

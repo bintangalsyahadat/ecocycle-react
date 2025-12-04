@@ -58,7 +58,7 @@ export default function Dashboard() {
                   <img
                     src="/images/ecopoint/coin.png"
                     alt="coin"
-                    className="w-6 h-6 me-1"
+                    className="w-5 me-1"
                   />
                   <p>{currentUser?.total_coin}</p>
                   <button className="text-gray-400 hover:text-[color:var(--main-color)] text-sm ms-2 cursor-pointer" title="History">

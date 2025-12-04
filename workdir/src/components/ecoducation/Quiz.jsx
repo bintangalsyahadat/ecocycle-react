@@ -40,26 +40,32 @@ export default function Quiz() {
   ];
 
   const [index, setIndex] = useState(0);
+  const [locked, setLocked] = useState(false);
   const [answers, setAnswers] = useState(Array(questions.length).fill(null));
   const [isCorrect, setIsCorrect] = useState(null);
   const [isFinished, setIsFinished] = useState(false);
 
   const handleSelect = (option) => {
+    if (locked) return;
     const newAnswers = [...answers];
     newAnswers[index] = option;
     setAnswers(newAnswers);
     setIsCorrect(option === correctAnswers[index]);
+    setLocked(true);
   };
 
   const nextQuestion = () => {
+    if (!answers[index]) return;
     if (index < questions.length - 1) {
+      const nextAns = answers[index + 1];
       setIndex(index + 1);
+      setLocked(!!nextAns);
       setIsCorrect(
         answers[index + 1] === correctAnswers[index + 1]
           ? true
           : answers[index + 1]
-          ? false
-          : null
+            ? false
+            : null
       );
     }
   };
@@ -67,12 +73,13 @@ export default function Quiz() {
   const prevQuestion = () => {
     if (index > 0) {
       setIndex(index - 1);
+      setLocked(!!answers[index - 1]);
       setIsCorrect(
         answers[index - 1] === correctAnswers[index - 1]
           ? true
           : answers[index - 1]
-          ? false
-          : null
+            ? false
+            : null
       );
     }
   };
@@ -80,6 +87,8 @@ export default function Quiz() {
   const score = answers.filter((ans, i) => ans === correctAnswers[i]).length;
   const reward = score * 5;
   const totalPoint = 7777 + reward;
+
+
 
   // ==========================================================================================
   //  HALAMAN HASIL QUIZ
@@ -94,7 +103,7 @@ export default function Quiz() {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-3xl mx-auto px-4 py-10"
         >
-          <h2 className="text-2xl font-bold mb-4">Hasil ECO Quiz</h2>
+          <h2 className="text-2xl font-bold mb-4">ECO Quiz Result</h2>
           <p className="text-gray-600 mb-6">Berikut hasil yang kamu peroleh!</p>
 
           <motion.div
@@ -178,7 +187,7 @@ export default function Quiz() {
           className="bg-white p-6 rounded-2xl shadow-lg border border-teal-200"
         >
           <p className="text-sm text-gray-600 font-semibold mb-2">
-            Pertanyaan {index + 1}/{questions.length}
+            Question {index + 1}/{questions.length}
           </p>
 
           <h3 className="text-lg font-semibold mb-4">{questions[index].q}</h3>
@@ -195,10 +204,10 @@ export default function Quiz() {
                 if (opt === userAnswer) {
                   style =
                     opt === correct
-                      ? "bg-green-400 border-green-500 text-white"
+                      ? "bg-[color:var(--main-color)] border-[color:var(--main-color)] text-white"
                       : "bg-red-400 border-red-500 text-white";
                 } else if (opt === correct) {
-                  style = "bg-green-300 border-green-400 text-white";
+                  style = "bg-[color:var(--main-color)] border-[color:var(--main-color)] text-white";
                 }
               }
 
@@ -214,6 +223,7 @@ export default function Quiz() {
                     name={`answer-${index}`}
                     value={opt}
                     checked={answers[index] === opt}
+                    disabled={locked}
                     onChange={() => handleSelect(opt)}
                     className="w-5 h-5"
                   />
@@ -227,9 +237,8 @@ export default function Quiz() {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className={`mt-4 font-bold ${
-                isCorrect ? "text-green-600" : "text-red-600"
-              }`}
+              className={`mt-4 font-bold ${isCorrect ? "text-[color:var(--main-color)]" : "text-red-600"
+                }`}
             >
               {isCorrect ? "Benar!" : "Salah!"}
             </motion.p>
@@ -244,19 +253,22 @@ export default function Quiz() {
             onClick={prevQuestion}
             className="cursor-pointer bg-[color:var(--main-color)] px-5 py-2 rounded-full text-white disabled:bg-gray-300"
           >
-            Sebelumnya
+            Back
           </motion.button>
 
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => {
               if (index === questions.length - 1) {
+                if (!answers[index]) return;
                 setIsFinished(true);
               } else nextQuestion();
             }}
+
+            disabled={!answers[index]}
             className="cursor-pointer bg-[color:var(--main-color)] px-5 py-2 rounded-full text-white"
           >
-            {index === questions.length - 1 ? "Lihat Hasil" : "Selanjutnya →"}
+            {index === questions.length - 1 ? "Show Result" : "Next →"}
           </motion.button>
         </div>
       </div>

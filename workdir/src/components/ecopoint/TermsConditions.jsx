@@ -24,7 +24,7 @@ export default function SyaratKetentuan({ open, onClose }) {
               </button>
 
               <h2 className="text-2xl font-bold text-center mb-4">
-                Syarat & Ketentuan
+                Terms & Conditions
               </h2>
 
               <ol className="list-decimal ml-5 space-y-2 text-gray-700 text-sm">
