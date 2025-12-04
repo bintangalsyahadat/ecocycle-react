@@ -40,9 +40,9 @@ export default function RencanaSelesai() {
             </div>
 
             <div className="flex flex-col items-center text-center">
-              <div className="rounded-full p-2 w-55 h-48 overflow-hidden flex items-center justify-center">
+              <div className="rounded-full p-2 w-48 h-48 overflow-hidden flex items-center justify-center">
                 <img
-                  src="/images/ecoplanner/point.png"
+                  src="/images/ecopoint/point.png"
                   alt="Foto"
                   className="w-full h-full object-cover"
                 />

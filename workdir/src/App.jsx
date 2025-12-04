@@ -19,6 +19,16 @@ import PlannerDetail from "./components/ecoplanner/PlannerDetail";
 import EcoDucation from "./pages/EcoDucation";  
 import Edukasi from "./components/ecoducation/Edukasi";
 import Quiz from "./components/ecoducation/Quiz";
+import Profile from "./components/Profile";
+import AddressList from "./components/AddAddress";
+import Pesanan from "./components/Pesanan";
+import EditName from "./components/EditName";
+import EditEmail from "./components/EditEmail";
+import EditPhone from "./components/EditPhone";
+import EditPassword from "./components/EditPassword";
+import Withdraw from "./components/Withdraw";
+import EcoMunity from "./pages/EcoMunity";
+import Comment from "./components/ecomunity/Comment";
 
 
 function App() {
@@ -46,6 +56,16 @@ function App() {
           <Route path="/ecoducation" element={<EcoDucation />} />
           <Route path="/ecoducation/Edukasi" element={<Edukasi />} />
           <Route path="/ecoducation/Quiz" element={<Quiz />} />
+          <Route path="/components/profile" element={<Profile />} />
+          <Route path="/components/addresslist" element={<AddressList />} />
+          <Route path="/components/pesanan" element={<Pesanan />} />
+          <Route path="/components/editname" element={<EditName />} />
+          <Route path="/components/editemail" element={<EditEmail />} />
+          <Route path="/components/editphone" element={<EditPhone />} />
+          <Route path="/components/editpassword" element={<EditPassword/>} />
+          <Route path="/components/withdraw" element={<Withdraw/>} />
+          <Route path="/ecomunity" element={<EcoMunity/>} />
+          <Route path="/ecomunity/Comment" element={<Comment/>} />
         </Routes>
       </AuthProvider>
 

@@ -1,64 +1,113 @@
 import Navbar from "../components/navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-
+import { motion } from "framer-motion";
 
 export default function EcoDucation() {
   const navigate = useNavigate();
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#F8F9FA] from-white to-teal-50">
       <Navbar />
 
       <div className="max-w-5xl mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold text-gray-800">EcoDucation</h1>
-        <p className="text-gray-600 mt-2">
-          Yuk, Belajar daur ulang dan uji pengetahuanmu tentang lingkungan!
-        </p>
+        {/* TITLE */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1 className="text-4xl font-bold text-gray-800">EcoDucation</h1>
+          <p className="text-gray-600 mt-2 text-lg">
+            Yuk, belajar daur ulang dan uji pengetahuanmu tentang lingkungan!
+          </p>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-          <div className="border-2 border-teal-600 rounded-2xl p-6 shadow-sm hover:shadow-md transition bg-white">
+        {/* CARDS */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+          {/* EDUKASI CARD */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            whileHover={{ scale: 1.03 }}
+            className="rounded-3xl p-6 border border-[color:var(--main-color)] bg-white/70 backdrop-blur-md shadow-md hover:shadow-xl transition cursor-pointer"
+            onClick={() => navigate("/ecoducation/Edukasi")}
+          >
             <div className="flex flex-col items-center text-center">
-              <div className="text-teal-600 text-7xl mb-4"><img src="/images/ecoducation/trash.png" alt="icon" className="w-25 h-25 object-contain" /></div>
-              <h2 className="text-xl font-semibold text-gray-800">
+              <img
+                src="/images/ecoducation/trash.png"
+                alt="icon"
+                className="w-24 h-24 mb-4 drop-shadow-md"
+              />
+
+              <h2 className="text-2xl font-semibold text-gray-800">
                 Edukasi Pemilahan Sampah
               </h2>
               <p className="text-gray-600 mt-2">
                 Pelajari cara memilah sampah dan best practice daur ulang
               </p>
-              <button
-                onClick={() => navigate("/ecoducation/Edukasi")}
-                className="mt-5 bg-teal-600 text-white px-5 py-2 rounded-full hover:bg-teal-700 transition">
-                Pelajari lebih lanjut →
-              </button>
-            </div>
-          </div>
 
-          <div className="border-2 border-teal-600 rounded-2xl p-6 shadow-sm hover:shadow-md transition bg-white">
+              <motion.button
+                whileHover={{ x: 5 }}
+                className="mt-6 bg-[color:var(--main-color)] text-white px-6 py-2 rounded-full hover:bg-teal-700 transition font-medium"
+              >
+                Pelajari lebih lanjut →
+              </motion.button>
+            </div>
+          </motion.div>
+
+          {/* QUIZ CARD */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            whileHover={{ scale: 1.03 }}
+            className="rounded-3xl p-6 border border-[color:var(--main-color)] bg-white/70 backdrop-blur-md shadow-md hover:shadow-xl transition cursor-pointer"
+            onClick={() => navigate("/ecoducation/Quiz")}
+          >
             <div className="flex flex-col items-center text-center">
-              <div className="text-teal-600 text-7xl mb-4"><img src="/images/ecoducation/quiz.png" alt="icon" className="w-22 h-22 object-contain" /></div>
-              <h2 className="text-xl font-semibold text-gray-800">Eco Quiz</h2>
+              <img
+                src="/images/ecoducation/quiz.png"
+                alt="icon"
+                className="w-24 h-24 mb-4 drop-shadow-md"
+              />
+
+              <h2 className="text-2xl font-semibold text-gray-800">
+                Eco Quiz
+              </h2>
               <p className="text-gray-600 mt-2">
                 Uji pengetahuanmu tentang lingkungan dan kumpulkan ECOPoint
               </p>
-              <button
-                onClick={() => navigate("/ecoducation/Quiz")}
-                className="mt-5 bg-teal-600 text-white px-5 py-2 rounded-full hover:bg-teal-700 transition">
+
+              <motion.button
+                whileHover={{ x: 5 }}
+                className="mt-6 bg-[color:var(--main-color)] text-white px-6 py-2 rounded-full hover:bg-teal-700 transition font-medium"
+              >
                 Mulai Quiz Sekarang →
-              </button>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        <div className="mt-10 flex justify-center">
-          <div className="bg-white border rounded-full px-6 py-3 shadow text-teal-700 font-semibold flex items-center gap-3">
+        {/* POINT DISPLAY */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="mt-12 flex justify-center"
+        >
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="bg-white/90 border rounded-full px-8 py-4 shadow-md backdrop-blur-md text-teal-700 font-semibold flex items-center gap-4"
+          >
             <img
-              src="/images/ecoplanner/point.png"
+              src="/images/ecopoint/point.png"
               alt="icon"
-              className="w-11 h-11 object-contain"
+              className="w-10 h-10 object-contain"
             />
-            Total poin kamu : 9 ECO Point
-          </div>
-
-        </div>
+            <span className="text-lg">Total poin kamu : 9 ECO Point</span>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

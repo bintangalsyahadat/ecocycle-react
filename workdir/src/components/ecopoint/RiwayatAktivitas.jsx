@@ -17,7 +17,7 @@ export default function RiwayatAktivitas() {
     const filters = ["Semua", "Dapat", "Ditukar", "Kadaluarsa"];
 
     return (
-        <div className="min-h-screen bg-[#E6F2EF]">
+        <div className="min-h-screen bg-[#F8F9FA]">
             <Navbar />
 
             <div className="px-6 max-w-7xl mx-auto pt-3 pb-10">
@@ -34,8 +34,8 @@ export default function RiwayatAktivitas() {
                                 onClick={() => setFilter(item)}
                                 className={`px-4 py-2 rounded-full text-sm font-medium transition 
                   ${filter === item
-                                        ? "bg-teal-600 text-white"
-                                        : "border border-teal-600 text-teal-600 hover:bg-teal-50"
+                                        ? "bg-[color:var(--main-color)] text-white"
+                                        : "border border-[color:var(--main-color)] text-[color:var(--main-color)] hover:bg-teal-50"
                                     }`}
                             >
                                 {item}
@@ -48,7 +48,7 @@ export default function RiwayatAktivitas() {
                             className="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-teal-500"
                             placeholder="Cari riwayat transaksi anda"
                         />
-                        <button className="ml-2 text-teal-600 p-2 rounded-full bg-gray-100 hover:bg-gray-200">
+                        <button className="ml-2 text-[color:var(--main-color)] p-2 rounded-full bg-gray-100 hover:bg-gray-200">
                             <FaSearch />
                         </button>
                     </div>
@@ -73,7 +73,7 @@ export default function RiwayatAktivitas() {
                                     >
                                         <td className="p-3">{item.tanggal}</td>
                                         <td className="p-3">{item.aktivitas}</td>
-                                        <td className="p-3 font-bold text-teal-600 flex items-center gap-1">
+                                        <td className="p-3 font-bold text-[color:var(--main-color)] flex items-center gap-1">
                                             <FaCoins /> {item.poin}
                                         </td>
                                         <td className="p-3">{item.status}</td>
@@ -93,28 +93,28 @@ export default function RiwayatAktivitas() {
 
                         <div className="flex justify-between py-2 text-gray-700 items-center">
                             <span>Point didapat</span>
-                            <span className="font-bold text-teal-600 flex items-center gap-1">
-                                1250 <FaCoins className="text-teal-600" />
+                            <span className="font-bold text-[color:var(--main-color)] flex items-center gap-1">
+                                1250 <FaCoins className="text-[color:var(--main-color)]" />
                             </span>
                         </div>
 
                         <div className="flex justify-between py-2 text-gray-700 items-center">
                             <span>Point digunakan</span>
-                            <span className="font-bold text-teal-600 flex items-center gap-1">
-                                750 <FaCoins className="text-teal-600" />
+                            <span className="font-bold text-[color:var(--main-color)] flex items-center gap-1">
+                                750 <FaCoins className="text-[color:var(--main-color)]" />
                             </span>
                         </div>
 
                         <div className="flex justify-between py-2 text-gray-700 items-center">
                             <span>Total Point</span>
-                            <span className="font-bold text-teal-600 flex items-center gap-1">
-                                7777 <FaCoins className="text-teal-600" />
+                            <span className="font-bold text-[color:var(--main-color)] flex items-center gap-1">
+                                7777 <FaCoins className="text-[color:var(--main-color)]" />
                             </span>
                         </div>
 
                         <button
                             onClick={() => navigate("/EcoPoint")}
-                            className="mt-4 w-full py-2 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition"
+                            className="mt-4 w-full py-2 cursor-pointer bg-[color:var(--main-color)] main-color: #01A3B0 text-white rounded-full hover:bg-teal-700 transition"
                         >
                             Kembali ke Dashboard
                         </button>

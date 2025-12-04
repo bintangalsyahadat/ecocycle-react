@@ -12,6 +12,8 @@ import { FaClockRotateLeft } from "react-icons/fa6";
 import UserGretting from "../components/UserGreeting";
 import Spinner from "../components/Spinner";
 import { useEffect, useState } from "react";
+import Withdraw from "../components/Withdraw";
+
 
 export default function Dashboard() {
   const [loadingStates, setLoadingStates] = useState({
@@ -20,7 +22,7 @@ export default function Dashboard() {
   });
   const { currentUser, userLoggedIn, loading } = useAuth();
   const allLoading = Object.values(loadingStates).some(l => l);
-
+  const [openWithdraw, setOpenWithdraw] = useState(false);
   // useEffect(() => {
   //   if (!allLoading && !loading) return;
 
@@ -78,7 +80,9 @@ export default function Dashboard() {
                 </div>
               </div>
               <div>
-                <button className="inline-flex items-center justify-center bg-(--main-color) hover:bg-(--main-color-hover) cursor-pointer text-white text-sm font-semibold py-2 px-5 rounded-full transition-colors duration-300 self-start">
+                <button
+                  onClick={() => setOpenWithdraw(true)}
+                  className="inline-flex items-center justify-center bg-(--main-color) hover:bg-(--main-color-hover) cursor-pointer text-white text-sm font-semibold py-2 px-5 rounded-full transition-colors duration-300 self-start">
                   Withdraw
                 </button>
               </div>
@@ -124,6 +128,11 @@ export default function Dashboard() {
         </div>
 
         <FooterPortal />
+
+        <Withdraw
+          open={openWithdraw}
+          onClose={() => setOpenWithdraw(false)}
+        />
       </div>
     </div>
   );
