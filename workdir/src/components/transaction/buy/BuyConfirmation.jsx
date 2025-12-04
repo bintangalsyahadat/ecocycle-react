@@ -11,11 +11,8 @@ export default function BuyConfirmation({
   paymentMethods = [],
   onBack,
   updateItem,
-
-  /** buyInfo computed dari parent */
   buyInfo,
 
-  /** handler dari parent */
   onChangeNote,
   onChangePhoto,
   onChangeMetode,
@@ -44,13 +41,12 @@ export default function BuyConfirmation({
       setShowWarning(true);
       return;
     }
-
-    onNext(); // parent sudah punya semua datanya
+    onNext();
   };
 
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 mt-5 relative">
-      
+
       {/* Header */}
       <div className="flex items-end justify-between md:mt-10 mb-3">
         <div className="flex items-center">
@@ -67,67 +63,79 @@ export default function BuyConfirmation({
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6">
-        
+
         {/* Category List */}
         <CategoryList items={items} onUpdateCount={updateCount} />
 
         <div className="w-full lg:w-1/2 h-fit">
-          
+
           {/* Delivery Method */}
           <PickupOption
             value={buyInfo.metode}
-            onChange={(val) => {
-              onChangeMetode(val);
-            }}
+            onChange={onChangeMetode}
             deliveryMethods={deliveryMethods}
             branches={branches}
             currentUser={currentUser}
             type="sell"
           />
 
-          {/* Payment Method */}
+          {/* Payment */}
           <BuyEstimasi
             items={items}
             selectedPayment={buyInfo.paymentMethod}
             paymentMethods={paymentMethods}
             onPaymentChange={(method) => {
               onChangePayment(method);
-              setShowWarning(false);
             }}
-            readonly={false}
           />
 
           {/* Note */}
           <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-4 mb-4">
             <BuyNote
               buyInfo={buyInfo}
-              onChangePhoto={(v) => onChangePhoto(v)}
-              onChangeNote={(v) => onChangeNote(v)}
+              onChangePhoto={onChangePhoto}
+              onChangeNote={onChangeNote}
             />
 
             {/* Button */}
             <div className="space-y-2">
               <button
                 onClick={handleNext}
-                disabled={!buyInfo.paymentMethod?.id}
-                className={`w-full font-semibold px-6 py-3 rounded-full transition ${
-                  buyInfo.paymentMethod?.id
-                    ? "bg-[var(--main-color)] hover:bg-[var(--main-color-hover)] text-white cursor-pointer"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                }`}
+                className={`
+                  w-full font-semibold px-6 py-3 rounded-full transition
+                  ${
+                    buyInfo.paymentMethod?.id
+                      ? "bg-[var(--main-color)] hover:bg-[var(--main-color-hover)] text-white"
+                      : "bg-gray-300 text-gray-600 cursor-pointer"
+                  }
+                `}
               >
                 Konfirmasi Pembelian
               </button>
-
-              {showWarning && !buyInfo.paymentMethod?.id && (
-                <p className="text-red-500 text-sm text-center font-medium mt-1">
-                  ⚠️ Silakan pilih metode pembayaran terlebih dahulu.
-                </p>
-              )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* MODAL WARNING */}
+      {showWarning && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-40">
+          <div className="bg-white rounded-2xl p-6 w-80 text-center shadow-lg">
+            <p className="text-lg font-semibold mb-2 text-red-500">
+              Metode Pembayaran Belum Dipilih
+            </p>
+            <p className="text-sm text-gray-600 mb-4">
+              Silakan pilih metode pembayaran terlebih dahulu untuk melanjutkan.
+            </p>
+            <button
+              onClick={() => setShowWarning(false)}
+              className="w-full py-2 rounded-xl bg-[var(--main-color)] hover:bg-[var(--main-color-hover)] text-white font-medium"
+            >
+              Oke, mengerti
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

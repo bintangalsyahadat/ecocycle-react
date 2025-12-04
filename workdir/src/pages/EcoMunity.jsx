@@ -2,7 +2,7 @@ import { useState } from "react";
 import Navbar from "../components/navbar/Navbar";
 import { FaHeart, FaRegHeart, FaRegComment, FaRegShareFromSquare, FaRetweet } from "react-icons/fa6";
 import { motion } from "framer-motion";
-import Comment from "../components/ecomunity/Comment";
+import Comment from "../components/ecommunity/Comment";
 
 
 export default function Ecomunnity() {

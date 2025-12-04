@@ -2,16 +2,13 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 export default function MenuList() {
-  const BASE_COLOR = "#01A3B0";
-
   const menus = [
     { name: "Sell", icon: "/images/menu/sell.png", url: "/transaction/sell", status: "active" },
     { name: "Buy", icon: "/images/menu/buy.png", url: "/transaction/buy", status: "active" },
-    { name: "EcoDucation", icon: "/images/menu/ecoducation.png", url: "/EcoDucation", status: "active" },
-    { name: "EcoMunity", icon: "/images/menu/ecommunity.png", url: "/EcoMunity", status: "active" },
-    { name: "EcoPlanner", icon: "/images/menu/ecoplanner.png", url: "/EcoPlanner", status: "active" },
     { name: "EcoPoint", icon: "/images/menu/ecopoint.png", url: "/ecopoint", status: "active" },
-    { name: "EcoBank", icon: "/images/menu/bank.png", url: "#", status: "disable" },
+    { name: "EcoPlanner", icon: "/images/menu/ecoplanner.png", url: "/ecoplanner", status: "active" },
+    { name: "EcoDucation", icon: "/images/menu/ecoducation.png", url: "/ecoducation", status: "active" },
+    { name: "EcoMunity", icon: "/images/menu/ecommunity.png", url: "/ecommunity", status: "active" },
   ];
 
   const filteredMenus = menus.filter((m) => m.status === "active");

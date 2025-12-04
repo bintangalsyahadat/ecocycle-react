@@ -37,7 +37,7 @@ export default function CategoryCard({ name, desc, image, count, setCount, price
                                 <img
                                     src="/images/ecopoint/coin.png"
                                     alt="coin"
-                                    className="w-5 h-5"
+                                    className="w-5 h-5 me-1"
                                 /> <p>{price?.toLocaleString("id-ID")} /kg</p>
                             </div>}
                         </div>
@@ -75,7 +75,7 @@ export default function CategoryCard({ name, desc, image, count, setCount, price
                                 <img
                                     src="/images/ecopoint/coin.png"
                                     alt="coin"
-                                    className="w-5 h-5"
+                                    className="w-5 h-5 me-1"
                                 /> <p>{total.toLocaleString("id-ID")}</p>
                             </div>}
                         </div>
