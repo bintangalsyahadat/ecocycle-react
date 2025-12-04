@@ -9,6 +9,6 @@ export function generateApiJwt() {
         exp: Math.floor(Date.now() / 1000) + 60 * 60 * 48,
     };
 
-    const secret = "ecocycle-secret-key";
+    const secret = import.meta.env.VITE_JWT_KEY;
     return jwtEncode(payload, secret);
 }

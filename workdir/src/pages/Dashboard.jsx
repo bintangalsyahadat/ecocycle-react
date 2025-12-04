@@ -28,7 +28,7 @@ export default function Dashboard() {
     if (!allLoading && !loading) return;
 
     const timer = setTimeout(() => {
-      if (allLoading || loading) {
+      if (allLoading || loading || !currentUser?.id) {
         window.location.reload();
       }
     }, 10000);

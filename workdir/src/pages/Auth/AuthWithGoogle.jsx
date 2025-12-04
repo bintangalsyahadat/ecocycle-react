@@ -1,6 +1,6 @@
 import { doSignInWithGoogle } from '../../firebase/auth';
 
-export default function AuthWithGoogle({ label, isSigningIn, setIsSigningIn }) {
+export default function AuthWithGoogle({ label, isSigningIn, setIsSigningIn, onError }) {
 
     const onGoogleSignIn = async (e) => {
         e.preventDefault();
@@ -9,21 +9,34 @@ export default function AuthWithGoogle({ label, isSigningIn, setIsSigningIn }) {
 
         setIsSigningIn(true);
 
+        let timeoutTriggered = false;
+
+        const failTimeout = setTimeout(() => {
+            timeoutTriggered = true;
+            setIsSigningIn(false);
+            onError?.("Google Sign-In canceled.");
+        }, 1200);
+
         try {
             await doSignInWithGoogle();
+
+            clearTimeout(failTimeout);
+            if (!timeoutTriggered) setIsSigningIn(false);
+
         } catch (err) {
             console.error(err);
-            setIsSigningIn(false);
-            return;
+
+            clearTimeout(failTimeout);
+            if (!timeoutTriggered) {
+                setIsSigningIn(false);
+                onError?.("Google Sign-In failed.");
+            }
         }
-
-        setIsSigningIn(false);
     };
-
-
 
     return (
         <button
+            type="button"
             disabled={isSigningIn}
             onClick={onGoogleSignIn}
             className={`flex items-center justify-center w-full py-4 mb-6 text-sm font-medium 
@@ -38,5 +51,5 @@ export default function AuthWithGoogle({ label, isSigningIn, setIsSigningIn }) {
             />
             {label} with Google
         </button>
-    )
+    );
 }

@@ -3,9 +3,13 @@ import AuthWithGoogle from "./AuthWithGoogle";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext";
 import { doCreateUserWithEmailAndPassword } from "../../firebase/auth";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { MdErrorOutline } from "react-icons/md";
+import { AiOutlineCheckCircle, AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export default function SignUp() {
     const { userLoggedIn } = useAuth();
+
     const [form, setForm] = useState({
         username: "",
         email: "",
@@ -15,8 +19,10 @@ export default function SignUp() {
 
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState({ type: "", text: "" });
     const [isRegistering, setIsRegistering] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const validate = () => {
         const newErrors = {};
@@ -49,18 +55,13 @@ export default function SignUp() {
         return Object.keys(newErrors).length === 0;
     };
 
-    // --- Handle Input ---
     const handleChange = (e) => {
-        setForm({
-            ...form,
-            [e.target.id]: e.target.value,
-        });
+        setForm({ ...form, [e.target.id]: e.target.value });
     };
 
-    // --- Submit Handler ---
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setMessage("");
+        setMessage({ type: "", text: "" });
 
         if (!validate()) return;
 
@@ -68,19 +69,17 @@ export default function SignUp() {
         setErrors({});
 
         try {
-            await doCreateUserWithEmailAndPassword(form.username, form.email, form.password);
+            await doCreateUserWithEmailAndPassword(
+                form.username,
+                form.email,
+                form.password
+            );
 
-            setMessage("✅ Account created successfully!");
-
-            // reset
-            setForm({
-                username: "",
-                email: "",
-                password: "",
-                confirmPassword: "",
+            setMessage({
+                type: "success",
+                text: "Account created successfully. Redirecting...",
             });
 
-            // redirect otomatis
             setTimeout(() => {
                 setLoading(false);
                 setIsRegistering(false);
@@ -89,149 +88,216 @@ export default function SignUp() {
 
         } catch (err) {
             setLoading(false);
-            setMessage(err.message);
+
+            let msg = "Failed to create account.";
+            if (err.code === "auth/email-already-in-use") {
+                try {
+                    await doSignINWithEmailAndPassword(form.email, form.password);
+
+                    setMessage({
+                        type: "success",
+                        text: "Email already registered, synced your account. Redirecting...",
+                    });
+
+                    setTimeout(() => {
+                        setLoading(false);
+                        setIsRegistering(false);
+                        window.location.href = "/dashboard";
+                    }, 1000);
+                } catch (err2) {
+                    setMessage({
+                        type: "error",
+                        text: "Email already registered. Please login instead.",
+                    });
+                }
+
+                return;
+            }
+
+            if (err.code === "auth/invalid-email")
+                msg = "Invalid email format.";
+            if (err.code === "auth/weak-password")
+                msg = "Password is too weak.";
+
+            setMessage({ type: "error", text: msg });
         }
     };
 
-    return (
-        <>
-            {userLoggedIn ? <Navigate to="/" replace={true} /> : <div className="bg-black">
-                <div className="bg-[url(images/background.png)] min-h-screen flex items-center justify-center">
-                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md mx-4 p-8">
-                        <form
-                            onSubmit={handleSubmit}
-                            className="flex flex-col w-full h-full pb-6 text-center"
-                        >
-                            <h3 className="mb-3 text-4xl font-extrabold text-gray-900">
-                                Sign Up
-                            </h3>
-                            <p className="mb-6 text-gray-500">
-                                Create your account to get started
-                            </p>
+    return userLoggedIn ? (
+        <Navigate to="/" replace />
+    ) : (
+        <div className="bg-black">
+            <div className="bg-[url(/images/background.png)] min-h-screen flex items-center justify-center">
+                <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md mx-4 p-8">
+                    <form onSubmit={handleSubmit} className="flex flex-col w-full pb-6">
 
-                            {/* Google Button */}
-                            <AuthWithGoogle label='Sign Up' isSigningIn={isRegistering} setIsSigningIn={setIsRegistering} />
+                        <h3 className="mb-3 text-4xl font-extrabold text-gray-900 text-center">
+                            Sign Up
+                        </h3>
+                        <p className="mb-4 text-gray-500 text-center">
+                            Create your account to get started
+                        </p>
 
-                            <div className="flex items-center mb-3">
-                                <hr className="h-0 border-b border-solid border-gray-200 grow" />
-                                <p className="mx-4 text-gray-500">or</p>
-                                <hr className="h-0 border-b border-solid border-gray-200 grow" />
+                        {/* ALERT MESSAGE */}
+                        {message.text !== "" && (
+                            <div
+                                className={`mt-2 px-4 py-3 rounded-xl text-sm flex items-center gap-2 mb-3
+                                    ${message.type === "success"
+                                        ? "bg-green-100 text-green-700"
+                                        : "bg-red-100 text-red-700"
+                                    }`}
+                            >
+                                {message.type === "success" ? (
+                                    <AiOutlineCheckCircle size={18} />
+                                ) : (
+                                    <MdErrorOutline size={18} />
+                                )}
+                                {message.text}
                             </div>
+                        )}
 
-                            <label
-                                htmlFor="username"
-                                className="mb-2 text-sm text-start font-bold text-gray-700"
-                            >
-                                Username
-                            </label>
-                            <input
-                                id="username"
-                                type="text"
-                                value={form.username}
-                                onChange={handleChange}
-                                placeholder="Enter your username"
-                                className={`w-full px-5 py-4 mb-2 text-sm font-medium rounded-2xl outline-none bg-gray-100 focus:bg-gray-200 placeholder:text-gray-500 ${errors.username ? "border border-red-500" : ""
-                                    }`}
-                            />
-                            {errors.username && (
-                                <p className="text-red-500 text-sm mb-3 text-left">
-                                    {errors.username}
-                                </p>
-                            )}
+                        {/* Google Button */}
+                        <AuthWithGoogle
+                            label="Sign Up"
+                            isSigningIn={isRegistering}
+                            setIsSigningIn={setIsRegistering}
+                            onError={(msg) => setMessage({ type: "error", text: msg })}
+                        />
 
-                            <label
-                                htmlFor="email"
-                                className="mb-2 text-sm text-start font-bold text-gray-700"
-                            >
-                                Email
-                            </label>
-                            <input
-                                id="email"
-                                type="email"
-                                value={form.email}
-                                onChange={handleChange}
-                                placeholder="mail@gmail.com"
-                                className={`w-full px-5 py-4 mb-2 text-sm font-medium rounded-2xl outline-none bg-gray-100 focus:bg-gray-200 placeholder:text-gray-500 ${errors.email ? "border border-red-500" : ""
-                                    }`}
-                            />
-                            {errors.email && (
-                                <p className="text-red-500 text-sm mb-3 text-left">
-                                    {errors.email}
-                                </p>
-                            )}
+                        <div className="flex items-center mb-3">
+                            <hr className="border-gray-200 grow" />
+                            <p className="mx-4 text-gray-500">or</p>
+                            <hr className="border-gray-200 grow" />
+                        </div>
 
-                            <label
-                                htmlFor="password"
-                                className="mb-2 text-sm text-start font-bold text-gray-700"
-                            >
-                                Password
-                            </label>
+                        {/* USERNAME */}
+                        <label className="mb-2 text-sm font-bold text-gray-700">
+                            Username
+                        </label>
+                        <input
+                            id="username"
+                            value={form.username}
+                            onChange={handleChange}
+                            placeholder="Enter your username"
+                            className={`w-full px-5 py-4 mb-1 text-sm rounded-2xl outline-none bg-gray-100 focus:bg-gray-200 
+                                ${errors.username ? "border border-red-500" : "border border-transparent"}`}
+                        />
+                        {errors.username && (
+                            <p className="text-red-500 text-xs mb-3 flex items-center gap-1">
+                                <MdErrorOutline /> {errors.username}
+                            </p>
+                        )}
+
+                        {/* EMAIL */}
+                        <label className="mb-2 text-sm font-bold text-gray-700">
+                            Email
+                        </label>
+                        <input
+                            id="email"
+                            type="email"
+                            value={form.email}
+                            onChange={handleChange}
+                            placeholder="mail@gmail.com"
+                            className={`w-full px-5 py-4 mb-1 text-sm rounded-2xl outline-none bg-gray-100 focus:bg-gray-200 
+                                ${errors.email ? "border border-red-500" : "border border-transparent"}`}
+                        />
+                        {errors.email && (
+                            <p className="text-red-500 text-xs mb-3 flex items-center gap-1">
+                                <MdErrorOutline /> {errors.email}
+                            </p>
+                        )}
+
+                        {/* PASSWORD */}
+                        <label className="mb-2 text-sm font-bold text-gray-700">
+                            Password
+                        </label>
+                        <div className="relative mb-1">
                             <input
                                 id="password"
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 value={form.password}
                                 onChange={handleChange}
-                                placeholder="Enter password"
-                                className={`w-full px-5 py-4 mb-2 text-sm font-medium rounded-2xl outline-none bg-gray-100 focus:bg-gray-200 placeholder:text-gray-500 ${errors.password ? "border border-red-500" : ""
-                                    }`}
+                                placeholder="Enter your password"
+                                className={`w-full px-5 py-4 text-sm rounded-2xl outline-none bg-gray-100 focus:bg-gray-200
+                                    ${errors.password ? "border border-red-500" : "border border-transparent"}`}
                             />
-                            {errors.password && (
-                                <p className="text-red-500 text-sm mb-3 text-left">
-                                    {errors.password}
-                                </p>
-                            )}
 
-                            <label
-                                htmlFor="confirmPassword"
-                                className="mb-2 text-sm text-start font-bold text-gray-700"
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600"
                             >
-                                Confirm Password
-                            </label>
+                                {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                            </button>
+                        </div>
+                        {errors.password && (
+                            <p className="text-red-500 text-xs mb-3 flex items-center gap-1">
+                                <MdErrorOutline /> {errors.password}
+                            </p>
+                        )}
+
+                        {/* CONFIRM PASSWORD */}
+                        <label className="mb-2 text-sm font-bold text-gray-700">
+                            Confirm Password
+                        </label>
+                        <div className="relative mb-1">
                             <input
                                 id="confirmPassword"
-                                type="password"
+                                type={showConfirmPassword ? "text" : "password"}
                                 value={form.confirmPassword}
                                 onChange={handleChange}
                                 placeholder="Re-enter password"
-                                className={`w-full px-5 py-4 mb-2 text-sm font-medium rounded-2xl outline-none bg-gray-100 focus:bg-gray-200 placeholder:text-gray-500 ${errors.confirmPassword ? "border border-red-500" : ""
-                                    }`}
+                                className={`w-full px-5 py-4 text-sm rounded-2xl outline-none bg-gray-100 focus:bg-gray-200
+                                    ${errors.confirmPassword ? "border border-red-500" : "border border-transparent"}`}
                             />
-                            {errors.confirmPassword && (
-                                <p className="text-red-500 text-sm mb-3 text-left">
-                                    {errors.confirmPassword}
-                                </p>
-                            )}
 
                             <button
-                                type="submit"
-                                disabled={loading}
-                                className={`w-full px-6 py-5 mt-2 mb-5 text-sm font-bold leading-none text-white transition duration-300 rounded-2xl cursor-pointer ${loading
-                                    ? "bg-gray-400 cursor-not-allowed"
-                                    : "bg-[#01A3B0] hover:bg-[#018d98]"
-                                    }`}
+                                type="button"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600"
                             >
-                                {loading ? "Creating Account..." : "Sign Up"}
+                                {showConfirmPassword ? (
+                                    <FiEyeOff size={20} />
+                                ) : (
+                                    <FiEye size={20} />
+                                )}
                             </button>
-
-                            {message && (
-                                <p
-                                    className={`mt-2 text-sm font-medium ${message.includes("✅") ? "text-green-600" : "text-red-500"
-                                        }`}
-                                >
-                                    {message}
-                                </p>
-                            )}
-
-                            <p className="text-sm leading-relaxed text-gray-900 mt-6">
-                                Already have an account?{" "}
-                                <Link to="/login" className="font-bold text-(--main-color)">
-                                    Sign In
-                                </Link>
+                        </div>
+                        {errors.confirmPassword && (
+                            <p className="text-red-500 text-xs mb-3 flex items-center gap-1">
+                                <MdErrorOutline /> {errors.confirmPassword}
                             </p>
-                        </form>
-                    </div>
+                        )}
+
+                        {/* SUBMIT BUTTON */}
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className={`w-full px-6 py-5 mt-2 mb-5 text-sm font-bold text-white rounded-2xl transition
+                                ${loading
+                                    ? "bg-(--main-color-disable) cursor-not-allowed"
+                                    : "bg-(--main-color) hover:bg-(--main-color-hover)"
+                                }`}
+                        >
+                            {loading ? (
+                                <span className="flex items-center justify-center gap-2">
+                                    <AiOutlineLoading3Quarters className="animate-spin" /> Creating Account...
+                                </span>
+                            ) : (
+                                "Sign Up"
+                            )}
+                        </button>
+
+                        {/* LINK TO LOGIN */}
+                        <p className="text-sm text-gray-900 text-center mt-6">
+                            Already have an account?{" "}
+                            <Link to="/login" className="font-bold text-(--main-color)">
+                                Sign In
+                            </Link>
+                        </p>
+                    </form>
                 </div>
-            </div>}
-        </>
+            </div>
+        </div>
     );
 }

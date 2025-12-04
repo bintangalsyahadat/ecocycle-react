@@ -28,8 +28,11 @@ export function AuthProvider({ children }) {
 
             const flag = `user_synced_${user.uid}`;
             if (!localStorage.getItem(flag)) {
-                await createUser(user);
-                localStorage.setItem(flag, "true");
+                const resUser = await createUser(user);
+                if (resUser?.id) {
+                    localStorage.setItem(flag, "true");
+                }
+                
             }
 
             const userFromBE = await fetchUser(user);
