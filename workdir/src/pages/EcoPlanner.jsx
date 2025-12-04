@@ -120,7 +120,7 @@ export default function EcoPlanner() {
                     <tr className="bg-[#E8F4F4] text-gray-700 uppercase text-sm font-semibold">
                       <th className="p-4">Date</th>
                       <th className="p-4">Transaction</th>
-                      <th className="p-4">Points</th>
+                      <th className="p-4">Points Rewarded</th>
                       <th className="p-4">Status</th>
                     </tr>
                   </thead>

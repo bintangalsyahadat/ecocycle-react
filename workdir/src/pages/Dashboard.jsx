@@ -46,7 +46,7 @@ export default function Dashboard() {
         <Navbar />
 
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 mt-5">
-          <SearchInput placeholder="Search EcoCycle Point Location..." />
+          {/* <SearchInput placeholder="Search EcoCycle Point Location..." /> */}
 
           <UserGretting currentUser={currentUser} />
 

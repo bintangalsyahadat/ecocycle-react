@@ -1,6 +1,6 @@
 import Spinner from "../components/Spinner";
 
-export default function LoadingScreen(loading) {
+export default function LoadingScreen(loading, label = "Please Wait...") {
     return (
         <>
             {loading && (
@@ -15,7 +15,7 @@ export default function LoadingScreen(loading) {
                         zIndex: 999999,
                     }}
                 >
-                    <Spinner label="Please Wait..." />
+                    <Spinner label={label} />
                 </div>
             )}
         </>

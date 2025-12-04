@@ -12,8 +12,16 @@ import {
     fetchOperatingUnits,
     updateUserOperatingUnit
 } from "../../utils/api";
+import LoadingScreen from "../LoadingScreen";
 
-const SellPage = ({ currentUser }) => {
+export default function Sell() {
+    const { currentUser, userLoggedIn, loading } = useAuth();
+    const [loadingConfirm, setLoadingConfirm] = useState(false);
+    const [loadingStates, setLoadingStates] = useState({
+        categories: true,
+        branches: true,
+        deliveryMethods: true
+    });
     const navigate = useNavigate();
 
     const [step, setStep] = useState(1);
@@ -49,11 +57,19 @@ const SellPage = ({ currentUser }) => {
     const getBranches = async () => {
         const res = await fetchOperatingUnits();
         setBranches(res);
+
+        if (res?.length > 0) {
+            setLoadingStates(prev => ({ ...prev, branches: false }))
+        }
     };
 
     const getDeliveryMethods = async () => {
         const res = await fetchDeliveryMethod(null, "purchase");
         setDeliveryMethods(res);
+
+        if (res?.length > 0) {
+            setLoadingStates(prev => ({ ...prev, deliveryMethods: false }))
+        }
     };
 
     const updateUserBranch = async () => {
@@ -78,6 +94,10 @@ const SellPage = ({ currentUser }) => {
             initialItems[cat.name] = 0;
         });
         setItems(initialItems);
+
+        if (categoriesResult?.length > 0) {
+            setLoadingStates(prev => ({ ...prev, categories: false }))
+        }
     };
 
     // ============================
@@ -97,6 +117,7 @@ const SellPage = ({ currentUser }) => {
     // ============================
     const SellConfirmationTransaction = async (finalData) => {
         try {
+            setLoadingConfirm(true);
             const utcString = new Date().toISOString();
 
             const data = {
@@ -123,95 +144,88 @@ const SellPage = ({ currentUser }) => {
     // ============================
     // PAGE RENDER
     // ============================
+    const allLoading = Object.values(loadingStates).some(l => l);
+    if (!userLoggedIn) return <Navigate to="/login" replace />;
     return (
-        <div className="bg-[#F8F9FA] min-h-screen">
-            <Navbar />
+        <div className="relaltive">
+            {LoadingScreen(loading || allLoading || !currentUser || loadingConfirm)}
 
-            {/* STEP 1: PILIH KATEGORI */}
-            {step === 1 && (
-                <SelectCategory
-                    categories={categories}
-                    items={items}
-                    setItems={setItems}
-                    onNext={() => setStep(2)}
-                    type="sell"
-                />
-            )}
+            <div className={`bg-[#F8F9FA] min-h-screen ${loading || allLoading || !currentUser ? "hidden" : ""}`}>
+                <Navbar />
 
-            {/* BRANCH SELECTION OVERLAY */}
-            {!selectedBranch && (
-                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-2xl shadow-lg p-6 w-11/12 max-w-md relative max-h-[42vh] flex flex-col">
-                        <h4 className="text-lg font-semibold mb-4">Select EcoLocation</h4>
+                {/* STEP 1: PILIH KATEGORI */}
+                {step === 1 && (
+                    <SelectCategory
+                        categories={categories}
+                        items={items}
+                        setItems={setItems}
+                        onNext={() => setStep(2)}
+                        type="sell"
+                    />
+                )}
 
-                        <div className="space-y-3 overflow-y-auto max-h-[60vh] pr-1">
-                            {branches.map((branch) => {
-                                const userOU = getOUId(currentUser?.current_ou_id);
-                                const active = userOU === branch.id;
+                {/* BRANCH SELECTION OVERLAY */}
+                {!selectedBranch && (
+                    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                        <div className="bg-white rounded-2xl shadow-lg p-6 w-11/12 max-w-md relative max-h-[42vh] flex flex-col">
+                            <h4 className="text-lg font-semibold mb-4">Select EcoLocation</h4>
 
-                                return (
-                                    <div
-                                        key={branch.id}
-                                        onClick={() => setSelectedBranch(branch)}
-                                        className={`p-3 border rounded-xl cursor-pointer ${
-                                            active
+                            <div className="space-y-3 overflow-y-auto max-h-[60vh] pr-1">
+                                {branches.map((branch) => {
+                                    const userOU = getOUId(currentUser?.current_ou_id);
+                                    const active = userOU === branch.id;
+
+                                    return (
+                                        <div
+                                            key={branch.id}
+                                            onClick={() => setSelectedBranch(branch)}
+                                            className={`p-3 border rounded-xl cursor-pointer ${active
                                                 ? "bg-(--main-color) text-white"
                                                 : "hover:border-(--main-color) hover:border-2"
-                                        }`}
-                                    >
-                                        <p className="font-bold mb-2">{branch.name}</p>
-                                        <p className={`text-xs ${active ? "text-white" : "text-gray-600"}`}>
-                                            {branch.address?.street}, {branch.address?.city},{" "}
-                                            {branch.address?.state_id?.name},{" "}
-                                            {branch.address?.country_id?.name}
-                                        </p>
-                                    </div>
-                                );
-                            })}
+                                                }`}
+                                        >
+                                            <p className="font-bold mb-2">{branch.name}</p>
+                                            <p className={`text-xs ${active ? "text-white" : "text-gray-600"}`}>
+                                                {branch.address?.street}, {branch.address?.city},{" "}
+                                                {branch.address?.state_id?.name},{" "}
+                                                {branch.address?.country_id?.name}
+                                            </p>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            <button
+                                onClick={() =>
+                                    currentUser?.current_ou_id
+                                        ? setSelectedBranch(currentUser?.current_ou_id)
+                                        : navigate("/dashboard")
+                                }
+                                className="mt-4 w-full bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer font-medium py-2 rounded-xl"
+                            >
+                                Close
+                            </button>
                         </div>
-
-                        <button
-                            onClick={() =>
-                                currentUser?.current_ou_id
-                                    ? setSelectedBranch(currentUser?.current_ou_id)
-                                    : navigate("/dashboard")
-                            }
-                            className="mt-4 w-full bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer font-medium py-2 rounded-xl"
-                        >
-                            Close
-                        </button>
                     </div>
-                </div>
-            )}
+                )}
 
-            {/* STEP 2: KONFIRMASI */}
-            {step === 2 && (
-                <SellConfirmation
-                    items={filteredItems}
-                    deliveryMethods={deliveryMethods}
-                    branches={branches}
-                    currentUser={currentUser}
-                    onBack={() => setStep(1)}
-                    updateItem={(name, value) => setItems({ ...items, [name]: value })}
-                    catatan={catatan}
-                    fotos={fotos}
-                    setCatatan={setCatatan}
-                    setFotos={setFotos}
-                    onNext={SellConfirmationTransaction}
-                />
-            )}
+                {/* STEP 2: KONFIRMASI */}
+                {step === 2 && (
+                    <SellConfirmation
+                        items={filteredItems}
+                        deliveryMethods={deliveryMethods}
+                        branches={branches}
+                        currentUser={currentUser}
+                        onBack={() => setStep(1)}
+                        updateItem={(name, value) => setItems({ ...items, [name]: value })}
+                        catatan={catatan}
+                        fotos={fotos}
+                        setCatatan={setCatatan}
+                        setFotos={setFotos}
+                        onNext={SellConfirmationTransaction}
+                    />
+                )}
+            </div>
         </div>
     );
 };
-
-// ============================
-// AUTH WRAPPER
-// ============================
-export default function Sell() {
-    const { userLoggedIn, currentUser } = useAuth();
-    return !userLoggedIn ? (
-        <Navigate to="/login" replace />
-    ) : (
-        <SellPage currentUser={currentUser} />
-    );
-}
