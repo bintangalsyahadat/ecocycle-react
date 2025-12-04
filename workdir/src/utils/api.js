@@ -268,3 +268,42 @@ export const fetchBuyTransaction = async (id, userId) => {
             console.log(error);
         });
 }
+
+export const createPlanner = async (data) => {
+    const config = {
+        method: 'post',
+        url: `${API_BASE_URL}/planner`,
+        data: data,
+        headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeader(),
+        },
+    }
+
+    return axios.request(config)
+        .then((response) => {
+            return response.data.result;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+export const fetchPlanner = async (user_id, page, pageSize) => {
+    const config = {
+        method: 'get',
+        url: `${API_BASE_URL}/planner?partner_id=${user_id}&page=${page}&page_size=${pageSize}`,
+        headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeader(),
+        },
+    }
+
+    return axios.request(config)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}

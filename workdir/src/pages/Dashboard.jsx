@@ -10,8 +10,8 @@ import SearchInput from "../components/SearchInput";
 import { useAuth } from "../contexts/authContext";
 import { FaClockRotateLeft } from "react-icons/fa6";
 import UserGretting from "../components/UserGreeting";
-import Spinner from "../components/Spinner";
 import { useEffect, useState } from "react";
+import LoadingScreen from "./LoadingScreen";
 import Withdraw from "../components/Withdraw";
 
 
@@ -23,37 +23,24 @@ export default function Dashboard() {
   const { currentUser, userLoggedIn, loading } = useAuth();
   const allLoading = Object.values(loadingStates).some(l => l);
   const [openWithdraw, setOpenWithdraw] = useState(false);
-  // useEffect(() => {
-  //   if (!allLoading && !loading) return;
+  
+  useEffect(() => {
+    if (!allLoading && !loading) return;
 
-  //   const timer = setTimeout(() => {
-  //     if (allLoading || loading) {
-  //       window.location.reload();
-  //     }
-  //   }, 10000);
+    const timer = setTimeout(() => {
+      if (allLoading || loading) {
+        window.location.reload();
+      }
+    }, 10000);
 
-  //   return () => clearTimeout(timer);
-  // }, [allLoading, loading]);
+    return () => clearTimeout(timer);
+  }, [allLoading, loading]);
 
   if (!userLoggedIn) return <Navigate to="/login" replace />;
 
   return (
     <div className="relative">
-      {(loading || allLoading || !currentUser) && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(255, 255, 255, 0.8)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 999999,
-          }}
-        >
-          <Spinner label="Please Wait..." />
-        </div>
-      )}
+      {LoadingScreen(loading || allLoading || !currentUser)}
 
       <div className={`bg-[#F8F9FA] ${loading || allLoading || !currentUser ? "hidden" : ""}`}>
         <Navbar />
