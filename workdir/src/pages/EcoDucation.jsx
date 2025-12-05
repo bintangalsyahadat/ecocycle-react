@@ -31,7 +31,7 @@ export default function EcoDucation() {
             transition={{ duration: 0.5 }}
             whileHover={{ scale: 1.03 }}
             className="rounded-3xl p-6 border border-[color:var(--main-color)] bg-white/70 backdrop-blur-md shadow-md hover:shadow-xl transition cursor-pointer"
-            onClick={() => navigate("/ecoducation/Edukasi")}
+            onClick={() => navigate("/ecoducation/Education")}
           >
             <div className="flex flex-col items-center text-center">
               <img
@@ -51,7 +51,7 @@ export default function EcoDucation() {
                 whileHover={{ x: 5 }}
                 className="mt-6 bg-[color:var(--main-color)] text-white px-6 py-2 rounded-full hover:bg-teal-700 transition font-medium"
               >
-                Pelajari lebih lanjut →
+                Learn More →
               </motion.button>
             </div>
           </motion.div>
@@ -83,7 +83,7 @@ export default function EcoDucation() {
                 whileHover={{ x: 5 }}
                 className="mt-6 bg-[color:var(--main-color)] text-white px-6 py-2 rounded-full hover:bg-teal-700 transition font-medium"
               >
-                Mulai Quiz Sekarang →
+                Start Quiz Now →
               </motion.button>
             </div>
           </motion.div>
@@ -105,7 +105,7 @@ export default function EcoDucation() {
               alt="icon"
               className="w-10 h-10 object-contain"
             />
-            <span className="text-lg">Total poin kamu : 9 ECO Point</span>
+            <span className="text-lg">Total poin : 9 ECO Point</span>
           </motion.div>
         </motion.div>
       </div>

@@ -1,6 +1,6 @@
 import { FaSearch, FaCoins } from "react-icons/fa";
 import { useState } from "react";
-import Navbar from "../../components/navbar/Navbar";
+import Navbar from "../navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 
 export default function RiwayatAktivitas() {
@@ -14,14 +14,14 @@ export default function RiwayatAktivitas() {
         { tanggal: "23 Okt 2025", aktivitas: "Point Kadaluarsa", poin: "-20", status: "Kadaluarsa" },
     ];
 
-    const filters = ["Semua", "Dapat", "Ditukar", "Kadaluarsa"];
+    const filters = ["All", "Available", "Redeemed", "Expired"];
 
     return (
         <div className="min-h-screen bg-[#F8F9FA]">
             <Navbar />
 
             <div className="px-6 max-w-7xl mx-auto pt-3 pb-10">
-                <h1 className="text-3xl font-bold text-gray-800">Riwayat Aktivitas</h1>
+                <h1 className="text-3xl font-bold text-gray-800">History</h1>
                 <p className="text-gray-500 mt-1">
                     Lihat semua aktivitas pointmu - Checkin, reward, dan transaksi lainnya
                 </p>
@@ -59,9 +59,9 @@ export default function RiwayatAktivitas() {
                         <table className="w-full text-sm">
                             <thead className="bg-gray-100 text-gray-700">
                                 <tr>
-                                    <th className="p-3 text-left">Tanggal</th>
-                                    <th className="p-3 text-left">Aktivitas</th>
-                                    <th className="p-3 text-left">Jumlah Poin</th>
+                                    <th className="p-3 text-left">Date</th>
+                                    <th className="p-3 text-left">Activity</th>
+                                    <th className="p-3 text-left">Total Poin</th>
                                     <th className="p-3 text-left">Status</th>
                                 </tr>
                             </thead>
@@ -116,7 +116,7 @@ export default function RiwayatAktivitas() {
                             onClick={() => navigate("/EcoPoint")}
                             className="mt-4 w-full py-2 cursor-pointer bg-[color:var(--main-color)] main-color: #01A3B0 text-white rounded-full hover:bg-teal-700 transition"
                         >
-                            Kembali ke Dashboard
+                            Back to Dashboard
                         </button>
                     </div>
                 </div>

@@ -154,7 +154,7 @@ export default function EcoPlanner() {
                             className={`p-4 font-bold flex justify-center items-center gap-1 ${(item.point_rewarded ?? 0) < 0 ? "text-red-500" : "text-[var(--main-color)]"
                               }`}
                           >
-                            <img src="/images/ecopoint/point.png" className="w-8" />
+                            <img src="/images/ecopoint/point.png" className="w-5" />
                             {item.point_rewarded ?? 0}
                           </td>
 

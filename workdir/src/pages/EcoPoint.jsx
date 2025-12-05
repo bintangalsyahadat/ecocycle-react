@@ -2,8 +2,8 @@ import Navbar from "../components/navbar/Navbar";
 import { Navigate, useNavigate } from "react-router-dom";
 import { FaUserPlus, FaFileLines, FaClockRotateLeft } from "react-icons/fa6";
 import { useState } from "react";
-import SyaratKetentuan from "../components/ecopoint/SyaratKetentuan";
-import AjakTeman from "../components/ecopoint/AjakTeman";
+import SyaratKetentuan from "../components/ecopoint/TermsConditions";
+import AjakTeman from "../components/ecopoint/InviteFriend";
 import { useAuth } from "../contexts/authContext";
 import DailyCard from "../components/DailyCard";
 import UserGretting from "../components/UserGreeting";
@@ -88,7 +88,7 @@ export default function EcoPoint() {
                                         <img
                                             src="/images/ecopoint/point.png"
                                             alt="coin"
-                                            className="w-6 h-6 me-1"
+                                            className="w-5 me-1"
                                         />
                                         <p>{currentUser.total_point}</p>
                                     </div>
@@ -99,17 +99,17 @@ export default function EcoPoint() {
                                     {[
                                         {
                                             icon: <FaClockRotateLeft />,
-                                            label: "Riwayat",
+                                            label: "History",
                                             action: () => navigate("/ecopoint/history"),
                                         },
                                         {
                                             icon: <FaUserPlus />,
-                                            label: "Ajak Teman",
+                                            label: "Invite Friends",
                                             action: () => setShowAjakTeman(true),
                                         },
                                         {
                                             icon: <FaFileLines />,
-                                            label: "S&K",
+                                            label: "T&C",
                                             action: () => setShowSyaratKetentuan(true),
                                         },
                                     ].map((item, i) => (

@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../components/navbar/Navbar";
+import Navbar from "../navbar/Navbar";
 import { useState } from "react";
 import { FaRegFileImage, } from "react-icons/fa";
-import MapView from "../../components/MapView";
+import MapView from "../MapView";
 import Bottle from "/images/ecoplanner/bottle.png";
 import Kaca from "/images/ecoplanner/kaca.png";
 import Logam from "/images/ecoplanner/logam.png";
@@ -11,7 +11,7 @@ import Lainnya from "/images/ecoplanner/lainnya.png";
 
 
 
-export default function RencanaBaru() {
+export default function NewPlanner() {
     const navigate = useNavigate();
 
     const [selectedCategory, setSelectedCategory] = useState("Plastik");
