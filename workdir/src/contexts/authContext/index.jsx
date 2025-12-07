@@ -32,7 +32,7 @@ export function AuthProvider({ children }) {
                 if (resUser?.id) {
                     localStorage.setItem(flag, "true");
                 }
-                
+
             }
 
             const userFromBE = await fetchUser(user);
@@ -45,11 +45,20 @@ export function AuthProvider({ children }) {
         setLoading(false);
     }
 
+    async function refreshUser() {
+        if (!currentUser || !currentUser.uid) return;
+
+        const userFromBE = await fetchUser(currentUser);
+        setCurrentUser(userFromBE);
+    }
+
     const value = {
         currentUser,
         userLoggedIn,
         loading,
+        refreshUser,
     };
+
 
     return (
         <AuthContext.Provider value={value}>
