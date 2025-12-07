@@ -307,3 +307,61 @@ export const fetchPlanner = async (user_id, page, pageSize) => {
             console.log(error);
         });
 }
+
+export const createAddress = async (data) => {
+    const config = {
+        method: 'post',
+        url: `${API_BASE_URL}/res/user/address`,
+        data: data,
+        headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeader(),
+        },
+    }
+
+    return axios.request(config)
+        .then((response) => {
+            return response.data.result;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+export const fetchCountry = async (q) => {
+    const config = {
+        method: 'get',
+        url: `${API_BASE_URL}/res/country?q=${q}`,
+        headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeader(),
+        },
+    }
+
+    return axios.request(config)
+        .then((response) => {
+            return response.data.result;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+export const fetchCountryState = async (country_id, name) => {
+    const config = {
+        method: 'get',
+        url: `${API_BASE_URL}/res/country/state?name=${name}&country_id=${country_id}`,
+        headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeader(),
+        },
+    }
+
+    return axios.request(config)
+        .then((response) => {
+            return response.data.result;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
