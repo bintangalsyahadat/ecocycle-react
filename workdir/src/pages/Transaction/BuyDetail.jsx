@@ -249,6 +249,7 @@ function BuyDetailPage({ currentUser, userLoading }) {
                 </div>
             </div>
         )}
+      </div>
     );
 }
 
