@@ -1,6 +1,5 @@
 import axios from "axios";
 import { generateApiJwt } from "./jwt";
-import { data } from "react-router-dom";
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -67,7 +66,8 @@ export const fetchOperatingUnits = async () => {
             return response.data.result;
         })
         .catch((error) => {
-            console.error("fetchOperatingUnits failed:", error.response?.status, error.response?.data || error.message);
+            console.error("fetchDailyPointReward failed:", error.response?.status, error.response?.data || error.message);
+            throw error;
         });
 }
 
@@ -135,7 +135,6 @@ export const userDailyCheck = async (id) => {
     const config = {
         method: 'post',
         url: `${API_BASE_URL}/res/user/${id}/check`,
-        data: data,
         headers: {
             "Content-Type": "application/json",
             ...getAuthHeader(),
@@ -144,10 +143,11 @@ export const userDailyCheck = async (id) => {
 
     return axios.request(config)
         .then((response) => {
-            return response.data.result;
+            return response.data;
         })
         .catch((error) => {
-            console.log(error);
+            console.error("userDailyCheck failed:", error.response?.status, error.response?.data || error.message);
+            throw error;
         });
 }
 

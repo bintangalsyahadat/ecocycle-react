@@ -5,7 +5,12 @@ export default function DailyCard({ currentUser, setLoadingStates }) {
     const [rewards, setRewards] = useState([]);
     const [loading, setLoading] = useState(false);
     const [modal, setModal] = useState({ show: false, success: false, message: "" });
-    const [checkedToday, setCheckedToday] = useState(currentUser?.is_already_daily_checkin);
+    const [checkedToday, setCheckedToday] = useState(currentUser?.is_already_daily_checkin || false);
+
+    // Sync checkedToday with prop when currentUser updates
+    useEffect(() => {
+        setCheckedToday(currentUser?.is_already_daily_checkin || false);
+    }, [currentUser?.is_already_daily_checkin]);
 
     useEffect(() => {
         const getRewards = async () => {
@@ -24,47 +29,29 @@ export default function DailyCard({ currentUser, setLoadingStates }) {
 
     const actionCheckIn = async () => {
         if (checkedToday) {
-            setModal({
-                show: true,
-                success: false,
-                message: "Kamu sudah check-in hari ini!"
-            });
+            setModal({ show: true, success: false, message: "Kamu sudah check-in hari ini!" });
             return;
         }
 
         setLoading(true);
 
         try {
-            const check = await userDailyCheck(currentUser.id);
+            const res = await userDailyCheck(currentUser?.id || currentUser?.uid);
 
-            if (!check) {
-                setModal({
-                    show: true,
-                    success: true,
-                    message: "Check-in berhasil! Kamu mendapatkan poin hari ini 🎉",
-                });
-
+            if (res?.already_checked) {
                 setCheckedToday(true);
-                currentUser.is_already_daily_checkin = true;
+                setModal({ show: true, success: false, message: res.message || "Anda sudah check-in hari ini." });
             } else {
-                setModal({
-                    show: true,
-                    success: false,
-                    message: "Check-in gagal. Silakan coba lagi.",
-                });
+                setCheckedToday(true);
+                setModal({ show: true, success: true, message: "Check-in berhasil! Kamu mendapatkan poin hari ini 🎉" });
             }
         } catch (err) {
             console.error("Check-in Error:", err);
-
-            setModal({
-                show: true,
-                success: false,
-                message: err?.message || "Terjadi kesalahan tak terduga.",
-            });
+            setModal({ show: true, success: false, message: "Gagal check-in. Silakan coba lagi." });
         } finally {
             setLoading(false);
         }
-    };
+    }
 
     return (
         <div className="bg-white w-full rounded-2xl p-3 shadow-lg h-full relative">
