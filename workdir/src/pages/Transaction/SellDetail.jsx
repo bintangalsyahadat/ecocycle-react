@@ -18,17 +18,19 @@ function SellDetailPage({ currentUser, userLoading }) {
     }, [noTransaction]);
 
     const getTransactionDetail = async () => {
-        const resTransaction = await fetchSellTransaction(noTransaction, currentUser.id);
+        try {
+            const resTransaction = await fetchSellTransaction(noTransaction, currentUser.id);
 
-        if (resTransaction?.delivery_method_id?.id) {
-            const resDeliveryMethod = await fetchDeliveryMethod(resTransaction?.delivery_method_id?.id);
-            if (resDeliveryMethod && resDeliveryMethod[0]) {
-                resTransaction.delivery_method_id = resDeliveryMethod[0];
+            if (resTransaction?.delivery_method_id?.id) {
+                const resDeliveryMethod = await fetchDeliveryMethod(resTransaction?.delivery_method_id?.id);
+                if (resDeliveryMethod && resDeliveryMethod[0]) {
+                    resTransaction.delivery_method_id = resDeliveryMethod[0];
+                }
             }
-        }
-        setTransaction(resTransaction);
-
-        if (resTransaction?.id) {
+            setTransaction(resTransaction || {});
+        } catch (e) {
+            console.error(e);
+        } finally {
             setLoading(false);
         }
     }

@@ -68,29 +68,35 @@ const BuyPage = ({ currentUser, userLoading }) => {
     }, [selectedBranch]);
 
     const getBranches = async () => {
-        const res = await fetchOperatingUnits();
-        setBranches(res);
-
-        if (res?.length > 0) {
-            setLoadingStates(prev => ({ ...prev, branches: false }))
+        try {
+            const res = await fetchOperatingUnits();
+            setBranches(res || []);
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setLoadingStates(prev => ({ ...prev, branches: false }));
         }
     };
 
     const getDeliveryMethods = async () => {
-        const res = await fetchDeliveryMethod(null, "sale");
-        setDeliveryMethods(res);
-
-        if (res?.length > 0) {
-            setLoadingStates(prev => ({ ...prev, deliveryMethods: false }))
+        try {
+            const res = await fetchDeliveryMethod(null, "sale");
+            setDeliveryMethods(res || []);
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setLoadingStates(prev => ({ ...prev, deliveryMethods: false }));
         }
     };
 
     const getPaymentMethods = async () => {
-        const res = await fetchPaymentMethod();
-        setPaymentMethods(res);
-
-        if (res?.length > 0) {
-            setLoadingStates(prev => ({ ...prev, paymentMethods: false }))
+        try {
+            const res = await fetchPaymentMethod();
+            setPaymentMethods(res || []);
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setLoadingStates(prev => ({ ...prev, paymentMethods: false }));
         }
     };
 
@@ -106,15 +112,17 @@ const BuyPage = ({ currentUser, userLoading }) => {
     };
 
     const getCategories = async () => {
-        const result = await fetchCategories();
-        setCategories(result);
+        try {
+            const result = await fetchCategories();
+            setCategories(result || []);
 
-        const initial = {};
-        result.forEach((cat) => (initial[cat.name] = 0));
-        setItems(initial);
-
-        if (result?.length > 0) {
-            setLoadingStates(prev => ({ ...prev, categories: false }))
+            const initial = {};
+            (result || []).forEach((cat) => (initial[cat.name] = 0));
+            setItems(initial);
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setLoadingStates(prev => ({ ...prev, categories: false }));
         }
     };
 

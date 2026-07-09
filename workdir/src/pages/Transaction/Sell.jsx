@@ -55,20 +55,24 @@ export default function Sell() {
     }, [selectedBranch]);
 
     const getBranches = async () => {
-        const res = await fetchOperatingUnits();
-        setBranches(res);
-
-        if (res?.length > 0) {
-            setLoadingStates(prev => ({ ...prev, branches: false }))
+        try {
+            const res = await fetchOperatingUnits();
+            setBranches(res || []);
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setLoadingStates(prev => ({ ...prev, branches: false }));
         }
     };
 
     const getDeliveryMethods = async () => {
-        const res = await fetchDeliveryMethod(null, "purchase");
-        setDeliveryMethods(res);
-
-        if (res?.length > 0) {
-            setLoadingStates(prev => ({ ...prev, deliveryMethods: false }))
+        try {
+            const res = await fetchDeliveryMethod(null, "purchase");
+            setDeliveryMethods(res || []);
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setLoadingStates(prev => ({ ...prev, deliveryMethods: false }));
         }
     };
 
@@ -86,17 +90,19 @@ export default function Sell() {
     };
 
     const getCategories = async () => {
-        const categoriesResult = await fetchCategories();
-        setCategories(categoriesResult);
+        try {
+            const categoriesResult = await fetchCategories();
+            setCategories(categoriesResult || []);
 
-        const initialItems = {};
-        categoriesResult.forEach((cat) => {
-            initialItems[cat.name] = 0;
-        });
-        setItems(initialItems);
-
-        if (categoriesResult?.length > 0) {
-            setLoadingStates(prev => ({ ...prev, categories: false }))
+            const initialItems = {};
+            (categoriesResult || []).forEach((cat) => {
+                initialItems[cat.name] = 0;
+            });
+            setItems(initialItems);
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setLoadingStates(prev => ({ ...prev, categories: false }));
         }
     };
 
