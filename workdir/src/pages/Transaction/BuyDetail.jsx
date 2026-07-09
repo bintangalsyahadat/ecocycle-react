@@ -11,6 +11,7 @@ function BuyDetailPage({ currentUser, userLoading }) {
     const [transaction, setTransaction] = useState({});
     const [loading, setLoading] = useState(true);
     const [confirming, setConfirming] = useState(false);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     useEffect(() => {
         getTransactionDetail();
@@ -35,7 +36,7 @@ function BuyDetailPage({ currentUser, userLoading }) {
     }
 
     const handleConfirmReceipt = async () => {
-        if (!window.confirm("Konfirmasi pesanan sudah diterima?")) return;
+        setShowConfirmModal(false);
         setConfirming(true);
         try {
             await confirmReceipt(currentUser?.firebase_uuid || currentUser?.uid, noTransaction);
@@ -112,9 +113,9 @@ function BuyDetailPage({ currentUser, userLoading }) {
                                             <p className="text-sm mt-1">Kurir sedang dalam perjalanan mengantarkan pesanan Anda.</p>
                                         </div>
                                         <button
-                                            onClick={handleConfirmReceipt}
+                                            onClick={() => setShowConfirmModal(true)}
                                             disabled={confirming}
-                                            className="w-full font-semibold px-6 py-3 rounded-full transition bg-green-600 hover:bg-green-700 text-white cursor-pointer disabled:opacity-60"
+                                            className="w-full font-semibold px-6 py-3 rounded-full transition bg-[#01A3B0] hover:bg-[#018c96] text-white cursor-pointer disabled:opacity-60"
                                         >
                                             {confirming ? "Mengonfirmasi..." : "Pesanan Diterima"}
                                         </button>
@@ -222,6 +223,32 @@ function BuyDetailPage({ currentUser, userLoading }) {
                 </div >
             </div >
         </div>
+
+        {/* Confirmation Modal */}
+        {showConfirmModal && (
+            <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                <div className="bg-white rounded-2xl shadow-lg p-6 w-11/12 max-w-sm text-center">
+                    <h4 className="text-lg font-semibold mb-2">Konfirmasi Penerimaan</h4>
+                    <p className="text-sm text-gray-600 mb-6">
+                        Apakah Anda yakin pesanan sudah diterima dengan baik?
+                    </p>
+                    <div className="flex gap-3">
+                        <button
+                            onClick={() => setShowConfirmModal(false)}
+                            className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 rounded-xl cursor-pointer"
+                        >
+                            Batal
+                        </button>
+                        <button
+                            onClick={handleConfirmReceipt}
+                            className="flex-1 bg-[#01A3B0] hover:bg-[#018c96] text-white font-medium py-2 rounded-xl cursor-pointer"
+                        >
+                            Ya, Pesanan Diterima
+                        </button>
+                    </div>
+                </div>
+            </div>
+        )}
     );
 }
 
