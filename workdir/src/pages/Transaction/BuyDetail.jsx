@@ -224,7 +224,6 @@ function BuyDetailPage({ currentUser, userLoading }) {
             </div >
         </div>
 
-        {/* Confirmation Modal */}
         {showConfirmModal && (
             <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                 <div className="bg-white rounded-2xl shadow-lg p-6 w-11/12 max-w-sm text-center">
@@ -249,9 +248,8 @@ function BuyDetailPage({ currentUser, userLoading }) {
                 </div>
             </div>
         )}
-      </div>
-    );
-}
+    </div>
+);
 
 
 export default function BuyDetail() {
