@@ -51,7 +51,11 @@ const PickupOption = ({ onChange, deliveryMethods = [], branches = [], currentUs
       if (result?.id) {
         setFormSuccess("Alamat berhasil ditambahkan!");
         await refreshUser();
-        setTimeout(() => { setShowAddForm(false); resetForm(); }, 1000);
+        setShowAddForm(false);
+        resetForm();
+        if (result?.id) {
+          setSelectedAddress(result);
+        }
       } else {
         setFormError("Gagal menyimpan. Coba lagi.");
       }
