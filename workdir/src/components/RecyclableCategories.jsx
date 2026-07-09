@@ -11,10 +11,12 @@ export default function RecyclableCategories({ setLoadingStates }) {
   }, []);
 
   const getCategories = async () => {
-    const categoriesResult = await fetchCategories();
-    setCategories(categoriesResult);
-
-    if (categoriesResult?.length > 0) {
+    try {
+      const categoriesResult = await fetchCategories();
+      setCategories(categoriesResult);
+    } catch (e) {
+      console.error("fetchCategories error:", e);
+    } finally {
       setLoadingStates(false);
     }
   };

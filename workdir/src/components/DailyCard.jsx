@@ -9,10 +9,12 @@ export default function DailyCard({ currentUser, setLoadingStates }) {
 
     useEffect(() => {
         const getRewards = async () => {
-            const r = await fetchDailyPointReward();
-            setRewards(r);
-
-            if (r?.length > 0) {
+            try {
+                const r = await fetchDailyPointReward();
+                setRewards(r);
+            } catch (e) {
+                console.error("fetchDailyPointReward error:", e);
+            } finally {
                 setLoadingStates(false);
             }
         };

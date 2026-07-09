@@ -36,7 +36,9 @@ export function AuthProvider({ children }) {
             }
 
             const userFromBE = await fetchUser(user);
-            setCurrentUser(userFromBE);
+            if (userFromBE?.id) {
+                setCurrentUser(userFromBE);
+            }
         } else {
             setCurrentUser(null);
             setUserLoggedIn(false);
