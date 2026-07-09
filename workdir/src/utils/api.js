@@ -246,7 +246,8 @@ export const createBuyTransaction = async (data) => {
             return response.data.result;
         })
         .catch((error) => {
-            console.log(error);
+            console.error("createBuyTransaction failed:", error.response?.status, error.response?.data || error.message);
+            throw error;
         });
 }
 
