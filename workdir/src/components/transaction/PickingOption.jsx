@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-import { updateUserOperatingUnit } from "../../utils/api";
+import { updateUserOperatingUnit, createAddress } from "../../utils/api";
+import { useAuth } from "../../contexts/authContext";
 
 const PickupOption = ({ onChange, deliveryMethods = [], branches = [], currentUser = {}, type = "purchase" }) => {
+  const { refreshUser } = useAuth();
   const [option, setOption] = useState(deliveryMethods[0] || {});
   const [showModal, setShowModal] = useState(false);
   const [methodModal, setMethodModal] = useState(false); // NEW: popup untuk metode
@@ -10,6 +12,55 @@ const PickupOption = ({ onChange, deliveryMethods = [], branches = [], currentUs
   const [selectedBranch, setSelectedBranch] = useState(
     branches.find(b => b.id === currentUser?.current_ou_id?.id) || {}
   );
+
+  // ——— Tambah Alamat ———
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState("");
+  const [formSuccess, setFormSuccess] = useState("");
+  const [form, setForm] = useState({
+    name: "", phone: "", street: "", city: "", state: "", country: "", zip: "",
+  });
+
+  const resetForm = () => {
+    setForm({ name: "", phone: "", street: "", city: "", state: "", country: "", zip: "" });
+    setFormError("");
+    setFormSuccess("");
+  };
+
+  const setField = (f, v) => { setForm(p => ({ ...p, [f]: v })); setFormError(""); };
+
+  const handleSaveAddress = async () => {
+    const { name, street, city, state, country } = form;
+    if (!name.trim() || !street.trim() || !city.trim() || !state.trim() || !country.trim()) {
+      setFormError("Mohon isi: Nama, Jalan, Kota, Provinsi, dan Negara.");
+      return;
+    }
+    setSaving(true); setFormError("");
+    try {
+      const result = await createAddress({
+        parent_id: currentUser?.id,
+        name: name.trim(),
+        phone: form.phone.trim() || undefined,
+        street: street.trim(),
+        city: city.trim(),
+        state_id: state.trim(),
+        country_id: country.trim(),
+        zip: form.zip.trim() || undefined,
+      });
+      if (result?.id) {
+        setFormSuccess("Alamat berhasil ditambahkan!");
+        await refreshUser();
+        setTimeout(() => { setShowAddForm(false); resetForm(); }, 1000);
+      } else {
+        setFormError("Gagal menyimpan. Coba lagi.");
+      }
+    } catch (e) {
+      setFormError("Terjadi kesalahan. Coba lagi.");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   // Kirim setiap update ke parent
   useEffect(() => {
@@ -238,6 +289,78 @@ const PickupOption = ({ onChange, deliveryMethods = [], branches = [], currentUs
                   );
                 })}
               </div>
+            )}
+
+            {/* ——— Tambah Alamat / Form ——— */}
+            {!option?.is_self_service && (
+              <>
+                {!showAddForm ? (
+                  <button
+                    onClick={() => setShowAddForm(true)}
+                    className="mt-3 w-full border-2 border-dashed border-(--main-color) text-(--main-color) font-medium py-2 rounded-xl hover:bg-green-50 transition cursor-pointer"
+                  >
+                    + Tambah Alamat
+                  </button>
+                ) : (
+                  <div className="mt-3 space-y-3">
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">Nama *</label>
+                        <input value={form.name} onChange={e => setField("name", e.target.value)}
+                          placeholder="Contoh: Rumah" className="w-full border rounded-lg px-3 py-2 text-sm" />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">No. Telepon</label>
+                        <input value={form.phone} onChange={e => setField("phone", e.target.value)}
+                          placeholder="08xxx" className="w-full border rounded-lg px-3 py-2 text-sm" />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">Jalan *</label>
+                      <input value={form.street} onChange={e => setField("street", e.target.value)}
+                        placeholder="Jl. Merdeka No. 10" className="w-full border rounded-lg px-3 py-2 text-sm" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">Kota *</label>
+                        <input value={form.city} onChange={e => setField("city", e.target.value)}
+                          placeholder="Jakarta" className="w-full border rounded-lg px-3 py-2 text-sm" />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">Kode Pos</label>
+                        <input value={form.zip} onChange={e => setField("zip", e.target.value)}
+                          placeholder="12345" className="w-full border rounded-lg px-3 py-2 text-sm" />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">Provinsi *</label>
+                        <input value={form.state} onChange={e => setField("state", e.target.value)}
+                          placeholder="DKI Jakarta" className="w-full border rounded-lg px-3 py-2 text-sm" />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">Negara *</label>
+                        <input value={form.country} onChange={e => setField("country", e.target.value)}
+                          placeholder="Indonesia" className="w-full border rounded-lg px-3 py-2 text-sm" />
+                      </div>
+                    </div>
+
+                    {formError && <p className="text-red-500 text-xs">{formError}</p>}
+                    {formSuccess && <p className="text-green-600 text-xs">{formSuccess}</p>}
+
+                    <div className="flex gap-2">
+                      <button onClick={() => { setShowAddForm(false); resetForm(); }}
+                        className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 rounded-xl text-sm cursor-pointer">
+                        Batal
+                      </button>
+                      <button onClick={handleSaveAddress} disabled={saving}
+                        className="flex-1 bg-(--main-color) hover:bg-(--main-color-hover) text-white font-medium py-2 rounded-xl text-sm cursor-pointer disabled:opacity-60">
+                        {saving ? "Menyimpan..." : "Simpan"}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
 
             <button
