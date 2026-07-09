@@ -3,6 +3,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { fetchCategories } from "../utils/api";
 
+function CategoryImage({ item }) {
+  const [imgError, setImgError] = useState(false);
+
+  if (!item.image || imgError) {
+    return (
+      <div className="w-full aspect-square flex items-center justify-center text-gray-400 text-sm bg-gray-100 rounded-xl">
+        No Image
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={`data:image/jpeg;base64,${item.image}`}
+      className="w-full aspect-square object-cover rounded-xl"
+      onError={() => setImgError(true)}
+      alt={item.name}
+    />
+  );
+}
+
 export default function RecyclableCategories({ setLoadingStates }) {
   const [categories, setCategories] = useState([]);
 
@@ -64,10 +85,7 @@ export default function RecyclableCategories({ setLoadingStates }) {
             `}
           >
             <div className="flex justify-center w-full">
-              <img
-                src={`data:image/jpeg;base64,${item.image}`}
-                className=" object-cover"
-              />
+              <CategoryImage item={item} />
             </div>
             <p className="text-sm">{item.name}</p>
           </div>
