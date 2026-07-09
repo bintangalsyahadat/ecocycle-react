@@ -63,39 +63,44 @@ function BuyDetailPage({ currentUser, userLoading }) {
                         </div>
                         <div>
                             <p className="text-xs hidden md:block font-semibold text-(--main-color)">Nomor Pembelian</p>
-                            <p className="text-lg md:text-2xl font-semibold text-gray-800">{transaction?.name}</p>
+                            <p className="text-lg md:text-2xl font-semibold text-(--main-color)">
+                                {transaction?.name}
+                            </p>
                         </div>
                     </div>
 
-                    <div className="flex flex-col lg:flex-row gap-5">
+                    <div className="flex flex-col lg:flex-row gap-6 mb-5">
                         <div className="w-full lg:w-1/2">
-                            <div className="bg-white border border-gray-200 rounded-2xl shadow-sm px-4 py-2 mb-2 flex flex-col">
-                                <h2 className="text-base font-semibold text-gray-800">
-                                    Kategori Sampah
-                                </h2>
-                            </div>
-                            <div className="overflow-y-auto max-h-[50vh] space-y-3 lg:overflow-visible lg:max-h-none">
-                                {transaction && transaction?.line_ids?.map((item) => (
-                                    <CategoryCard
-                                        key={item.id}
-                                        name={item.waste_category_id.name}
-                                        desc={item.waste_category_id?.description}
-                                        image={item.waste_category_id?.image}
-                                        price={item.unit_price}
-                                        count={item.qty}
-                                        readonly={true}
-                                        type={"buy"}
-                                    />
-                                ))}
-                            </div>
+                            <h2 className="text-sm font-medium text-gray-500 mb-2">
+                                Item Pembelian
+                            </h2>
+                            {transaction?.line_ids?.map((item, idx) => (
+                                <CategoryCard
+                                    key={idx}
+                                    name={item?.category_id?.name}
+                                    desc={item?.category_id?.description}
+                                    image={item?.category_id?.image}
+                                    count={item?.qty || item?.quantity}
+                                    price={item?.unit_price}
+                                    readonly={true}
+                                    type="buy"
+                                />
+                            ))}
                         </div>
 
-                        <div className="w-full lg:w-1/2 space-y-5">
+                        <div className="w-full lg:w-1/2">
                             <>
-                                {transaction?.state === "waiting_payment" && (
-                                    <div className="p-3 rounded-xl bg-yellow-50 border border-gray-200 text-gray-700">
+                                {transaction?.state === "draft" && (
+                                    <div className="p-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-600">
                                         <p className="font-semibold">Menunggu Pembayaran</p>
-                                        <p className="text-sm mt-1">Silakan selesaikan pembayaran untuk melanjutkan transaksi.</p>
+                                        <p className="text-sm mt-1">Silakan selesaikan pembayaran untuk memproses pesanan.</p>
+                                    </div>
+                                )}
+
+                                {transaction?.state === "waiting_payment" && (
+                                    <div className="p-3 rounded-xl bg-yellow-50 border border-yellow-200 text-yellow-700">
+                                        <p className="font-semibold">Menunggu Pembayaran</p>
+                                        <p className="text-sm mt-1">Pembayaran Anda sedang diverifikasi.</p>
                                     </div>
                                 )}
 
@@ -107,19 +112,20 @@ function BuyDetailPage({ currentUser, userLoading }) {
                                 )}
 
                                 {transaction?.state === "on_delivery" && (
-                                    <>
-                                        <div className="p-3 rounded-xl bg-teal-50 border border-teal-200 text-teal-700">
-                                            <p className="font-semibold">Sedang Dikirim</p>
-                                            <p className="text-sm mt-1">Kurir sedang dalam perjalanan mengantarkan pesanan Anda.</p>
-                                        </div>
-                                        <button
-                                            onClick={() => setShowConfirmModal(true)}
-                                            disabled={confirming}
-                                            className="w-full font-semibold px-6 py-3 rounded-full transition bg-[#01A3B0] hover:bg-[#018c96] text-white cursor-pointer disabled:opacity-60"
-                                        >
-                                            {confirming ? "Mengonfirmasi..." : "Pesanan Diterima"}
-                                        </button>
-                                    </>
+                                    <div className="p-3 rounded-xl bg-teal-50 border border-teal-200 text-teal-700">
+                                        <p className="font-semibold">Sedang Dikirim</p>
+                                        <p className="text-sm mt-1">Kurir sedang dalam perjalanan mengantarkan pesanan Anda.</p>
+                                    </div>
+                                )}
+
+                                {transaction?.state === "on_delivery" && (
+                                    <button
+                                        onClick={() => setShowConfirmModal(true)}
+                                        disabled={confirming}
+                                        className="w-full font-semibold px-6 py-3 rounded-full transition bg-[#01A3B0] hover:bg-[#018c96] text-white cursor-pointer disabled:opacity-60 mt-2"
+                                    >
+                                        {confirming ? "Mengonfirmasi..." : "Pesanan Diterima"}
+                                    </button>
                                 )}
 
                                 {transaction?.state === "sale" && (
@@ -139,19 +145,17 @@ function BuyDetailPage({ currentUser, userLoading }) {
 
                             {transaction?.state === "waiting_payment" && transaction?.payment_ids?.[0]?.xendit_checkout_url && <button
                                 onClick={() => window.location.replace(transaction.payment_ids[0].xendit_checkout_url)}
-                                className={`w-full font-semibold px-6 py-3 rounded-full transition bg-[var(--main-color)] hover:bg-[var(--main-color-hover)] text-white cursor-pointer`}
+                                className="w-full font-semibold px-6 py-3 rounded-full transition bg-[var(--main-color)] hover:bg-[var(--main-color-hover)] text-white cursor-pointer"
                             >
                                 Bayar Sekarang
                             </button>}
 
                             <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-5 space-y-3">
 
-                                {/* Title */}
                                 <h3 className="font-semibold text-gray-800 text-lg">
                                     Metode Pengiriman
                                 </h3>
 
-                                {/* Delivery Method */}
                                 <div className="flex items-center gap-3">
                                     <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-teal-50 border border-teal-200">
                                         🚚
@@ -166,7 +170,6 @@ function BuyDetailPage({ currentUser, userLoading }) {
                                     </div>
                                 </div>
 
-                                {/* Address */}
                                 <div className="bg-gray-50 border border-gray-200 rounded-xl p-3">
                                     <p className="text-sm font-medium text-gray-700 mb-1">Alamat Tujuan</p>
                                     <p className="text-sm text-gray-600 leading-relaxed">
@@ -222,35 +225,34 @@ function BuyDetailPage({ currentUser, userLoading }) {
                     </div>
                 </div >
             </div >
-        </div>
 
-        {showConfirmModal && (
-            <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-                <div className="bg-white rounded-2xl shadow-lg p-6 w-11/12 max-w-sm text-center">
-                    <h4 className="text-lg font-semibold mb-2">Konfirmasi Penerimaan</h4>
-                    <p className="text-sm text-gray-600 mb-6">
-                        Apakah Anda yakin pesanan sudah diterima dengan baik?
-                    </p>
-                    <div className="flex gap-3">
-                        <button
-                            onClick={() => setShowConfirmModal(false)}
-                            className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 rounded-xl cursor-pointer"
-                        >
-                            Batal
-                        </button>
-                        <button
-                            onClick={handleConfirmReceipt}
-                            className="flex-1 bg-[#01A3B0] hover:bg-[#018c96] text-white font-medium py-2 rounded-xl cursor-pointer"
-                        >
-                            Ya, Pesanan Diterima
-                        </button>
+            {showConfirmModal && (
+                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-2xl shadow-lg p-6 w-11/12 max-w-sm text-center">
+                        <h4 className="text-lg font-semibold mb-2">Konfirmasi Penerimaan</h4>
+                        <p className="text-sm text-gray-600 mb-6">
+                            Apakah Anda yakin pesanan sudah diterima dengan baik?
+                        </p>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => setShowConfirmModal(false)}
+                                className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 rounded-xl cursor-pointer"
+                            >
+                                Batal
+                            </button>
+                            <button
+                                onClick={handleConfirmReceipt}
+                                className="flex-1 bg-[#01A3B0] hover:bg-[#018c96] text-white font-medium py-2 rounded-xl cursor-pointer"
+                            >
+                                Ya, Pesanan Diterima
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        )}
-    </div>
-);
-
+            )}
+        </div>
+    );
+}
 
 export default function BuyDetail() {
     const { userLoggedIn, currentUser, loading } = useAuth();
