@@ -1,7 +1,7 @@
 import { Navigate, useParams } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext";
 import Navbar from "../../components/navbar/Navbar";
-import { fetchDeliveryMethod, fetchBuyTransaction } from "../../utils/api";
+import { fetchDeliveryMethod, fetchBuyTransaction, confirmReceipt } from "../../utils/api";
 import { useEffect, useState } from "react";
 import CategoryCard from "../../components/transaction/CategoryCard";
 import LoadingScreen from "../LoadingScreen";
@@ -10,6 +10,7 @@ function BuyDetailPage({ currentUser, userLoading }) {
     const { noTransaction } = useParams();
     const [transaction, setTransaction] = useState({});
     const [loading, setLoading] = useState(true);
+    const [confirming, setConfirming] = useState(false);
 
     useEffect(() => {
         getTransactionDetail();
@@ -30,6 +31,20 @@ function BuyDetailPage({ currentUser, userLoading }) {
             console.error(e);
         } finally {
             setLoading(false);
+        }
+    }
+
+    const handleConfirmReceipt = async () => {
+        if (!window.confirm("Konfirmasi pesanan sudah diterima?")) return;
+        setConfirming(true);
+        try {
+            await confirmReceipt(currentUser?.firebase_uuid || currentUser?.uid, noTransaction);
+            const resTransaction = await fetchBuyTransaction(noTransaction, currentUser?.id);
+            setTransaction(resTransaction || {});
+        } catch (e) {
+            alert("Gagal konfirmasi, coba lagi.");
+        } finally {
+            setConfirming(false);
         }
     }
 
@@ -84,10 +99,26 @@ function BuyDetailPage({ currentUser, userLoading }) {
                                 )}
 
                                 {transaction?.state === "waiting_process" && (
-                                    <div className="p-3 rounded-xl bg-teal-50 border border-teal-200 text-teal-700">
-                                        <p className="font-semibold">Sedang Dikirim</p>
-                                        <p className="text-sm mt-1">Kurir sedang dalam perjalanan mengantarkan pesanan Anda.</p>
+                                    <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 text-blue-700">
+                                        <p className="font-semibold">Sedang Diproses</p>
+                                        <p className="text-sm mt-1">Pesanan Anda sedang diproses oleh admin.</p>
                                     </div>
+                                )}
+
+                                {transaction?.state === "on_delivery" && (
+                                    <>
+                                        <div className="p-3 rounded-xl bg-teal-50 border border-teal-200 text-teal-700">
+                                            <p className="font-semibold">Sedang Dikirim</p>
+                                            <p className="text-sm mt-1">Kurir sedang dalam perjalanan mengantarkan pesanan Anda.</p>
+                                        </div>
+                                        <button
+                                            onClick={handleConfirmReceipt}
+                                            disabled={confirming}
+                                            className="w-full font-semibold px-6 py-3 rounded-full transition bg-green-600 hover:bg-green-700 text-white cursor-pointer disabled:opacity-60"
+                                        >
+                                            {confirming ? "Mengonfirmasi..." : "Pesanan Diterima"}
+                                        </button>
+                                    </>
                                 )}
 
                                 {transaction?.state === "sale" && (

@@ -251,6 +251,23 @@ export const createBuyTransaction = async (data) => {
         });
 }
 
+export const confirmReceipt = async (userId, transactionId) => {
+    const config = {
+        method: 'put',
+        url: `${API_BASE_URL}/sale/${userId}/${transactionId}/receive`,
+        headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeader(),
+        },
+    }
+    return axios.request(config)
+        .then((response) => response.data.result)
+        .catch((error) => {
+            console.error("confirmReceipt failed:", error.response?.status, error.response?.data || error.message);
+            throw error;
+        });
+}
+
 export const fetchBuyTransaction = async (id, userId) => {
     const config = {
         method: 'get',
