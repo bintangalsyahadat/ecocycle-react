@@ -67,7 +67,7 @@ export const fetchOperatingUnits = async () => {
             return response.data.result;
         })
         .catch((error) => {
-            console.log(error);
+            console.error("fetchOperatingUnits failed:", error.response?.status, error.response?.data || error.message);
         });
 }
 
